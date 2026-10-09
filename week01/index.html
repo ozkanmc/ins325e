@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Week 1 — Introduction to Railway Engineering | INS 325E</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0b1f3a;--blue:#1e4080;--blue2:#2a5298;
+  --accent:#f0c040;--accent2:#ffd966;--teal:#0ea47a;
+  --red:#d63031;--orange:#e17055;
+  --text:#1a1f36;--textm:#4a5568;--textl:#8896a7;
+  --bg:#f2f5fa;--card:#fff;--border:#dde3ef;
+  --r:14px;--sh:0 2px 16px rgba(11,31,58,.08);--shl:0 8px 40px rgba(11,31,58,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+nav{position:sticky;top:0;z-index:200;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:1.2rem;padding:0 1.5rem;height:56px}
+.nav-back{color:rgba(255,255,255,.7);text-decoration:none;font-size:.83rem;font-weight:600;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.nav-back:hover{color:var(--accent)}
+.nav-sep{color:rgba(255,255,255,.2);font-size:1rem}
+.nav-chip{background:var(--accent);color:var(--navy);padding:.12rem .5rem;border-radius:4px;font-size:.75rem;font-weight:900}
+.nav-title{color:rgba(255,255,255,.85);font-size:.85rem;font-weight:600}
+.nav-week-badge{margin-left:auto;background:rgba(14,164,122,.2);border:1px solid rgba(14,164,122,.4);color:#4dd9aa;padding:.22rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700}
+
+.wk-hdr{background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);color:#fff;padding:3rem 1.5rem 2.5rem;position:relative;overflow:hidden}
+.wk-hdr::before{content:'01';position:absolute;right:1.5rem;bottom:-1.5rem;font-size:min(20vw,180px);font-weight:900;opacity:.05;font-family:'JetBrains Mono',monospace;line-height:1;pointer-events:none}
+.wk-hdr-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+.wk-hdr-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.5rem}
+.wk-hdr h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.5rem;line-height:1.15}
+.wk-hdr p{opacity:.75;font-size:.92rem;max-width:620px;margin-bottom:1.3rem}
+.wk-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.wk-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.25rem .7rem;border-radius:20px;font-size:.73rem}
+
+.main{max-width:1240px;margin:0 auto;padding:2.5rem 1.5rem}
+
+/* TABS */
+.tab-nav{display:flex;background:var(--card);border-radius:var(--r) var(--r) 0 0;border:1px solid var(--border);border-bottom:none;overflow-x:auto;margin-bottom:0}
+.tab-wrap{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--card);padding:2rem;margin-bottom:2rem;box-shadow:var(--sh)}
+.tb{padding:.75rem 1.3rem;border:none;background:none;font-family:inherit;font-size:.84rem;font-weight:600;color:var(--textl);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .2s;position:relative;top:1px}
+.tb.on{color:var(--navy);border-bottom-color:var(--accent);background:rgba(240,192,64,.05)}
+.tb:hover:not(.on){color:var(--navy);background:#f5f7fc}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.6rem;margin-bottom:1.2rem;box-shadow:var(--sh)}
+.card h3{font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:2px solid var(--accent);display:inline-block}
+.card p,.card li{color:var(--textm);font-size:.89rem;line-height:1.7;margin-bottom:.65rem}
+.card p:last-child{margin-bottom:0}
+.card ul{padding-left:1.1rem}
+
+.ibox{border-left:4px solid var(--teal);background:rgba(14,164,122,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.ibox strong{color:var(--teal);font-weight:700}
+.wbox{border-left:4px solid var(--orange);background:rgba(225,112,85,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.wbox strong{color:var(--orange);font-weight:700}
+.abox{border-left:4px solid var(--accent);background:rgba(240,192,64,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.abox strong{color:#806800;font-weight:700}
+
+/* LO */
+.lo-grid{display:grid;gap:.65rem;margin-top:.8rem}
+.lo{display:flex;gap:.75rem;align-items:flex-start;background:linear-gradient(90deg,rgba(30,64,128,.05),transparent);border-left:4px solid var(--blue2);border-radius:0 8px 8px 0;padding:.85rem}
+.lo-v{background:var(--navy);color:var(--accent);padding:.17rem .5rem;border-radius:4px;font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;margin-top:.12rem;font-family:'JetBrains Mono',monospace}
+.lo-t{font-size:.86rem;color:var(--text);font-weight:500}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:2rem;margin-top:1rem}
+.tl::before{content:'';position:absolute;left:.55rem;top:.5rem;bottom:.5rem;width:2px;background:linear-gradient(to bottom,var(--blue2),var(--accent))}
+.tl-item{position:relative;margin-bottom:1.3rem}
+.tl-dot{position:absolute;left:-2rem;top:.18rem;width:14px;height:14px;background:var(--accent);border-radius:50%;border:2.5px solid var(--card);box-shadow:0 0 0 2px var(--blue2)}
+.tl-yr{font-size:.68rem;font-weight:800;color:var(--blue);font-family:'JetBrains Mono',monospace;margin-bottom:.12rem;text-transform:uppercase;letter-spacing:.06em}
+.tl-t{font-size:.86rem;color:var(--textm);line-height:1.6}
+.tl-t b{color:var(--navy)}
+.tl-t em{color:#806800;font-style:normal;font-weight:700}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.9rem 0}
+th{background:var(--navy);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:700;font-size:.76rem}
+th:first-child{border-radius:6px 0 0 6px}th:last-child{border-radius:0 6px 6px 0}
+td{padding:.58rem .9rem;border-bottom:1px solid var(--border);color:var(--textm)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7f9fc}
+tr:nth-child(even) td{background:#f9fafc}
+.td-hi{font-weight:700;color:var(--navy)}
+.td-s{background:rgba(30,64,128,.1);color:var(--blue);display:inline-block;padding:.1rem .4rem;border-radius:3px;font-size:.67rem;font-weight:700;text-transform:uppercase}
+.td-b{background:rgba(214,48,49,.1);color:var(--red);display:inline-block;padding:.1rem .4rem;border-radius:3px;font-size:.67rem;font-weight:700;text-transform:uppercase}
+.td-n{background:rgba(14,164,122,.1);color:var(--teal);display:inline-block;padding:.1rem .4rem;border-radius:3px;font-size:.67rem;font-weight:700;text-transform:uppercase}
+
+/* EQ */
+.eq{background:linear-gradient(135deg,#eef2ff,#e6edff);border:1px solid #c5d0f5;border-radius:10px;padding:1rem 1.4rem;margin:.9rem 0;font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--navy);text-align:center;position:relative}
+.eq-lbl{position:absolute;top:.35rem;right:.7rem;font-size:.6rem;color:#7090c0;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* CHARTS */
+.chart-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.3rem;margin-bottom:1.2rem}
+.chart-card h4{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.chart-card .csub{font-size:.72rem;color:var(--textl);margin-bottom:1rem}
+.chart-wrap{position:relative;height:260px}
+.charts-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+@media(max-width:700px){.charts-2{grid-template-columns:1fr}}
+
+/* CO2 TILES */
+.co2-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin:1rem 0}
+.co2-item{text-align:center;padding:.85rem .4rem;border-radius:10px;border:1px solid var(--border);background:#fff}
+.co2-icon{font-size:1.6rem;margin-bottom:.25rem}
+.co2-val{font-size:1.05rem;font-weight:900;font-family:'JetBrains Mono',monospace;display:block}
+.co2-lbl{font-size:.66rem;color:var(--textl);margin-top:.12rem}
+.co2-bar{height:4px;border-radius:2px;margin:.4rem auto 0;width:80%}
+@media(max-width:600px){.co2-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* GAUGE */
+.gauge-btns{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.1rem}
+.gb{padding:.35rem .8rem;border-radius:20px;border:2px solid var(--border);background:#fff;font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--textl)}
+.gb.on,.gb:hover{border-color:var(--navy);background:var(--navy);color:#fff}
+.gauge-disp{background:linear-gradient(135deg,#f2f5fa,#eaeff7);border-radius:12px;padding:1.3rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.g-mm{font-size:1.8rem;font-weight:900;color:var(--navy);font-family:'JetBrains Mono',monospace;line-height:1}
+.g-type{display:inline-block;padding:.18rem .6rem;border-radius:12px;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin:.3rem 0;color:#fff}
+.g-desc{font-size:.81rem;color:var(--textm);line-height:1.6}
+.g-fact{font-size:.76rem;color:var(--textl);margin-top:.4rem;font-style:italic}
+
+/* EFFICIENCY */
+.eff-res{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:.9rem}
+@media(max-width:600px){.eff-res{grid-template-columns:1fr}}
+.eff-card{border-radius:10px;padding:1.1rem;text-align:center;border:2px solid var(--border)}
+.eff-card.hl{border-color:var(--teal);background:rgba(14,164,122,.06)}
+.eff-card .ei{font-size:1.8rem;margin-bottom:.3rem}
+.eff-card .en{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
+.eff-card .ev{font-size:.78rem;color:var(--textm);margin:.15rem 0}
+.eff-card .ev b{color:var(--navy);font-family:'JetBrains Mono',monospace}
+.eff-bw{background:#eef0f5;border-radius:3px;height:7px;margin:.35rem 0;overflow:hidden}
+.eff-b{height:100%;border-radius:3px;transition:width .5s}
+label.lbl{display:block;font-size:.79rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+input[type=range]{width:100%;accent-color:var(--navy)}
+.rv{font-size:.86rem;font-weight:700;color:var(--navy);font-family:'JetBrains Mono',monospace;margin:.2rem 0}
+
+/* GRAD */
+.grad-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:.8rem}
+@media(max-width:580px){.grad-row{grid-template-columns:1fr}}
+.ginp{width:100%;padding:.6rem .85rem;border:2px solid var(--border);border-radius:8px;font-size:.92rem;font-family:'JetBrains Mono',monospace;background:#fff;transition:border-color .2s}
+.ginp:focus{outline:none;border-color:var(--blue)}
+.gres{background:rgba(14,164,122,.07);border:1px solid rgba(14,164,122,.3);border-radius:8px;padding:.85rem 1rem;font-size:.84rem;color:var(--textm);min-height:40px;transition:all .3s}
+
+/* EXERCISES */
+.ex-item{background:#fff;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:.8rem;transition:box-shadow .2s}
+.ex-item:hover{box-shadow:var(--sh)}
+.ex-hdr{padding:.85rem 1.1rem;background:#f8f9fc;display:flex;align-items:center;gap:.65rem;cursor:pointer;user-select:none}
+.ex-item.open .ex-hdr{border-bottom:1px solid var(--border)}
+.ex-num{background:var(--navy);color:var(--accent);padding:.18rem .5rem;border-radius:4px;font-size:.65rem;font-weight:900;font-family:'JetBrains Mono',monospace}
+.ex-type{font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--textl);font-weight:700;background:var(--border);padding:.13rem .45rem;border-radius:3px}
+.ex-title{font-size:.88rem;font-weight:700;color:var(--navy);flex:1}
+.ex-ch{margin-left:auto;transition:transform .3s;color:var(--textl);font-size:.78rem}
+.ex-item.open .ex-ch{transform:rotate(180deg)}
+.ex-body{padding:1.1rem;display:none}
+.ex-item.open .ex-body{display:block}
+.ex-body p{font-size:.86rem;color:var(--textm);line-height:1.7;margin-bottom:.65rem}
+.ex-hint{background:rgba(240,192,64,.09);border:1px solid rgba(240,192,64,.3);border-radius:6px;padding:.65rem .9rem;font-size:.79rem;color:#7a6010;margin-top:.75rem}
+.ex-hint::before{content:'💡 Hint: ';font-weight:800}
+
+/* QUIZ */
+.quiz-wrap{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.8rem;box-shadow:var(--sh)}
+.qprog{background:var(--border);border-radius:4px;height:5px;overflow:hidden;margin-bottom:1.3rem}
+.qbar{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:4px;transition:width .4s}
+.qq{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:1.1rem;line-height:1.55}
+.qopts{display:grid;gap:.6rem;margin-bottom:.9rem}
+.qopt{display:flex;align-items:flex-start;gap:.7rem;padding:.8rem .95rem;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:#fff;font-size:.86rem;line-height:1.4;text-align:left}
+.qopt:hover{border-color:var(--blue);background:#f0f5ff}
+.qopt.correct{border-color:var(--teal);background:rgba(14,164,122,.08);color:#0a5e45}
+.qopt.wrong{border-color:var(--red);background:rgba(214,48,49,.08);color:#7a1515}
+.qopt.disabled{pointer-events:none}
+.qoptl{width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.qopt.correct .qoptl{background:var(--teal);color:#fff}
+.qopt.wrong .qoptl{background:var(--red);color:#fff}
+.qfb{padding:.85rem;border-radius:8px;font-size:.83rem;margin-bottom:.85rem;display:none}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(14,164,122,.1);border:1px solid rgba(14,164,122,.3);color:#0a5e45}
+.qfb.bad{background:rgba(214,48,49,.1);border:1px solid rgba(214,48,49,.3);color:#7a1515}
+.qnav{display:flex;justify-content:space-between;align-items:center}
+.qsc{font-size:.81rem;color:var(--textl)}
+.btn{padding:.55rem 1.3rem;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.86rem;font-weight:700;transition:all .2s}
+.btn-a{background:var(--accent);color:var(--navy)}
+.btn-a:hover{background:var(--accent2)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* REFS */
+.ref-i{background:#fff;border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem;transition:box-shadow .2s}
+.ref-i:hover{box-shadow:var(--sh)}
+.ref-n{background:var(--navy);color:var(--accent);width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.ref-t{font-size:.81rem;color:var(--textm);line-height:1.6}
+.ref-t b{color:var(--navy)}
+.rtag{display:inline-block;background:var(--border);color:var(--textl);padding:.08rem .38rem;border-radius:3px;font-size:.61rem;font-weight:700;text-transform:uppercase;margin:.08rem .15rem 0 0}
+.rtag.core{background:rgba(14,164,122,.15);color:var(--teal)}
+
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:2rem 1.5rem;font-size:.79rem;margin-top:3rem}
+footer strong{color:#fff}
+footer a{color:var(--accent);text-decoration:none}
+.footer-rail{height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 30px,transparent 30px,transparent 50px);margin-bottom:1.3rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-back" href="../">← Back to Course</a>
+    <span class="nav-sep">|</span>
+    <span class="nav-chip">INS325E</span>
+    <span class="nav-title">Week 1 — Introduction &amp; Geometric Standards</span>
+    <span class="nav-week-badge">🟢 Live · 29 Sep 2026</span>
+  </div>
+</nav>
+
+<div class="wk-hdr">
+  <div class="wk-hdr-inner">
+    <div class="wk-hdr-label">Week 1 · 29 September 2026 · Dr. Mustafa Can Özkan</div>
+    <h1>Introduction to Railway Engineering<br>&amp; Railway Geometric Standards</h1>
+    <p>Why railways? A brief history of 200 years of rail innovation. The geometric standards that make safe, fast, comfortable rail travel possible — from gauge to gradient.</p>
+    <div class="wk-chips">
+      <span class="wk-chip">📖 Lecture Notes</span>
+      <span class="wk-chip">📊 Interactive Charts</span>
+      <span class="wk-chip">🎮 Gauge Explorer</span>
+      <span class="wk-chip">✏️ 5 Exercises</span>
+      <span class="wk-chip">🧩 8-Question Quiz</span>
+      <span class="wk-chip">📚 9 References</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<div class="tab-nav">
+  <button class="tb on" onclick="ST(this,'t-notes')">📖 Lecture Notes</button>
+  <button class="tb" onclick="ST(this,'t-data')">📊 Data &amp; Charts</button>
+  <button class="tb" onclick="ST(this,'t-interactive')">🎮 Interactive</button>
+  <button class="tb" onclick="ST(this,'t-exercises')">✏️ Exercises</button>
+  <button class="tb" onclick="ST(this,'t-quiz')">🧩 Quiz</button>
+  <button class="tb" onclick="ST(this,'t-refs')">📚 References</button>
+</div>
+<div class="tab-wrap">
+
+<!-- ══ LECTURE NOTES ══ -->
+<div id="t-notes" class="tab-panel on">
+  <div class="card">
+    <h3>Part 1 — Why Railways? The Case in Numbers</h3>
+    <p>Consider the challenge of moving 200 people 1 km along a corridor. The difference between modes is not marginal — it is an order of magnitude.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0">
+      <div style="text-align:center;padding:1.1rem .7rem;border-radius:10px;border:2px solid var(--teal);background:rgba(14,164,122,.06)">
+        <div style="font-size:1.8rem;margin-bottom:.3rem">🚂</div>
+        <div style="font-weight:800;color:var(--navy);font-size:.88rem;margin-bottom:.5rem">Light Rail</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:900;color:var(--teal)">1</div>
+        <div style="font-size:.7rem;color:var(--textl)">vehicle-km per km<br>≈ 1 m² road per person</div>
+      </div>
+      <div style="text-align:center;padding:1.1rem .7rem;border-radius:10px;border:2px solid var(--orange);background:rgba(225,112,85,.06)">
+        <div style="font-size:1.8rem;margin-bottom:.3rem">🚌</div>
+        <div style="font-weight:800;color:var(--navy);font-size:.88rem;margin-bottom:.5rem">Bus</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:900;color:var(--orange)">3</div>
+        <div style="font-size:.7rem;color:var(--textl)">vehicle-km per km<br>≈ 4 m² road per person</div>
+      </div>
+      <div style="text-align:center;padding:1.1rem .7rem;border-radius:10px;border:2px solid var(--red);background:rgba(214,48,49,.06)">
+        <div style="font-size:1.8rem;margin-bottom:.3rem">🚗</div>
+        <div style="font-weight:800;color:var(--navy);font-size:.88rem;margin-bottom:.5rem">Private Car</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:900;color:var(--red)">177</div>
+        <div style="font-size:.7rem;color:var(--textl)">vehicle-km per km<br>≈ 9.7 m² road per person</div>
+      </div>
+    </div>
+    <p>Source: PTV Group / Institute for Sensible Transport. 177 cars at 1.13 occupancy vs 1 light rail vehicle — same 200 passengers, 177× more road space consumed. This is why cities gridlock as car use grows, and why every 1% modal shift to rail removes hundreds of vehicles from the road.</p>
+    <div class="abox"><strong>CO₂ per passenger-km (European averages, EEA 2023):</strong> Private car ~170 g · Bus ~82 g · Rail (EU electricity mix) ~14 g · Rail (renewable electricity) ~6 g. Rail is 10–28× less carbon-intensive than driving alone.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 2 — 500 Years of Railway History</h3>
+    <p>The 1,435 mm gauge you will use in every design exercise this term traces directly to mine wagon widths in 1820s northeast England. That is how consequential early engineering choices are.</p>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">~1550s</div><div class="tl-t">First guided rail transport: <b>horse-drawn wagons on wooden rails</b> in German and English mines. Animals could haul 3–4× more on a smooth guided surface than on rutted ground — a simple insight that launched an industry.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1760</div><div class="tl-t">England: wooden mine rails covered with <b>cast iron plates</b>. Load capacity and durability increase dramatically. The concept of the iron rail is born.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1782–1804</div><div class="tl-t"><b>James Watt</b> patents continuous rotary steam engine (1782). <b>Richard Trevithick</b> builds the first steam locomotive (1804): transported 10 t iron + 70 people over 15 km in 2 hours. The boiler exploded on the return trip — progress is rarely smooth.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1825</div><div class="tl-t"><b>Stockton &amp; Darlington Railway</b> — first public steam railway. Primarily freight. <b>George Stephenson</b> chose <em>4 ft 8½ in = 1,435 mm</em> based on Tyneside colliery wagon widths — a decision that would govern global railway engineering for two centuries.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1830</div><div class="tl-t"><b>Liverpool &amp; Manchester Railway</b> — first inter-urban steam railway for both passengers and freight on a regular timetable. Speeds of 48 km/h. By the 1920s, railways spanned every continent.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1851 (Ottoman)</div><div class="tl-t">First railway on Ottoman territory: <b>Alexandria–Cairo</b>, Egypt, 211 km. First within modern Turkish borders: <b>İzmir–Aydın line</b>, 130 km, British concession, completed 1866. By the Republic's founding, 4,136 km of foreign-built railway were nationalised (1924 law).</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">1923–1950</div><div class="tl-t">The <b>Railway Era of the Turkish Republic</b>. ~200 km/year built. By 1950: railways carried <em>42% of passengers</em> and <em>55% of freight</em>. Then the Marshall Plan shifted investment to roads — a decision still felt today.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-yr">2009–2024</div><div class="tl-t"><b>Turkish HSR expansion</b>. Ankara–Eskişehir HSR (2009) was transformative. By end of 2024: <em>2,032 km of HSR (250 km/h)</em>. Total network: 13,919 km. Major ongoing investments — you may be designing parts of this network in your career.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Part 3 — Safety: The Overlooked Advantage</h3>
+    <p>Per passenger-km, railways are the <strong>safest form of motorised land transport</strong> by a large margin. Turkish data makes this vivid:</p>
+    <table>
+      <thead><tr><th>Mode</th><th>Period</th><th>Accidents</th><th>Fatalities</th><th>Injuries</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">Highway</td><td>2023</td><td>1,314,136</td><td>6,548</td><td>350,855</td></tr>
+        <tr><td class="td-hi">Railways ⚠️</td><td>2023</td><td>9</td><td>8</td><td>5</td></tr>
+        <tr><td class="td-hi">Airways</td><td>2018–23</td><td>57</td><td>23</td><td>197</td></tr>
+        <tr><td class="td-hi">Maritime</td><td>2018–23</td><td>574</td><td>56</td><td>58</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.73rem;color:var(--textl)">⚠️ Railways: serious accidents only (≥1 fatality, ≥5 serious injuries, or ≥6M TL damage). Source: TÜİK, ulaşımemniyeti.uab.gov.tr</p>
+    <div class="wbox"><strong>Most common cause (2018–2023):</strong> Level crossing collisions = 60–75% of serious accidents every year. This is an <em>infrastructure design and road-user behaviour problem</em> — not an inherent rail deficiency. Grade separation is the engineering solution: as crossings are bridged or tunnelled, accident rates fall toward zero.</div>
+    <p>In 2023, Turkish highways recorded one accident every 24 seconds. Turkish main-line railways: 9 serious accidents in an entire year. Per billion passenger-km, European railways are ~30× safer than cars.</p>
+  </div>
+
+  <div class="card">
+    <h3>Part 4 — Railway Geometric Standards</h3>
+    <p>Every railway parameter you will calculate this semester — curve radius, gradient, superelevation, transition length — derives from a set of engineering standards established before a single metre of track is laid.</p>
+    <div class="ibox"><strong>Six key geometric parameters:</strong> Track Gauge · Structure/Clearance Gauge · Horizontal Curves (radius, superelevation, transition) · Vertical Curves (type, radius) · Longitudinal Gradient (‰) · Cross-sections</div>
+
+    <h4 style="color:var(--navy);margin:1.1rem 0 .5rem;font-size:.92rem">4.1 — Track Gauge</h4>
+    <p>Track gauge = <strong>distance between the inner faces of the two rail heads</strong>, measured 14 mm below the running surface (UIC convention). It is the most fundamental dimensional standard. Two trains on different gauges cannot operate on each other's infrastructure without major intervention.</p>
+    <div class="eq"><span class="eq-lbl">UIC Definition</span>G = inner rail-face distance at 14 mm below running surface<br>Standard Gauge: <b>G = 1,435 mm</b> &nbsp;·&nbsp; Rail axis spacing ≈ 1,500 mm</div>
+    <table>
+      <thead><tr><th>Category</th><th>Gauge (mm)</th><th>Countries / Networks</th><th>~% World km</th></tr></thead>
+      <tbody>
+        <tr><td><span class="td-s">Standard</span></td><td class="td-hi">1,435</td><td>Europe (most), USA, Canada, China, Turkey (all)</td><td>57%</td></tr>
+        <tr><td><span class="td-b">Broad</span></td><td>1,520 / 1,524</td><td>Russia, FSU, Finland</td><td>17%</td></tr>
+        <tr><td><span class="td-b">Broad</span></td><td>1,668 / 1,676</td><td>Spain, Portugal, India, Pakistan, Argentina</td><td>8%</td></tr>
+        <tr><td><span class="td-b">Broad</span></td><td>1,600</td><td>Ireland, Brazil (part), Australia (part)</td><td>2%</td></tr>
+        <tr><td><span class="td-n">Narrow</span></td><td>1,067</td><td>Japan (conventional), South Africa, Indonesia</td><td>9%</td></tr>
+        <tr><td><span class="td-n">Narrow</span></td><td>1,000</td><td>Thailand, Vietnam, Myanmar, East Africa</td><td>5%</td></tr>
+        <tr><td><span class="td-n">Narrow</span></td><td>&lt;1,000</td><td>Mountain / rack / heritage railways</td><td>2%</td></tr>
+      </tbody>
+    </table>
+    <div class="abox"><strong>Why 1,435 mm?</strong> George Stephenson chose ~4 ft 8½ in for the 1825 Stockton &amp; Darlington Railway — matching existing northeast English colliery wagon widths. British engineers then built railways worldwide in the 1830s–1860s, exporting this gauge globally. It became the UIC international standard. Today used on ~57% of global route-km — not because it is theoretically optimal, but because it got there first. This is <em>path dependence</em>: early engineering choices create locked-in infrastructure that is extremely expensive to change.</div>
+
+    <h4 style="color:var(--navy);margin:1.1rem 0 .5rem;font-size:.92rem">4.2 — Structure Gauge (Clearance Envelope)</h4>
+    <p>The structure gauge defines the <strong>minimum cross-sectional space that fixed infrastructure must keep clear</strong> around the track — tunnels, bridges, platforms, signals, masts — to allow safe vehicle passage under all operating conditions.</p>
+    <ul style="margin:.5rem 0 .8rem;display:grid;gap:.35rem">
+      <li><strong>Static Vehicle Gauge</strong> — maximum envelope of a stationary vehicle</li>
+      <li><strong>Dynamic Vehicle Gauge</strong> — envelope during motion (wider: sway, suspension travel, cant deficiency)</li>
+      <li><strong>Structure Gauge</strong> — clearance envelope for fixed infrastructure = Dynamic gauge + safety margin</li>
+    </ul>
+    <div class="wbox"><strong>Engineering principle:</strong> The binding gauge for any route is the <em>most restrictive gauge</em> along that entire route. A wagon travelling from Edirne to Kayseri must comply with the most constrained tunnel or bridge it will pass through — it cannot be loaded to the dimensions of the wider sections.</div>
+
+    <h4 style="color:var(--navy);margin:1.1rem 0 .5rem;font-size:.92rem">4.3 — Alignment Parameters</h4>
+    <table>
+      <thead><tr><th>Parameter</th><th>Units</th><th>TCDD mainline</th><th>Engineering significance</th></tr></thead>
+      <tbody>
+        <tr><td>Horizontal curve radius R</td><td>m</td><td>≥ 300 m (new), ≥ 190 m (existing)</td><td>Smaller R → larger lateral force on vehicle and track</td></tr>
+        <tr><td>Superelevation (cant) e</td><td>mm</td><td>0–150 mm</td><td>Outer rail raised to counteract centrifugal effect in curves</td></tr>
+        <tr><td>Transition curve length L</td><td>m</td><td>f(speed, cant change)</td><td>Euler spiral — smooth cant transition between tangent and circular curve</td></tr>
+        <tr><td>Longitudinal gradient i</td><td>‰</td><td>≤ 8‰ (main), ≤ 12‰ (secondary)</td><td>Directly affects traction force and braking distance requirements</td></tr>
+        <tr><td>Vertical curve radius Rv</td><td>m</td><td>Circular or parabolic</td><td>Smooth transition at grade changes; affects passenger comfort</td></tr>
+      </tbody>
+    </table>
+    <div class="abox"><strong>‰ vs % — the unit that trips everyone up:</strong> Roads use percent (% = m rise per 100 m horizontal). Railways use per mille (‰ = m rise per 1,000 m horizontal) because railway gradients are typically 10× smaller. The TCDD mainline maximum of 8‰ = 0.8% — barely perceptible on foot, but significant when pushing a 2,000-tonne freight train.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 5 — Türkiye's Railway Today</h3>
+    <table style="margin:.8rem 0">
+      <thead><tr><th>Category</th><th>Length (km)</th><th>Max Speed</th></tr></thead>
+      <tbody>
+        <tr><td>Conventional main line</td><td>9,235</td><td>≤ 160 km/h</td></tr>
+        <tr><td>Station / connecting lines</td><td>2,433</td><td>—</td></tr>
+        <tr><td class="td-hi">High-Speed Rail (HSR)</td><td class="td-hi">2,032</td><td class="td-hi">250 km/h</td></tr>
+        <tr><td>Fast rail (upgraded)</td><td>219</td><td>160–200 km/h</td></tr>
+        <tr><td class="td-hi">TOTAL</td><td class="td-hi">13,919</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="ibox"><strong>Liberalisation (2013–2017):</strong> Law No. 6461 separated TCDD into an infrastructure manager (TCDD) and train operator (TCDD Taşımacılık). Private operators can now access the network — mirroring the EU railway liberalisation model. This creates new commercial and engineering challenges in capacity allocation, timetabling, and infrastructure pricing.</div>
+    <p>Despite the network expansion, Türkiye remains highway-oriented: 90.85% of passenger-km and 90.56% of freight ton-km by road in 2023. Shifting even 5% to rail would remove hundreds of thousands of trucks from Turkish roads — a major policy and engineering challenge for your generation.</p>
+  </div>
+</div>
+
+<!-- ══ DATA & CHARTS ══ -->
+<div id="t-data" class="tab-panel">
+  <div class="chart-card">
+    <h4>Modal Split — Türkiye vs Europe (2023)</h4>
+    <div class="csub">% of inland passenger-km and freight tonne-km. Source: TÜİK 2023, Eurostat 2023.</div>
+    <div class="charts-2">
+      <div><div class="chart-wrap"><canvas id="cPax"></canvas></div><p style="font-size:.72rem;color:var(--textl);margin-top:.5rem;text-align:center">Passenger transport (%)</p></div>
+      <div><div class="chart-wrap"><canvas id="cFrt"></canvas></div><p style="font-size:.72rem;color:var(--textl);margin-top:.5rem;text-align:center">Freight transport (%)</p></div>
+    </div>
+    <div class="abox"><strong>The story in numbers:</strong> Germany moves ~8% of passengers and ~19% of freight by rail. Turkey: ~1.5% each. Switzerland moves &gt;18% of passengers by rail. The gap is not geography — it is investment choices made over decades.</div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Rail Passengers in Türkiye — 2004 to 2023</h4>
+    <div class="csub">Thousands of passengers. 2009 marks the opening of the first HSR line (Ankara–Eskişehir). COVID dip visible 2020–21. Source: TÜİK.</div>
+    <div class="chart-wrap" style="height:280px"><canvas id="cTrend"></canvas></div>
+    <div class="ibox" style="margin-top:.8rem"><strong>The 2009 effect:</strong> The Ankara–Eskişehir HSR line cut journey time from ~3.5 hours to 90 minutes. Total passengers almost doubled within 4 years. HSR creates its own demand — a phenomenon known as "generated traffic."</div>
+  </div>
+
+  <div class="charts-2">
+    <div class="chart-card">
+      <h4>Total Railway Network Growth (km)</h4>
+      <div class="csub">2008–2024. Source: TÜİK, TCDD.</div>
+      <div class="chart-wrap"><canvas id="cNet"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>HSR Lines — Cumulative km</h4>
+      <div class="csub">High-speed lines ≥250 km/h. Source: TCDD.</div>
+      <div class="chart-wrap"><canvas id="cHSR"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h4>CO₂ per Passenger-km by Mode (g CO₂)</h4>
+    <div class="csub">European averages, 2023. Source: EEA (2023).</div>
+    <div class="co2-grid" id="co2g"></div>
+    <div class="chart-wrap" style="height:200px;margin-top:1rem"><canvas id="cCO2"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Serious Railway Accidents by Type — Türkiye (% per year)</h4>
+    <div class="csub">Stacked % of annual serious accidents. Source: Ulaşım Emniyeti / TCDD 2018–2023.</div>
+    <div class="chart-wrap" style="height:280px"><canvas id="cAcc"></canvas></div>
+    <div class="wbox" style="margin-top:.8rem"><strong>Level crossing dominance:</strong> 60–75% of serious accidents every year. These occur at the road/rail interface — they are not intrinsic railway failures. Grade separation (building bridges or underpasses) is the proven engineering solution.</div>
+  </div>
+</div>
+
+<!-- ══ INTERACTIVE ══ -->
+<div id="t-interactive" class="tab-panel">
+  <div class="card" style="margin-bottom:1.3rem">
+    <h3>🗺️ World Track Gauge Explorer</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:1.1rem">Select a gauge to see where it is used, why it was adopted, and what happens when trains from different gauge systems need to connect.</p>
+    <div class="gauge-btns" id="gbtns"></div>
+    <div class="gauge-disp" id="gdisp">
+      <div>
+        <svg viewBox="0 0 230 100" width="210" height="95" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="36" width="220" height="28" rx="5" fill="#edf0f7" stroke="#d0d8e8" stroke-width="1"/>
+          <rect x="18" y="44" width="194" height="11" rx="2" fill="#9b7b55"/>
+          <rect x="78" y="44" width="74" height="11" rx="2" fill="#8a6c47"/>
+          <rect id="srl" x="26" y="37" width="10" height="26" rx="3" fill="#444"/>
+          <rect id="srr" x="194" y="37" width="10" height="26" rx="3" fill="#444"/>
+          <line id="sdim" x1="36" y1="76" x2="194" y2="76" stroke="#f0c040" stroke-width="2"/>
+          <line x1="36" y1="72" x2="36" y2="80" stroke="#f0c040" stroke-width="2"/>
+          <line id="send" x1="194" y1="72" x2="194" y2="80" stroke="#f0c040" stroke-width="2"/>
+          <text id="smm" x="115" y="92" text-anchor="middle" fill="#f0c040" font-size="11" font-weight="bold" font-family="monospace">1435 mm</text>
+        </svg>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div class="g-mm" id="gmm">1,435 mm</div>
+        <div class="g-type" id="gtype" style="background:var(--blue)">Standard Gauge</div>
+        <div class="g-desc" id="gdesc">Europe (most), USA, Canada, China, Turkey — ~57% of global railway route-km.</div>
+        <div class="g-fact" id="gfact">💡 Named "standard" not because it was theoretically optimal, but because British engineers exported it to the world first.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.3rem">
+    <h3>🧮 Modal Efficiency Calculator</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:.9rem">Adjust passengers and car occupancy to see the vehicle-km difference between modes.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.8rem">
+      <div><label class="lbl">Passengers to move:</label><input type="range" id="slPax" min="50" max="800" step="50" value="200" oninput="calcEff()"><div class="rv" id="rvPax">200 passengers</div></div>
+      <div><label class="lbl">Car occupancy rate:</label><input type="range" id="slOcc" min="1.0" max="4.0" step="0.1" value="1.13" oninput="calcEff()"><div class="rv" id="rvOcc">1.13 people/car</div></div>
+    </div>
+    <div class="eff-res" id="effRes"></div>
+  </div>
+
+  <div class="card">
+    <h3>📐 Gradient Converter — ‰ ↔ % ↔ 1:n</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:.9rem">Enter any one value and the others update instantly, with a real-world engineering interpretation.</p>
+    <div class="grad-row">
+      <div><label class="lbl">Per mille ‰ <span style="font-weight:400;color:var(--textl)">(railway)</span></label><input class="ginp" type="number" id="gpm" placeholder="e.g. 8" step="0.1" oninput="convG('pm')"></div>
+      <div><label class="lbl">Percent % <span style="font-weight:400;color:var(--textl)">(road)</span></label><input class="ginp" type="number" id="gpc" placeholder="e.g. 0.8" step="0.01" oninput="convG('pc')"></div>
+      <div><label class="lbl">Ratio 1:n</label><input class="ginp" type="number" id="grn" placeholder="e.g. 125" step="1" oninput="convG('rn')"></div>
+    </div>
+    <div class="gres" id="gres">Enter a value above to see the conversion and engineering interpretation.</div>
+  </div>
+</div>
+
+<!-- ══ EXERCISES ══ -->
+<div id="t-exercises" class="tab-panel">
+  <div class="card" style="border-top:4px solid var(--accent);margin-bottom:1.2rem">
+    <h3>Week 1 — Exercises</h3>
+    <div style="background:#f8f9fc;border-radius:10px;padding:1rem 1.2rem;border:1px solid var(--border);font-size:.86rem;color:var(--textm);line-height:1.7">
+      <span style="font-size:1.1rem">📌</span> <strong style="color:var(--navy)">These exercises are entirely optional</strong> — there is no marking, no submission, and no obligation. They are here purely for your own curiosity and to help you think deeper about the material. If you find a question interesting and want to explore it further, you are very welcome to come to the <strong>Friday office hour (13:00–14:30, Room 456)</strong> and we can discuss it together.
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">01</span><span class="ex-type">Conceptual</span><span class="ex-title">The Case for Rail in Türkiye</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body"><p>Türkiye's modal split shows railways carrying ~1.5% of passenger-km (2023). Germany manages ~8%, Switzerland ~18%, Japan ~29%. Identify and discuss <strong>three structural barriers</strong> — policy, investment history, geography, or demographics — that explain Turkey's low share, and for each barrier describe one engineering or policy measure that could address it.</p><div class="ex-hint">What happened to railway investment after 1950? What is the relationship between the Marshall Plan and Turkey's highway network? What does the 2017 liberalisation change?</div></div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">02</span><span class="ex-type">Quantitative</span><span class="ex-title">Gauge Interoperability</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body"><p>A freight train departs Köln, Germany (standard gauge 1,435 mm) bound for Moscow (Russian broad gauge 1,520 mm). At the Brest gauge-change facility (Belarus/Poland border):</p><p>(a) Calculate the gauge difference in mm and as a % of standard gauge.<br>(b) Explain two engineering solutions for handling the gauge break.<br>(c) If 40 wagons require bogie exchange and each wagon takes 4 minutes with 3 bogies changed simultaneously, estimate the total time penalty.</p><div class="ex-hint">For (b): research variable-gauge axle technology (Talgo/SUW 2000) and dual-gauge track. For (c): wagons are processed sequentially, but each wagon's bogies are changed simultaneously.</div></div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">03</span><span class="ex-type">Conceptual</span><span class="ex-title">Gradient Calculations</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body"><p>A proposed railway mainline rises 12.6 m over a horizontal distance of 1.8 km between two stations.</p><p>(a) Express this gradient in ‰.<br>(b) Express it in %.<br>(c) Is this acceptable for a TCDD mainline? State the standard and justify.<br>(d) If not acceptable, what horizontal distance is needed for the same 12.6 m height gain at the TCDD maximum?<br>(e) What height gain occurs over 25 km at the maximum permissible gradient?</p><div class="ex-hint">Gradient (‰) = (rise / horizontal distance) × 1000. Rearrange for (d). TCDD mainline maximum gradient = 8‰.</div></div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">04</span><span class="ex-type">Conceptual</span><span class="ex-title">Structure Gauge — Why It Matters</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body"><p>A double-track railway tunnel is being designed. Dynamic vehicle gauge envelope: height 4,250 mm above rail, half-width 1,620 mm from each track centreline. Track centres: 4,000 mm. Structure gauge clearance: minimum 200 mm beyond dynamic envelope on all sides. Maintenance walkway: 500 mm along one wall.</p><p>(a) Calculate minimum internal tunnel width.<br>(b) Calculate minimum internal tunnel height from rail level.<br>(c) Sketch a dimensioned cross-section showing both tracks, all clearances, and the walkway.<br>(d) Explain why the dynamic gauge exceeds the static vehicle dimensions — name two physical causes.</p><div class="ex-hint">Width = track centres + (clearance + half-vehicle-width) on each outer side + walkway. For (d): think about what the train does physically at speed — lateral oscillation, suspension compression under cornering loads.</div></div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">05</span><span class="ex-type">🔬 Research Extension</span><span class="ex-title">Modal Shift Literature</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body"><p>The EU's Sustainable and Smart Mobility Strategy (2020) targets doubling of HSR passengers by 2030 and 50% of medium-distance freight shifted from road to rail/waterways by 2050.</p><p>Find ONE peer-reviewed paper (published 2018–2026) analysing modal shift towards rail in any national context. Summarise in 300–400 words: (a) research question and country context, (b) methodology, (c) key quantitative findings, (d) transferability to Türkiye — why or why not. Provide a full citation with DOI.</p><div class="ex-hint">Google Scholar: "modal shift rail" OR "railway demand elasticity" OR "HSR mode choice". Journals: Transportation Research Part A, B, or E; Journal of Rail Transport Planning &amp; Management. Bring your paper — 2–3 will be discussed in class.</div></div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="t-quiz" class="tab-panel">
+  <div class="quiz-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h3 style="font-size:1rem;font-weight:800;color:var(--navy)">🧩 Week 1 — Self-Assessment Quiz</h3>
+      <span class="qsc">Question <span id="qn">1</span> of 8</span>
+    </div>
+    <div class="qprog"><div class="qbar" id="qbar" style="width:12.5%"></div></div>
+    <div id="qq" class="qq"></div>
+    <div id="qopts" class="qopts"></div>
+    <div id="qfb" class="qfb"></div>
+    <div class="qnav">
+      <span class="qsc">Score: <b id="qscore">0</b> / 8</span>
+      <button class="btn btn-a" id="qnxt" onclick="qNext()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REFERENCES ══ -->
+<div id="t-refs" class="tab-panel">
+  <div class="card" style="margin-bottom:1rem">
+    <h3>Week 1 — References &amp; Reading</h3>
+    <p>[CORE] = essential reading · [EXTENDED] = deeper or thesis-level. Unverified citations are marked ⚠️.</p>
+  </div>
+  <div class="ref-i"><div class="ref-n">1</div><div class="ref-t"><b><a href="https://www.routledge.com/Railway-Planning-Management-and-Engineering/Profillidis/p/book/9781032109695" target="_blank" style="color:var(--blue)">Profillidis, V. (2022).</a></b> Railway Planning, Management, and Engineering (5th ed.). Routledge. <span class="rtag core">CORE</span><span class="rtag">Primary Textbook</span><br>Chapters 1–2: Introduction to railway systems, geometric design. Your main reference throughout the course.</div></div>
+  <div class="ref-i"><div class="ref-n">2</div><div class="ref-t"><b><a href="https://link.springer.com/book/10.1007/978-3-031-24030-5" target="_blank" style="color:var(--blue)">Guerrieri, M. (2023).</a></b> Fundamentals of Railway Design. Springer. <span class="rtag core">CORE</span><span class="rtag">Textbook</span><br>Chapter 1: Geometric standards, design philosophy, international comparisons.</div></div>
+  <div class="ref-i"><div class="ref-n">3</div><div class="ref-t"><b><a href="http://www.esveld.com/MRT.htm" target="_blank" style="color:var(--blue)">Esveld, C. (2001).</a></b> Modern Railway Track (2nd ed.). MRT-Productions. <span class="rtag core">CORE</span><span class="rtag">Textbook</span><br>Chapter 1: Track gauge and clearance standards. Available at esveld.com.</div></div>
+  <div class="ref-i"><div class="ref-n">4</div><div class="ref-t"><b>UIC Leaflet 505-1 (2006).</b> Railway Vehicle Gauge. Union Internationale des Chemins de fer. <span class="rtag">Standard</span><br>Authoritative international standard for vehicle and structure gauges.</div></div>
+  <div class="ref-i"><div class="ref-n">5</div><div class="ref-t"><b>TÜİK (2024).</b> Transport Statistics 2023. Turkish Statistical Institute, data.tuik.gov.tr. <span class="rtag">Data</span><br>Source for all modal split, accident, and passenger statistics cited in this lecture.</div></div>
+  <div class="ref-i"><div class="ref-n">6</div><div class="ref-t"><b>TCDD (2025).</b> Network Statement 2025 / Şebeke Bildirimi. tcdd.gov.tr. <span class="rtag">Official</span><br>Current TCDD network dimensions, line speeds, and infrastructure parameters.</div></div>
+  <div class="ref-i"><div class="ref-n">7</div><div class="ref-t"><b>European Environment Agency — EEA (2023).</b> Transport and Environment Report 2022. EEA Report No 19/2022. <span class="rtag">Data</span><br>Source for CO₂ per mode data cited in this lecture.</div></div>
+  <div class="ref-i"><div class="ref-n">8</div><div class="ref-t"><b>European Commission (2020).</b> Sustainable and Smart Mobility Strategy. COM(2020) 789 final. <span class="rtag">Policy</span><br>EU 2030/2050 modal shift targets. Referenced in Exercise 5.</div></div>
+  <div class="ref-i"><div class="ref-n">9</div><div class="ref-t"><b>Licio, V. (2021).</b> When history leaves a mark: A new measure of Roman roads. Italian Economic Journal, 7(1), 1–35. <span class="rtag">Extended</span><br>Path dependence in transport infrastructure — why early choices constrain future options for centuries. Highly recommended background reading.</div></div>
+</div>
+
+</div><!-- /tab-wrap -->
+
+<!-- WEEK NAV -->
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+  <a href="../" style="color:var(--blue);font-size:.86rem;font-weight:600;text-decoration:none">← Back to course home</a>
+  <span style="font-size:.82rem;color:var(--textl)">Week 2 content coming Tuesday, 6 October 2026</span>
+  <span style="color:var(--border);font-size:.86rem;font-weight:600">Week 2 — Coming Soon →</span>
+</div>
+
+</div><!-- /main -->
+
+<footer>
+  <div class="footer-rail"></div>
+  <p><strong>INS 325E Railway Engineering · Week 1</strong> · Istanbul Technical University</p>
+  <p style="margin-top:.4rem"><strong>Dr. Mustafa Can Özkan</strong> · <a href="mailto:ozkanmc@itu.edu.tr">ozkanmc@itu.edu.tr</a> · Office 456 · <a href="https://ozkanmc.github.io/ins325e-railway-eng/">ozkanmc.github.io/ins325e-railway-eng</a></p>
+  <p style="margin-top:.3rem;font-size:.7rem;opacity:.45">Data: TÜİK, TCDD, EEA, UIC. Published September 2026.</p>
+</footer>
+
+<script>
+// TABS
+function ST(b,id){
+  document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); document.getElementById(id).classList.add('on');
+  if(id==='t-data')initCharts();
+  if(id==='t-quiz'&&!quizGo){initQuiz();quizGo=true;}
+}
+
+// EXERCISES
+function EX(h){h.parentElement.classList.toggle('open');}
+
+// CHARTS
+let chartsInited=false;
+function initCharts(){
+  if(chartsInited)return; chartsInited=true;
+  const C=Chart,pal={tr:'#d63031',nl:'#1a6ec4',fr:'#2d9e6e',de:'#e8b84b'};
+  new C(document.getElementById('cPax'),{type:'bar',data:{labels:['Water','Railway','Highway','Air'],datasets:[
+    {label:'Türkiye',data:[0.02,1.50,90.85,7.24],backgroundColor:pal.tr,borderRadius:4},
+    {label:'Netherlands',data:[0.2,11.8,82.1,5.9],backgroundColor:pal.nl,borderRadius:4},
+    {label:'France',data:[0.1,10.8,82.8,6.3],backgroundColor:pal.fr,borderRadius:4},
+    {label:'Germany',data:[0.2,8.4,86.6,4.8],backgroundColor:pal.de,borderRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},x:{ticks:{font:{size:10}}}}}});
+  new C(document.getElementById('cFrt'),{type:'bar',data:{labels:['Water','Railway','Highway','Air'],datasets:[
+    {label:'Türkiye',data:[5.89,3.54,90.56,0.01],backgroundColor:pal.tr,borderRadius:4},
+    {label:'Netherlands',data:[39.2,3.8,56.8,0.2],backgroundColor:pal.nl,borderRadius:4},
+    {label:'France',data:[2.1,10.1,87.5,0.3],backgroundColor:pal.fr,borderRadius:4},
+    {label:'Germany',data:[7.2,19.2,73.1,0.5],backgroundColor:pal.de,borderRadius:4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},x:{ticks:{font:{size:10}}}}}});
+  new C(document.getElementById('cTrend'),{type:'line',data:{labels:['2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023'],datasets:[
+    {label:'Total passengers (thousands)',data:[86200,85700,84200,84700,90300,102500,105800,114800,125200,144200,155100,166400,169500,178900,185700,218100,118400,128600,248800,330400],borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.07)',tension:.35,pointRadius:3,fill:true},
+    {label:'HSR',data:[0,0,0,0,0,2800,4300,6400,7800,13200,17800,20300,22100,25600,30200,36400,18200,21800,43200,54800],borderColor:'#d63031',backgroundColor:'transparent',tension:.35,pointRadius:3,borderDash:[5,3]}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},scales:{y:{beginAtZero:true,ticks:{font:{size:10},callback:v=>v>=1000?Math.round(v/1000)+'k':v},grid:{color:'rgba(0,0,0,.04)'}},x:{ticks:{font:{size:9}}}}}});
+  new C(document.getElementById('cNet'),{type:'line',data:{labels:['2008','2010','2012','2014','2016','2018','2020','2022','2024'],datasets:[{label:'Total km',data:[11131,11322,12006,12483,12933,13678,13862,13862,13919],borderColor:'#2a5298',backgroundColor:'rgba(42,82,152,.07)',tension:.2,fill:true,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:10500,ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  new C(document.getElementById('cHSR'),{type:'line',data:{labels:['2008','2010','2012','2014','2016','2018','2020','2022','2024'],datasets:[{label:'HSR km',data:[0,245,1076,1213,1213,1213,1213,1213,2032],borderColor:'#d63031',backgroundColor:'rgba(214,48,49,.08)',tension:.2,fill:true,pointRadius:4,stepped:'after'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  new C(document.getElementById('cCO2'),{type:'bar',data:{labels:['Car (solo)','Car (2 pax)','Motorcycle','Bus','Coach','Rail (EU)','Rail (renewables)'],datasets:[{data:[170,85,113,82,27,14,6],backgroundColor:['#d63031','#e17055','#e17055','#e8b84b','#f0c040','#0ea47a','#0b9268'],borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{callback:v=>v+' g',font:{size:10}}},y:{ticks:{font:{size:10}}}}}});
+  new C(document.getElementById('cAcc'),{type:'bar',data:{labels:['2018','2019','2020','2021','2022','2023'],datasets:[
+    {label:'Level crossing',data:[29,36,56,36,75,67],backgroundColor:'#d63031',borderRadius:2},
+    {label:'Person struck',data:[60,52,25,55,19,22],backgroundColor:'#e17055',borderRadius:2},
+    {label:'Train collision',data:[3,3,13,0,6,0],backgroundColor:'#e8b84b',borderRadius:2},
+    {label:'Derailment',data:[3,6,0,0,0,11],backgroundColor:'#636e72',borderRadius:2},
+    {label:'Other',data:[5,3,6,9,0,0],backgroundColor:'#b0b8c8',borderRadius:2}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10}}},scales:{x:{stacked:true,ticks:{font:{size:11}}},y:{stacked:true,beginAtZero:true,max:100,ticks:{callback:v=>v+'%',font:{size:10}}}}}});
+  const co2d=[{icon:'🚗',lbl:'Car solo',val:170,c:'#d63031'},{icon:'🏍️',lbl:'Motorcycle',val:113,c:'#e17055'},{icon:'🚌',lbl:'Bus avg',val:82,c:'#e8b84b'},{icon:'🚂',lbl:'Rail EU',val:14,c:'#0ea47a'},{icon:'☀️',lbl:'Rail green',val:6,c:'#0b9268'}];
+  document.getElementById('co2g').innerHTML=co2d.map(d=>`<div class="co2-item"><div class="co2-icon">${d.icon}</div><span class="co2-val" style="color:${d.c}">${d.val}</span><div class="co2-lbl">g/p-km</div><div class="co2-lbl">${d.lbl}</div><div class="co2-bar" style="background:${d.c};width:${Math.round(d.val/170*80+5)}%"></div></div>`).join('');
+}
+
+// GAUGE EXPLORER
+const GD=[
+  {lbl:'Standard 1,435',mm:1435,type:'Standard Gauge',col:'#1e4080',desc:'Europe (most), USA, Canada, China, Turkey (all lines) — ~57% of global railway route-km. The UIC reference gauge for international interoperability.',fact:'Named "standard" not because it was optimal, but because British engineers exported it worldwide first. Classic path dependence.'},
+  {lbl:'Russian 1,520',mm:1520,type:'Broad Gauge',col:'#c0392b',desc:'Russia, Ukraine, Belarus, Baltic states, FSU countries, Mongolia. Standardised in 1843.',fact:'A common myth claims Russia chose this gauge strategically to block enemy trains — in fact, the gauge predated any such strategic thinking and was simply what Russian engineers had already been building. [⚠️ verify]'},
+  {lbl:'Iberian 1,668',mm:1668,type:'Broad Gauge',col:'#8e44ad',desc:'Spain (legacy conventional network) and Portugal. Spain is now building standard gauge HSR (AVE) alongside.',fact:'A Spanish royal decree of 1844 mandated 6 Castilian feet (~1,668 mm). Spain is mid-conversion to standard gauge — a project costing tens of billions of euros.'},
+  {lbl:'Indian 1,676',mm:1676,type:'Broad Gauge',col:'#e67e22',desc:'India, Pakistan, Bangladesh, Argentina, Chile. The world\'s largest broad-gauge network is in India.',fact:'British engineers chose broad gauge for India to allow heavier axle loads on long flat trunk routes. India\'s main network still uses it today.'},
+  {lbl:'Cape 1,067',mm:1067,type:'Narrow Gauge',col:'#0ea47a',desc:'Japan (conventional JR lines), South Africa, Mozambique, Tanzania, Indonesia, New Zealand, Queensland.',fact:'"Cape gauge" — named after the Cape Colony (South Africa). Chosen by British colonial engineers as cheaper to build in difficult terrain. Japan adopted it in 1872 for the same reason.'},
+  {lbl:'Metre 1,000',mm:1000,type:'Narrow Gauge',col:'#27ae60',desc:'Thailand, Vietnam, Myanmar, East Africa, parts of Brazil and India, Swiss mountain railways.',fact:'A round number in the 19th-century metric system era. East African proposals to convert to standard gauge for new SGR lines show how gauge choices remain contentious 150 years later.'},
+  {lbl:'TCDD 1,435',mm:1435,type:'Standard Gauge',col:'#0b1f3a',desc:'All TCDD lines — conventional and HSR — use standard gauge 1,435 mm. No gauge break within the Turkish main network.',fact:'Turkey\'s standard gauge means Turkish trains are technically compatible with European standard gauge networks — an advantage for future international freight and passenger services.'}
+];
+function buildGaugeUI(){
+  const c=document.getElementById('gbtns');
+  GD.forEach((g,i)=>{const b=document.createElement('button');b.className='gb'+(i===0?' on':'');b.textContent=g.lbl;b.onclick=()=>{document.querySelectorAll('.gb').forEach(x=>x.classList.remove('on'));b.classList.add('on');showG(g);};c.appendChild(b);});
+  showG(GD[0]);
+}
+function showG(g){
+  const lo=26,span=Math.round((g.mm-600)/1200*168);const rx=lo+span;
+  document.getElementById('srr').setAttribute('x',rx);
+  document.getElementById('sdim').setAttribute('x2',rx+10);
+  document.getElementById('send').setAttribute('x1',rx+10);document.getElementById('send').setAttribute('x2',rx+10);
+  document.getElementById('smm').setAttribute('x',lo+span/2+5);
+  document.getElementById('smm').textContent=g.mm.toLocaleString()+' mm';
+  document.getElementById('gmm').textContent=g.mm.toLocaleString()+' mm';
+  document.getElementById('gtype').textContent=g.type;document.getElementById('gtype').style.background=g.col;
+  document.getElementById('gdesc').textContent=g.desc;document.getElementById('gfact').textContent='💡 '+g.fact;
+}
+
+// EFFICIENCY CALC
+function calcEff(){
+  const pax=+document.getElementById('slPax').value,occ=+document.getElementById('slOcc').value;
+  document.getElementById('rvPax').textContent=pax+' passengers';
+  document.getElementById('rvOcc').textContent=occ.toFixed(2)+' people/car';
+  const cars=Math.ceil(pax/occ),buses=Math.ceil(pax/70),trains=Math.ceil(pax/400),mx=cars;
+  document.getElementById('effRes').innerHTML=`
+  <div class="eff-card hl"><div class="ei">🚂</div><div class="en">Light Rail / Metro</div><div class="ev">Vehicles: <b>${trains}</b></div><div class="ev">Vehicle-km/km: <b>${trains}</b></div><div class="ev">CO₂: ~<b>${trains*14*pax} g</b>/km total</div><div class="eff-bw"><div class="eff-b" style="width:${Math.max(2,trains/mx*100)}%;background:var(--teal)"></div></div></div>
+  <div class="eff-card"><div class="ei">🚌</div><div class="en">Bus</div><div class="ev">Vehicles: <b>${buses}</b></div><div class="ev">Vehicle-km/km: <b>${buses}</b></div><div class="ev">CO₂: ~<b>${82*pax} g</b>/km total</div><div class="eff-bw"><div class="eff-b" style="width:${Math.max(2,buses/mx*100)}%;background:var(--accent)"></div></div></div>
+  <div class="eff-card"><div class="ei">🚗</div><div class="en">Private Car</div><div class="ev">Vehicles: <b>${cars}</b></div><div class="ev">Vehicle-km/km: <b>${cars}</b></div><div class="ev">CO₂: ~<b>${170*pax} g</b>/km total</div><div class="eff-bw"><div class="eff-b" style="width:100%;background:var(--red)"></div></div></div>`;
+}
+
+// GRADIENT CONVERTER
+function convG(src){
+  let pm,pc,rn;
+  if(src==='pm'){pm=parseFloat(document.getElementById('gpm').value);if(isNaN(pm)){clearG();return;}pc=pm/10;rn=pm>0?1000/pm:Infinity;}
+  else if(src==='pc'){pc=parseFloat(document.getElementById('gpc').value);if(isNaN(pc)){clearG();return;}pm=pc*10;rn=pc>0?100/pc:Infinity;}
+  else{rn=parseFloat(document.getElementById('grn').value);if(isNaN(rn)){clearG();return;}pm=rn>0?1000/rn:0;pc=rn>0?100/rn:0;}
+  if(src!=='pm')document.getElementById('gpm').value=pm.toFixed(2);
+  if(src!=='pc')document.getElementById('gpc').value=pc.toFixed(3);
+  if(src!=='rn')document.getElementById('grn').value=isFinite(rn)?rn.toFixed(1):'∞';
+  let msg='';
+  if(pm<=2)msg='✅ Very gentle — ideal for heavy freight. Barely noticeable on foot.';
+  else if(pm<=8)msg='✅ Within TCDD mainline limit (≤8‰). Standard passenger and freight operation.';
+  else if(pm<=12)msg='⚠️ Steep for main lines. TCDD allows up to 12‰ on secondary lines. Limits trainload; traction calculation needed.';
+  else if(pm<=25)msg='🔴 Very steep — heavy traction required. Rack rail may be needed above ~25‰.';
+  else msg='🔴 Extreme — beyond conventional railway limits. Rack railway or funicular territory.';
+  msg+=` Per 1 km of track, the train changes elevation by ${Math.abs(pm).toFixed(2)} m. Road equivalent: ${pc.toFixed(3)}%.`;
+  document.getElementById('gres').textContent=msg;
+}
+function clearG(){document.getElementById('gres').textContent='Enter a value above to see the conversion and engineering interpretation.';}
+
+// QUIZ
+const Qs=[
+  {q:"What is the standard railway track gauge adopted by the UIC and used on Turkey's entire railway network?",opts:["1,520 mm","1,435 mm","1,000 mm","1,668 mm"],ans:1,exp:"1,435 mm (4 feet 8½ inches) is the UIC international standard gauge, tracing to George Stephenson's 1825 Stockton & Darlington Railway. Used on ~57% of global railway route-km."},
+  {q:"A railway rises 6 metres over 1.5 km horizontal distance. What is the gradient in ‰?",opts:["4‰","6‰","40‰","0.004‰"],ans:0,exp:"Gradient (‰) = (rise / horizontal distance) × 1000 = (6 / 1500) × 1000 = 4‰. Well within the TCDD mainline maximum of 8‰."},
+  {q:"Which railway is generally considered the world's first inter-urban steam railway designed for both passengers and freight on a regular timetable?",opts:["Stockton & Darlington Railway (1825)","Liverpool & Manchester Railway (1830)","İzmir–Aydın Railway (1856)","Ankara–İstanbul HSR (2009)"],ans:1,exp:"The Liverpool & Manchester Railway (1830) was the first designed from the outset for steam traction on a regular scheduled service for both passengers and freight. Stockton & Darlington (1825) was first to use steam but primarily carried freight."},
+  {q:"'Structure gauge' (clearance gauge) on a railway refers to...",opts:["The distance between inner rail faces","The maximum envelope a vehicle may occupy","The minimum clear space that fixed infrastructure must maintain around the track","The gauge standard used for Russian railways"],ans:2,exp:"The structure gauge defines the minimum envelope around the track that fixed structures must not intrude. It is always larger than the dynamic vehicle gauge to allow for vehicle sway, suspension movement, and track geometry tolerances."},
+  {q:"By end of 2024, how many km of high-speed rail (≥250 km/h) does Turkey operate?",opts:["219 km","1,076 km","2,032 km","13,919 km"],ans:2,exp:"Turkey has 2,032 km of HSR as of end-2024. The total network is 13,919 km. 219 km refers to fast rail (160–200 km/h). 1,076 km was the 2012 figure."},
+  {q:"In 2023, approximately what % of Turkey's inland passenger transport (person-km) was carried by highway?",opts:["55%","70%","80%","91%"],ans:3,exp:"90.85% of Turkish passenger-km was by highway in 2023 — compared to ~82–87% in Germany, France, and the Netherlands. Turkey's dominance reflects decades of road investment since the 1950s Marshall Plan era."},
+  {q:"What type of accident accounts for the highest proportion of serious railway accidents in Turkey (2018–2023)?",opts:["Train-to-train collisions","Bridge failures","Level crossing collisions","Derailments"],ans:2,exp:"Level crossing collisions represent 60–75% of serious accidents in Turkey every year. This is an infrastructure design and road-user behaviour problem. Grade separation is the proven engineering solution."},
+  {q:"'Path dependence' in engineering means that...",opts:["Engineers should always follow established practice","Early choices — even if suboptimal — constrain future options due to sunk costs and network effects","The optimal route always follows the natural terrain","Railway routes must be straight wherever possible"],ans:1,exp:"Path dependence explains why 1,435 mm became 'standard' — not because it was optimal, but because British engineers built it worldwide first. Changing gauge across a national network costs hundreds of billions. Spain's Iberian gauge → standard gauge conversion has cost ~€25 billion and is still ongoing."}
+];
+let cQ=0,sc=0,answered=false,quizGo=false;
+function initQuiz(){cQ=0;sc=0;answered=false;renderQ();}
+function renderQ(){
+  const q=Qs[cQ];
+  document.getElementById('qn').textContent=cQ+1;
+  document.getElementById('qbar').style.width=((cQ+1)/Qs.length*100)+'%';
+  document.getElementById('qq').textContent=q.q;
+  const o=document.getElementById('qopts');o.innerHTML='';
+  q.opts.forEach((t,i)=>{const d=document.createElement('div');d.className='qopt';d.innerHTML=`<div class="qoptl">${'ABCD'[i]}</div><div>${t}</div>`;d.onclick=()=>{if(!answered)pick(i,d);};o.appendChild(d);});
+  document.getElementById('qfb').className='qfb';
+  document.getElementById('qnxt').disabled=true;
+  document.getElementById('qnxt').textContent=cQ<Qs.length-1?'Next →':'Finish ✓';
+  answered=false;
+}
+function pick(i,el){
+  answered=true;const q=Qs[cQ];
+  document.querySelectorAll('.qopt').forEach(o=>o.classList.add('disabled'));
+  if(i===q.ans){el.classList.add('correct');sc++;document.getElementById('qfb').className='qfb ok show';document.getElementById('qfb').innerHTML='✅ Correct! '+q.exp;}
+  else{el.classList.add('wrong');document.querySelectorAll('.qopt')[q.ans].classList.add('correct');document.getElementById('qfb').className='qfb bad show';document.getElementById('qfb').innerHTML='❌ Not quite. '+q.exp;}
+  document.getElementById('qscore').textContent=sc;
+  document.getElementById('qnxt').disabled=false;
+}
+function qNext(){
+  cQ++;
+  if(cQ>=Qs.length){
+    const p=Math.round(sc/Qs.length*100);
+    const m=p>=87?'🎉 Excellent work!':p>=62?'👍 Good — review the sections you missed.':'📖 Worth another look at the notes before Week 2.';
+    document.getElementById('qq').textContent=`Quiz complete! You scored ${sc}/${Qs.length} (${p}%).`;
+    document.getElementById('qopts').innerHTML=`<div style="padding:1.4rem;text-align:center;background:#f0f5ff;border-radius:10px;font-size:.95rem;color:var(--navy)">${m}</div>`;
+    document.getElementById('qfb').className='qfb';
+    document.getElementById('qbar').style.width='100%';
+    document.getElementById('qnxt').textContent='🔄 Restart';document.getElementById('qnxt').disabled=false;
+    document.getElementById('qnxt').onclick=()=>{cQ=0;sc=0;document.getElementById('qscore').textContent=0;document.getElementById('qnxt').onclick=qNext;initQuiz();};
+    return;
+  }
+  renderQ();
+}
+
+// INIT
+buildGaugeUI(); calcEff();
+</script>
+</body>
+</html>

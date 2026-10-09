@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Week 2 — Railway Superstructure | INS 325E</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0b1f3a;--blue:#1e4080;--blue2:#2a5298;
+  --accent:#f0c040;--teal:#0ea47a;--red:#d63031;--orange:#e17055;--purple:#8e44ad;
+  --text:#1a1f36;--textm:#4a5568;--textl:#8896a7;
+  --bg:#f2f5fa;--card:#fff;--border:#dde3ef;
+  --r:14px;--sh:0 2px 16px rgba(11,31,58,.08);--shl:0 8px 40px rgba(11,31,58,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+
+nav{position:sticky;top:0;z-index:200;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:0 1.5rem;height:56px;flex-wrap:nowrap}
+.nb{color:rgba(255,255,255,.7);text-decoration:none;font-size:.83rem;font-weight:600;white-space:nowrap}
+.nb:hover{color:var(--accent)}
+.ns{color:rgba(255,255,255,.2)}
+.nc{background:var(--accent);color:var(--navy);padding:.12rem .5rem;border-radius:4px;font-size:.75rem;font-weight:900;white-space:nowrap}
+.nt{color:rgba(255,255,255,.8);font-size:.84rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nw{margin-left:auto;background:rgba(14,164,122,.2);border:1px solid rgba(14,164,122,.4);color:#4dd9aa;padding:.22rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap}
+
+.wk-hdr{background:linear-gradient(135deg,var(--navy) 0%,#1a3a70 100%);color:#fff;padding:3rem 1.5rem 2.5rem;position:relative;overflow:hidden}
+.wk-hdr::before{content:'02';position:absolute;right:1.5rem;bottom:-1.5rem;font-size:min(20vw,180px);font-weight:900;opacity:.05;font-family:'JetBrains Mono',monospace;line-height:1;pointer-events:none}
+.wk-hdr-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+.wk-hdr-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.5rem}
+.wk-hdr h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.5rem;line-height:1.15}
+.wk-hdr p{opacity:.75;font-size:.92rem;max-width:620px;margin-bottom:1.3rem}
+.wk-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.wk-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.25rem .7rem;border-radius:20px;font-size:.73rem}
+
+.main{max-width:1240px;margin:0 auto;padding:2rem 1.5rem}
+
+/* TABS */
+.tab-nav{display:flex;background:var(--card);border-radius:var(--r) var(--r) 0 0;border:1px solid var(--border);border-bottom:none;overflow-x:auto}
+.tab-wrap{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--card);padding:2rem;margin-bottom:2rem;box-shadow:var(--sh)}
+.tb{padding:.75rem 1.3rem;border:none;background:none;font-family:inherit;font-size:.84rem;font-weight:600;color:var(--textl);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .2s;position:relative;top:1px}
+.tb.on{color:var(--navy);border-bottom-color:var(--accent);background:rgba(240,192,64,.05)}
+.tb:hover:not(.on){color:var(--navy);background:#f5f7fc}
+.tab-panel{display:none}.tab-panel.on{display:block}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.6rem;margin-bottom:1.2rem;box-shadow:var(--sh)}
+.card h3{font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:2px solid var(--accent);display:inline-block}
+.card p,.card li{color:var(--textm);font-size:.89rem;line-height:1.7;margin-bottom:.65rem}
+.card p:last-child{margin-bottom:0}
+.card ul{padding-left:1.1rem}
+
+.ibox{border-left:4px solid var(--teal);background:rgba(14,164,122,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.ibox strong{color:var(--teal);font-weight:700}
+.wbox{border-left:4px solid var(--orange);background:rgba(225,112,85,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.wbox strong{color:var(--orange);font-weight:700}
+.abox{border-left:4px solid var(--accent);background:rgba(240,192,64,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.abox strong{color:#806800;font-weight:700}
+.pbox{border-left:4px solid var(--purple);background:rgba(142,68,173,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.pbox strong{color:var(--purple);font-weight:700}
+
+/* FUN FACTS */
+.fun-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+@media(max-width:700px){.fun-facts{grid-template-columns:1fr}}
+.ff{border-radius:12px;padding:1.2rem;text-align:center;border:2px solid var(--border);background:#fff;transition:transform .2s,box-shadow .2s;cursor:default}
+.ff:hover{transform:translateY(-3px);box-shadow:var(--shl)}
+.ff-icon{font-size:2.2rem;margin-bottom:.5rem}
+.ff-num{font-size:1.6rem;font-weight:900;font-family:'JetBrains Mono',monospace;display:block;line-height:1.1}
+.ff-label{font-size:.75rem;color:var(--textl);margin-top:.2rem;line-height:1.4}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.9rem 0}
+th{background:var(--navy);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:700;font-size:.76rem}
+th:first-child{border-radius:6px 0 0 6px}th:last-child{border-radius:0 6px 6px 0}
+td{padding:.58rem .9rem;border-bottom:1px solid var(--border);color:var(--textm)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7f9fc}
+tr:nth-child(even) td{background:#f9fafc}
+.td-hi{font-weight:700;color:var(--navy)}
+.pro{color:var(--teal);font-weight:700}
+.con{color:var(--red);font-weight:700}
+
+/* EQ */
+.eq{background:linear-gradient(135deg,#eef2ff,#e6edff);border:1px solid #c5d0f5;border-radius:10px;padding:1rem 1.4rem;margin:.9rem 0;font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--navy);text-align:center;position:relative}
+.eq-lbl{position:absolute;top:.35rem;right:.7rem;font-size:.6rem;color:#7090c0;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* 2-COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+
+/* CHART */
+.chart-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.3rem;margin-bottom:1.2rem}
+.chart-card h4{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.chart-card .csub{font-size:.72rem;color:var(--textl);margin-bottom:1rem}
+.chart-wrap{position:relative;height:280px}
+
+/* ── INTERACTIVE TRACK DIAGRAM ── */
+#track-diagram-wrap{background:linear-gradient(180deg,#e8f4fd 0%,#d4ecf7 100%);border-radius:16px;padding:1.5rem;border:2px solid #b8d8ee;margin-bottom:1rem;position:relative}
+#track-svg{width:100%;max-width:700px;display:block;margin:0 auto;cursor:pointer}
+.layer-info{background:#fff;border-radius:12px;border:2px solid var(--border);padding:1.2rem 1.5rem;margin-top:1rem;min-height:100px;transition:all .3s;box-shadow:var(--sh)}
+.layer-info h4{font-size:1rem;font-weight:800;margin-bottom:.4rem}
+.layer-info p{font-size:.86rem;color:var(--textm);line-height:1.65;margin-bottom:.4rem}
+.layer-info .lf{font-size:.78rem;font-style:italic;color:var(--textl)}
+.layer-hint{text-align:center;color:var(--textl);font-size:.83rem;padding:1.5rem;font-style:italic}
+.layer-btn-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem;justify-content:center}
+.lbtn{padding:.35rem .9rem;border-radius:20px;border:2px solid var(--border);background:#fff;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--textm)}
+.lbtn:hover,.lbtn.on{color:#fff;border-color:var(--navy);background:var(--navy)}
+
+/* ── RAIL PROFILE EXPLORER ── */
+.rail-profiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+@media(max-width:600px){.rail-profiles{grid-template-columns:1fr}}
+.rp-card{border-radius:12px;border:2px solid var(--border);padding:1rem;text-align:center;cursor:pointer;transition:all .2s;background:#fff}
+.rp-card:hover,.rp-card.on{border-color:var(--blue);background:linear-gradient(135deg,rgba(30,64,128,.04),rgba(30,64,128,.1))}
+.rp-card svg{margin:0 auto .5rem;display:block}
+.rp-name{font-weight:800;font-size:.88rem;color:var(--navy);margin-bottom:.2rem}
+.rp-desc{font-size:.74rem;color:var(--textl);line-height:1.4}
+.rp-info{background:#f0f4ff;border-radius:10px;padding:1.1rem;margin-top:.8rem;font-size:.85rem;color:var(--textm);line-height:1.65;display:none}
+.rp-info.show{display:block}
+
+/* ── BALLAST CALCULATOR ── */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+@media(max-width:600px){.calc-grid{grid-template-columns:1fr}}
+.calc-lbl{font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:.35rem;display:block}
+.calc-inp{width:100%;padding:.6rem .85rem;border:2px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.92rem;background:#fff;transition:border-color .2s}
+.calc-inp:focus{outline:none;border-color:var(--blue)}
+.calc-result{background:linear-gradient(135deg,rgba(14,164,122,.07),rgba(14,164,122,.02));border:1px solid rgba(14,164,122,.3);border-radius:10px;padding:1.1rem 1.3rem;margin-top:.5rem}
+.calc-result .cr-val{font-size:1.5rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--teal)}
+.calc-result .cr-lbl{font-size:.78rem;color:var(--textm);margin-top:.2rem}
+
+/* ── EXERCISES ── */
+.ex-item{background:#fff;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:.8rem}
+.ex-hdr{padding:.85rem 1.1rem;background:#f8f9fc;display:flex;align-items:center;gap:.65rem;cursor:pointer;user-select:none}
+.ex-item.open .ex-hdr{border-bottom:1px solid var(--border)}
+.ex-num{background:var(--navy);color:var(--accent);padding:.18rem .5rem;border-radius:4px;font-size:.65rem;font-weight:900;font-family:'JetBrains Mono',monospace}
+.ex-type{font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--textl);font-weight:700;background:var(--border);padding:.13rem .45rem;border-radius:3px}
+.ex-title{font-size:.88rem;font-weight:700;color:var(--navy);flex:1}
+.ex-ch{margin-left:auto;transition:transform .3s;color:var(--textl);font-size:.78rem}
+.ex-item.open .ex-ch{transform:rotate(180deg)}
+.ex-body{padding:1.1rem;display:none}
+.ex-item.open .ex-body{display:block}
+.ex-body p{font-size:.86rem;color:var(--textm);line-height:1.7;margin-bottom:.65rem}
+.ex-hint{background:rgba(240,192,64,.09);border:1px solid rgba(240,192,64,.3);border-radius:6px;padding:.65rem .9rem;font-size:.79rem;color:#7a6010;margin-top:.75rem}
+.ex-hint::before{content:'💡 Hint: ';font-weight:800}
+
+/* ── QUIZ ── */
+.quiz-wrap{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.8rem;box-shadow:var(--sh)}
+.qprog{background:var(--border);border-radius:4px;height:5px;overflow:hidden;margin-bottom:1.3rem}
+.qbar{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:4px;transition:width .4s}
+.qq{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:1.1rem;line-height:1.55}
+.qopts{display:grid;gap:.6rem;margin-bottom:.9rem}
+.qopt{display:flex;align-items:flex-start;gap:.7rem;padding:.8rem .95rem;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:#fff;font-size:.86rem;line-height:1.4;text-align:left}
+.qopt:hover{border-color:var(--blue);background:#f0f5ff}
+.qopt.correct{border-color:var(--teal);background:rgba(14,164,122,.08);color:#0a5e45}
+.qopt.wrong{border-color:var(--red);background:rgba(214,48,49,.08);color:#7a1515}
+.qopt.disabled{pointer-events:none}
+.qoptl{width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.qopt.correct .qoptl{background:var(--teal);color:#fff}
+.qopt.wrong .qoptl{background:var(--red);color:#fff}
+.qfb{padding:.85rem;border-radius:8px;font-size:.83rem;margin-bottom:.85rem;display:none}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(14,164,122,.1);border:1px solid rgba(14,164,122,.3);color:#0a5e45}
+.qfb.bad{background:rgba(214,48,49,.1);border:1px solid rgba(214,48,49,.3);color:#7a1515}
+.qnav{display:flex;justify-content:space-between;align-items:center}
+.qsc{font-size:.81rem;color:var(--textl)}
+.btn-a{padding:.58rem 1.3rem;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.86rem;font-weight:700;background:var(--accent);color:var(--navy);transition:all .2s}
+.btn-a:hover{background:#ffd966}
+.btn-a:disabled{opacity:.35;cursor:not-allowed}
+
+/* REFS */
+.ref-i{background:#fff;border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem}
+.ref-n{background:var(--navy);color:var(--accent);width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.ref-t{font-size:.81rem;color:var(--textm);line-height:1.6}
+.ref-t b{color:var(--navy)}
+.rtag{display:inline-block;background:var(--border);color:var(--textl);padding:.08rem .38rem;border-radius:3px;font-size:.61rem;font-weight:700;text-transform:uppercase;margin:.08rem .15rem 0 0}
+.rtag.core{background:rgba(14,164,122,.15);color:var(--teal)}
+
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:2rem 1.5rem;font-size:.79rem;margin-top:2rem}
+footer strong{color:#fff}
+footer a{color:var(--accent);text-decoration:none}
+.footer-rail{height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 30px,transparent 30px,transparent 50px);margin-bottom:1.3rem}
+.wk-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+.wk-nav a{color:var(--blue);font-size:.86rem;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nb" href="../">← Course</a>
+    <span class="ns">|</span>
+    <span class="nc">INS325E</span>
+    <span class="nt">Week 2 — Railway Superstructure</span>
+    <span class="nw">🟢 6 Oct 2026</span>
+  </div>
+</nav>
+
+<div class="wk-hdr">
+  <div class="wk-hdr-inner">
+    <div class="wk-hdr-label">Week 2 · 6 October 2026 · Dr. Mustafa Can Özkan</div>
+    <h1>Railway Superstructure<br>Elements &amp; Materials</h1>
+    <p>Everything between the wheel and the ground — rails, sleepers, fasteners, and ballast. How a 500-tonne train is supported by crushed stone, steel, and engineering precision.</p>
+    <div class="wk-chips">
+      <span class="wk-chip">🎮 Interactive Cross-Section</span>
+      <span class="wk-chip">📖 Lecture Notes</span>
+      <span class="wk-chip">📊 TCDD Data</span>
+      <span class="wk-chip">🧮 Load Calculator</span>
+      <span class="wk-chip">✏️ 5 Exercises</span>
+      <span class="wk-chip">🧩 10-Question Quiz</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<div class="tab-nav">
+  <button class="tb on" onclick="ST(this,'t-visual')">🎮 Interactive</button>
+  <button class="tb" onclick="ST(this,'t-notes')">📖 Lecture Notes</button>
+  <button class="tb" onclick="ST(this,'t-data')">📊 Data</button>
+  <button class="tb" onclick="ST(this,'t-exercises')">✏️ Exercises</button>
+  <button class="tb" onclick="ST(this,'t-quiz')">🧩 Quiz</button>
+  <button class="tb" onclick="ST(this,'t-refs')">📚 References</button>
+</div>
+<div class="tab-wrap">
+
+<!-- ══ INTERACTIVE TAB (first/default) ══ -->
+<div id="t-visual" class="tab-panel on">
+
+  <!-- FUN FACTS ROW -->
+  <div class="fun-facts" style="margin-bottom:1.5rem">
+    <div class="ff" style="border-color:rgba(30,64,128,.25);background:linear-gradient(135deg,rgba(30,64,128,.04),rgba(30,64,128,.1))">
+      <div class="ff-icon">⚖️</div>
+      <span class="ff-num" style="color:var(--blue)">60 kg/m</span>
+      <div class="ff-label">Weight of a UIC 60 rail<br>the most common worldwide</div>
+    </div>
+    <div class="ff" style="border-color:rgba(14,164,122,.25);background:linear-gradient(135deg,rgba(14,164,122,.04),rgba(14,164,122,.1))">
+      <div class="ff-icon">📏</div>
+      <span class="ff-num" style="color:var(--teal)">600 mm</span>
+      <div class="ff-label">Typical sleeper spacing<br>~1,666 sleepers per km</div>
+    </div>
+    <div class="ff" style="border-color:rgba(214,48,49,.25);background:linear-gradient(135deg,rgba(214,48,49,.04),rgba(214,48,49,.1))">
+      <div class="ff-icon">🏋️</div>
+      <span class="ff-num" style="color:var(--red)">300 kg</span>
+      <div class="ff-label">Weight of one concrete sleeper<br>3× heavier than wooden</div>
+    </div>
+    <div class="ff" style="border-color:rgba(240,192,64,.45);background:linear-gradient(135deg,rgba(240,192,64,.06),rgba(240,192,64,.14))">
+      <div class="ff-icon">🪨</div>
+      <span class="ff-num" style="color:#806800">1,200 t</span>
+      <div class="ff-label">Ballast per km of track<br>~30 cm layer depth</div>
+    </div>
+    <div class="ff" style="border-color:rgba(142,68,173,.25);background:linear-gradient(135deg,rgba(142,68,173,.04),rgba(142,68,173,.1))">
+      <div class="ff-icon">🔗</div>
+      <span class="ff-num" style="color:var(--purple)">120 km/h</span>
+      <div class="ff-label">Max speed on jointed track<br>CWR (welded) enables 300+ km/h</div>
+    </div>
+    <div class="ff" style="border-color:rgba(225,112,85,.25);background:linear-gradient(135deg,rgba(225,112,85,.04),rgba(225,112,85,.1))">
+      <div class="ff-icon">🌡️</div>
+      <span class="ff-num" style="color:var(--orange)">±60°C</span>
+      <div class="ff-label">Temperature range rails must handle<br>12 mm expansion per 100 m / 50°C</div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CROSS SECTION -->
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>🎮 Interactive Track Cross-Section — Click any layer</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:1rem">Click or tap a layer to learn what it does, what it's made of, and why it matters. This is what you're looking at every time you stand on a railway platform.</p>
+
+    <div id="track-diagram-wrap">
+      <!-- VIEW LABEL -->
+      <div style="text-align:center;margin-bottom:.6rem;font-size:.75rem;font-weight:700;color:#5a7090;letter-spacing:.06em;text-transform:uppercase">Cross-section view — looking along the track direction →</div>
+
+      <svg id="track-svg" viewBox="0 0 720 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="subgradeGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8B7355"/><stop offset="100%" stop-color="#5a4430"/>
+          </linearGradient>
+          <linearGradient id="subballastGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c4b48e"/><stop offset="100%" stop-color="#a09070"/>
+          </linearGradient>
+          <linearGradient id="ballastGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a2a4a6"/><stop offset="100%" stop-color="#7a7c7e"/>
+          </linearGradient>
+          <linearGradient id="sleeperGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d0c0a0"/><stop offset="100%" stop-color="#b0a080"/>
+          </linearGradient>
+          <linearGradient id="railGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#6a6a6a"/><stop offset="50%" stop-color="#aaaaaa"/><stop offset="100%" stop-color="#6a6a6a"/>
+          </linearGradient>
+          <linearGradient id="wheelGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a5568"/><stop offset="100%" stop-color="#2d3748"/>
+          </linearGradient>
+          <pattern id="bPat" x="0" y="0" width="22" height="15" patternUnits="userSpaceOnUse">
+            <ellipse cx="5"  cy="8"  rx="5"  ry="3.5" fill="#888" opacity=".7"/>
+            <ellipse cx="16" cy="5"  rx="4"  ry="2.5" fill="#777" opacity=".6"/>
+            <ellipse cx="13" cy="12" rx="4.5" ry="3"  fill="#999" opacity=".5"/>
+            <ellipse cx="2"  cy="3"  rx="2"  ry="1.5" fill="#aaa" opacity=".4"/>
+          </pattern>
+          <pattern id="sbPat" x="0" y="0" width="18" height="11" patternUnits="userSpaceOnUse">
+            <ellipse cx="4"  cy="5.5" rx="3.5" ry="2.2" fill="#b8a878" opacity=".55"/>
+            <ellipse cx="13" cy="3"   rx="3"   ry="1.8" fill="#a09060" opacity=".5"/>
+            <ellipse cx="10" cy="9"   rx="3.5" ry="2"   fill="#c0b080" opacity=".45"/>
+          </pattern>
+          <pattern id="sgPat" x="0" y="0" width="26" height="16" patternUnits="userSpaceOnUse">
+            <circle cx="6"  cy="8"  r="2.5" fill="#7a6548" opacity=".45"/>
+            <circle cx="18" cy="4"  r="2"   fill="#6a5538" opacity=".35"/>
+            <circle cx="14" cy="13" r="3"   fill="#8a7558" opacity=".35"/>
+            <circle cx="2"  cy="13" r="1.5" fill="#7a6548" opacity=".3"/>
+          </pattern>
+        </defs>
+
+        <!-- ══ SUBGRADE ══ -->
+        <rect id="ly-subgrade" x="0" y="415" width="720" height="85" fill="url(#sgPat)" class="track-layer" data-layer="subgrade" style="cursor:pointer"/>
+        <rect x="0" y="415" width="720" height="85" fill="url(#subgradeGrad)" opacity=".6" class="track-layer" data-layer="subgrade" style="cursor:pointer"/>
+        <text x="360" y="458" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="rgba(255,255,255,.75)" pointer-events="none">SUBGRADE — Formation / Ground</text>
+        <!-- dim line right -->
+        <line x1="680" y1="415" x2="680" y2="500" stroke="#8896a7" stroke-width="1"/>
+        <line x1="676" y1="415" x2="684" y2="415" stroke="#8896a7" stroke-width="1"/>
+        <line x1="676" y1="500" x2="684" y2="500" stroke="#8896a7" stroke-width="1"/>
+
+        <!-- ══ SUB-BALLAST ══ -->
+        <rect id="ly-subballast" x="55" y="373" width="610" height="42" fill="url(#sbPat)" class="track-layer" data-layer="subballast" style="cursor:pointer"/>
+        <rect x="55" y="373" width="610" height="42" fill="url(#subballastGrad)" opacity=".55" class="track-layer" data-layer="subballast" style="cursor:pointer"/>
+        <text x="360" y="399" text-anchor="middle" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="rgba(255,255,255,.85)" pointer-events="none">SUB-BALLAST — gravel, 15 cm</text>
+        <line x1="680" y1="373" x2="680" y2="415" stroke="#8896a7" stroke-width="1"/>
+        <line x1="676" y1="373" x2="684" y2="373" stroke="#8896a7" stroke-width="1"/>
+        <text x="690" y="397" font-family="Inter,sans-serif" font-size="10" fill="#8896a7">15 cm</text>
+
+        <!-- ══ BALLAST (trapezoid with shoulders) ══ -->
+        <!-- Main ballast body -->
+        <polygon id="ly-ballast" points="55,373 665,373 640,270 80,270" fill="url(#bPat)" class="track-layer" data-layer="ballast" style="cursor:pointer"/>
+        <polygon points="55,373 665,373 640,270 80,270" fill="url(#ballastGrad)" opacity=".45" class="track-layer" data-layer="ballast" style="cursor:pointer"/>
+        <!-- Ballast shoulders extending beyond sleeper ends -->
+        <polygon points="80,270 640,270 630,252 90,252" fill="url(#bPat)" opacity=".9" class="track-layer" data-layer="ballast" style="cursor:pointer"/>
+        <polygon points="80,270 640,270 630,252 90,252" fill="url(#ballastGrad)" opacity=".3" class="track-layer" data-layer="ballast" style="cursor:pointer"/>
+        <text x="360" y="338" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,.9)" pointer-events="none">BALLAST — crushed granite / limestone</text>
+        <line x1="680" y1="270" x2="680" y2="373" stroke="#8896a7" stroke-width="1"/>
+        <line x1="676" y1="270" x2="684" y2="270" stroke="#8896a7" stroke-width="1"/>
+        <text x="690" y="325" font-family="Inter,sans-serif" font-size="10" fill="#8896a7">~30 cm</text>
+
+        <!-- ══ SLEEPER — one full-width sleeper spanning both rails ══ -->
+        <!-- The sleeper runs LEFT to RIGHT across the full track width -->
+        <!-- Concrete monoblock sleeper: 2.6 m long, 0.3 m wide, 0.22 m deep -->
+        <rect id="ly-sleeper" x="90" y="250" width="540" height="30" rx="4"
+              fill="url(#sleeperGrad)" stroke="#9a8870" stroke-width="1.5"
+              class="track-layer" data-layer="sleeper" style="cursor:pointer"/>
+        <!-- Sleeper surface texture lines (grain / texture) -->
+        <line x1="100" y1="256" x2="620" y2="256" stroke="rgba(0,0,0,.07)" stroke-width="1" pointer-events="none"/>
+        <line x1="100" y1="262" x2="620" y2="262" stroke="rgba(0,0,0,.07)" stroke-width="1" pointer-events="none"/>
+        <line x1="100" y1="270" x2="620" y2="270" stroke="rgba(0,0,0,.07)" stroke-width="1" pointer-events="none"/>
+        <!-- Rail seat shoulders cast into concrete sleeper -->
+        <rect x="192" y="246" width="52" height="8" rx="2" fill="#bfb090" stroke="#a09070" stroke-width="1" pointer-events="none"/>
+        <rect x="476" y="246" width="52" height="8" rx="2" fill="#bfb090" stroke="#a09070" stroke-width="1" pointer-events="none"/>
+        <text x="360" y="269" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" font-weight="700" fill="#6a5530" pointer-events="none">SLEEPER (concrete monoblock, 2.6 m × 0.28 m)</text>
+        <!-- Sleeper length arrow -->
+        <line x1="90"  y1="235" x2="630" y2="235" stroke="#9a8060" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <line x1="90"  y1="231" x2="90"  y2="239" stroke="#9a8060" stroke-width="1.2"/>
+        <line x1="630" y1="231" x2="630" y2="239" stroke="#9a8060" stroke-width="1.2"/>
+        <text x="360" y="230" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#9a8060">2,600 mm</text>
+
+        <!-- ══ RAIL PADS (green rubber under rail base) ══ -->
+        <rect x="200" y="242" width="36" height="8" rx="2" fill="#2d8a4e" opacity=".85"
+              class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+        <rect x="484" y="242" width="36" height="8" rx="2" fill="#2d8a4e" opacity=".85"
+              class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+
+        <!-- ══ ELASTIC CLIPS (Pandrol style, both sides of each rail) ══ -->
+        <!-- Left rail, left clip -->
+        <path d="M196,242 C190,232 186,222 192,216 C196,212 202,214 204,220 L206,230 C202,232 198,236 196,242Z"
+              fill="#c0392b" class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+        <!-- Left rail, right clip -->
+        <path d="M240,242 C246,232 250,222 244,216 C240,212 234,214 232,220 L230,230 C234,232 238,236 240,242Z"
+              fill="#c0392b" class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+        <!-- Right rail, left clip -->
+        <path d="M480,242 C474,232 470,222 476,216 C480,212 486,214 488,220 L490,230 C486,232 482,236 480,242Z"
+              fill="#c0392b" class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+        <!-- Right rail, right clip -->
+        <path d="M524,242 C530,232 534,222 528,216 C524,212 518,214 516,220 L514,230 C518,232 522,236 524,242Z"
+              fill="#c0392b" class="track-layer" data-layer="fastener" style="cursor:pointer"/>
+
+        <!-- ══ RAILS (UIC 60 I-section end face, inclined 1:20 inward) ══ -->
+        <!-- LEFT RAIL — I-beam cross-section centred at x=218 -->
+        <!-- Rail base flange (wide) -->
+        <g id="ly-rail-l" class="track-layer" data-layer="rail" style="cursor:pointer">
+          <rect x="200" y="200" width="36" height="42" rx="0" fill="#888" stroke="#555" stroke-width=".5"/>
+          <!-- Base flange -->
+          <rect x="200" y="234" width="36" height="8" rx="1" fill="url(#railGrad)"/>
+          <!-- Web (thin vertical plate) -->
+          <rect x="214" y="172" width="8"  height="64" fill="#777"/>
+          <!-- Head (wider than web, smaller than base) -->
+          <rect x="208" y="162" width="20" height="14" rx="2" fill="url(#railGrad)"/>
+          <!-- Running surface highlight -->
+          <rect x="210" y="160" width="16" height="5" rx="1" fill="#ccc"/>
+          <!-- Rail inclination indicator (1/20 tilt — subtle) -->
+          <line x1="218" y1="160" x2="218" y2="242" stroke="rgba(255,255,255,.25)" stroke-width="1" stroke-dasharray="2,2"/>
+        </g>
+
+        <!-- RIGHT RAIL — mirror at x=502 -->
+        <g id="ly-rail-r" class="track-layer" data-layer="rail" style="cursor:pointer">
+          <rect x="484" y="200" width="36" height="42" rx="0" fill="#888" stroke="#555" stroke-width=".5"/>
+          <rect x="484" y="234" width="36" height="8" rx="1" fill="url(#railGrad)"/>
+          <rect x="498" y="172" width="8"  height="64" fill="#777"/>
+          <rect x="492" y="162" width="20" height="14" rx="2" fill="url(#railGrad)"/>
+          <rect x="494" y="160" width="16" height="5"  rx="1" fill="#ccc"/>
+          <line x1="502" y1="160" x2="502" y2="242" stroke="rgba(255,255,255,.25)" stroke-width="1" stroke-dasharray="2,2"/>
+        </g>
+
+        <!-- ══ WHEEL PAIR (front faces, sitting on top of rails) ══ -->
+        <!-- Left wheel — disc face visible in cross-section -->
+        <g class="track-layer" data-layer="rail">
+          <!-- Wheel disc -->
+          <ellipse cx="218" cy="115" rx="52" ry="52" fill="url(#wheelGrad)" stroke="#1a252f" stroke-width="2"/>
+          <ellipse cx="218" cy="115" rx="38" ry="38" fill="#3d4f63"/>
+          <ellipse cx="218" cy="115" rx="14" ry="14" fill="#2d3748"/>
+          <ellipse cx="218" cy="115" rx="5"  ry="5"  fill="#4a5568"/>
+          <!-- Wheel spokes -->
+          <line x1="218" y1="78"  x2="218" y2="101" stroke="#4a5568" stroke-width="3"/>
+          <line x1="218" y1="129" x2="218" y2="152" stroke="#4a5568" stroke-width="3"/>
+          <line x1="181" y1="115" x2="204" y2="115" stroke="#4a5568" stroke-width="3"/>
+          <line x1="232" y1="115" x2="255" y2="115" stroke="#4a5568" stroke-width="3"/>
+          <!-- Tyre (outer ring — harder steel) -->
+          <ellipse cx="218" cy="115" rx="52" ry="52" fill="none" stroke="#555" stroke-width="6"/>
+          <!-- Flange (protrudes below tyre, grips inner rail face) -->
+          <ellipse cx="218" cy="165" rx="16" ry="6" fill="#1a252f"/>
+          <!-- Flange touching inner rail face — shown with arrow -->
+          <line x1="202" y1="165" x2="232" y2="165" stroke="#f0c040" stroke-width="1" stroke-dasharray="3,2"/>
+        </g>
+
+        <!-- Right wheel -->
+        <g class="track-layer" data-layer="rail">
+          <ellipse cx="502" cy="115" rx="52" ry="52" fill="url(#wheelGrad)" stroke="#1a252f" stroke-width="2"/>
+          <ellipse cx="502" cy="115" rx="38" ry="38" fill="#3d4f63"/>
+          <ellipse cx="502" cy="115" rx="14" ry="14" fill="#2d3748"/>
+          <ellipse cx="502" cy="115" rx="5"  ry="5"  fill="#4a5568"/>
+          <line x1="502" y1="78"  x2="502" y2="101" stroke="#4a5568" stroke-width="3"/>
+          <line x1="502" y1="129" x2="502" y2="152" stroke="#4a5568" stroke-width="3"/>
+          <line x1="465" y1="115" x2="488" y2="115" stroke="#4a5568" stroke-width="3"/>
+          <line x1="516" y1="115" x2="539" y2="115" stroke="#4a5568" stroke-width="3"/>
+          <ellipse cx="502" cy="115" rx="52" ry="52" fill="none" stroke="#555" stroke-width="6"/>
+          <ellipse cx="502" cy="165" rx="16" ry="6"  fill="#1a252f"/>
+          <line x1="486" y1="165" x2="518" y2="165" stroke="#f0c040" stroke-width="1" stroke-dasharray="3,2"/>
+        </g>
+
+        <!-- ══ AXLE connecting both wheels ══ -->
+        <rect x="270" y="108" width="180" height="14" rx="7" fill="#2d3748"/>
+        <rect x="270" y="110" width="180" height="4" rx="2" fill="#4a5568" opacity=".5"/>
+
+        <!-- ══ GAUGE DIMENSION ══ -->
+        <line x1="234" y1="162" x2="486" y2="162" stroke="#f0c040" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <line x1="234" y1="157" x2="234" y2="167" stroke="#f0c040" stroke-width="2"/>
+        <line x1="486" y1="157" x2="486" y2="167" stroke="#f0c040" stroke-width="2"/>
+        <rect x="315" y="151" width="90" height="16" rx="4" fill="rgba(0,0,0,.45)"/>
+        <text x="360" y="163" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10.5" fill="#f0c040" font-weight="700">1,435 mm</text>
+
+        <!-- ══ CALLOUT LABELS ══ -->
+        <!-- Rail label left -->
+        <line x1="200" y1="190" x2="155" y2="175" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="148" y="173" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#555" font-weight="700">Rail (UIC 60)</text>
+        <!-- Wheel label left -->
+        <line x1="170" y1="115" x2="130" y2="100" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="124" y="98" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#555" font-weight="700">Wheel</text>
+        <!-- Flange label -->
+        <line x1="202" y1="168" x2="155" y2="185" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="148" y="189" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#555" font-weight="700">Flange</text>
+        <!-- Axle label -->
+        <line x1="360" y1="108" x2="360" y2="88" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="360" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#555" font-weight="700">Axle</text>
+        <!-- Clip label right -->
+        <line x1="534" y1="228" x2="575" y2="215" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="580" y="213" font-family="Inter,sans-serif" font-size="10" fill="#c0392b" font-weight="700">Elastic clip</text>
+        <!-- Rail pad label right -->
+        <line x1="520" y1="246" x2="575" y2="246" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="580" y="250" font-family="Inter,sans-serif" font-size="10" fill="#2d8a4e" font-weight="700">Rail pad</text>
+        <!-- Sleeper label right -->
+        <line x1="630" y1="264" x2="668" y2="264" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="672" y="268" font-family="Inter,sans-serif" font-size="10" fill="#7a6030" font-weight="700">Sleeper</text>
+        <!-- Ballast label left -->
+        <line x1="100" y1="310" x2="55" y2="310" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="50" y="314" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#666" font-weight="700">Ballast</text>
+        <!-- Sub-ballast label left -->
+        <line x1="80" y1="394" x2="45" y2="394" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="40" y="398" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#806830" font-weight="700">Sub-ballast</text>
+        <!-- Subgrade label left -->
+        <line x1="55" y1="448" x2="30" y2="448" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="25" y="452" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#6a5030" font-weight="700">Subgrade</text>
+
+        <!-- ══ INVISIBLE CLICK REGIONS covering full component area ══ -->
+        <!-- Rail highlights -->
+        <rect id="hl-rail" x="196" y="156" width="44" height="92" rx="3" fill="none" stroke="#f0c040" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+        <rect x="480" y="156" width="44" height="92" rx="3" fill="none" stroke="#f0c040" stroke-width="2.5" stroke-dasharray="6,3" class="hl-rail-r" opacity="0" pointer-events="none"/>
+        <!-- Fastener highlight -->
+        <rect id="hl-fastener" x="187" y="212" width="62" height="38" rx="3" fill="none" stroke="#0ea47a" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+        <rect x="471" y="212" width="62" height="38" rx="3" fill="none" stroke="#0ea47a" stroke-width="2.5" stroke-dasharray="6,3" class="hl-fastener-r" opacity="0" pointer-events="none"/>
+        <!-- Sleeper highlight -->
+        <rect id="hl-sleeper" x="87" y="244" width="546" height="38" rx="4" fill="none" stroke="#8e44ad" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+        <!-- Ballast highlight -->
+        <polygon id="hl-ballast" points="52,374 668,374 643,248 77,248" fill="none" stroke="#e8b84b" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+        <!-- Sub-ballast highlight -->
+        <rect id="hl-subballast" x="52" y="370" width="616" height="46" rx="3" fill="none" stroke="#b8a882" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+        <!-- Subgrade highlight -->
+        <rect id="hl-subgrade" x="0" y="412" width="720" height="88" rx="0" fill="none" stroke="#8B7355" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+      </svg>
+
+      <div class="layer-btn-row">
+        <button class="lbtn" onclick="showLayer('rail')">🔩 Rail</button>
+        <button class="lbtn" onclick="showLayer('fastener')">🔗 Fasteners</button>
+        <button class="lbtn" onclick="showLayer('sleeper')">🪵 Sleepers</button>
+        <button class="lbtn" onclick="showLayer('ballast')">🪨 Ballast</button>
+        <button class="lbtn" onclick="showLayer('subballast')">🏗️ Sub-Ballast</button>
+        <button class="lbtn" onclick="showLayer('subgrade')">🌍 Subgrade</button>
+      </div>
+    </div>
+
+    <div id="layer-info" class="layer-info">
+      <div class="layer-hint">👆 Click any layer on the diagram above, or use the buttons — to learn what it does and what it is made of.</div>
+    </div>
+  </div>
+
+  <!-- RAIL PROFILE EXPLORER -->
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>🔩 Rail Profile Explorer</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:.8rem">The shape of the rail cross-section evolved over 200 years. Click each profile to understand its story.</p>
+    <div class="rail-profiles">
+      <div class="rp-card on" onclick="showProfile(this,'flat')">
+        <svg viewBox="0 0 80 100" width="70" height="88">
+          <!-- Vignoles/flat bottom -->
+          <rect x="5" y="80" width="70" height="10" rx="2" fill="#555"/>
+          <rect x="28" y="30" width="24" height="50" fill="#4a4a4a"/>
+          <rect x="18" y="20" width="44" height="14" rx="3" fill="#666"/>
+          <rect x="22" y="14" width="36" height="8" rx="2" fill="#888"/>
+        </svg>
+        <div class="rp-name">Flat Bottom (Vignoles)</div>
+        <div class="rp-desc">Dominant worldwide — UIC 46–60 kg/m</div>
+      </div>
+      <div class="rp-card" onclick="showProfile(this,'double')">
+        <svg viewBox="0 0 80 100" width="70" height="88">
+          <!-- Double-headed -->
+          <rect x="18" y="10" width="44" height="14" rx="3" fill="#666"/>
+          <rect x="22" y="24" width="36" height="6" rx="1" fill="#888"/>
+          <rect x="28" y="30" width="24" height="40" fill="#4a4a4a"/>
+          <rect x="18" y="76" width="44" height="14" rx="3" fill="#666"/>
+          <rect x="22" y="70" width="36" height="6" rx="1" fill="#888"/>
+        </svg>
+        <div class="rp-name">Double-Headed</div>
+        <div class="rp-desc">Historical — Britain ~1830s–1900s</div>
+      </div>
+      <div class="rp-card" onclick="showProfile(this,'grooved')">
+        <svg viewBox="0 0 80 100" width="70" height="88">
+          <!-- Grooved rail -->
+          <rect x="5" y="75" width="70" height="12" rx="2" fill="#555"/>
+          <rect x="25" y="25" width="20" height="50" fill="#4a4a4a"/>
+          <rect x="10" y="14" width="60" height="14" rx="3" fill="#666"/>
+          <!-- groove -->
+          <rect x="52" y="14" width="10" height="14" rx="1" fill="#999"/>
+          <rect x="22" y="8" width="40" height="8" rx="2" fill="#888"/>
+        </svg>
+        <div class="rp-name">Grooved Rail</div>
+        <div class="rp-desc">Trams &amp; urban light rail — flush with road</div>
+      </div>
+    </div>
+    <div id="profile-info" class="rp-info show">
+      <b style="color:var(--navy)">Flat Bottom / Vignoles Rail (UIC standard)</b><br>
+      Introduced to Britain by Charles Vignoles in the 1830s, this became the global standard. The wide flat base allows direct spiking or elastic clipping to the sleeper without needing a chair. The asymmetric I-section — heavy head, slender web, broad foot — optimises bending resistance while minimising material. The most common rail today is the <strong>UIC 60 (60.34 kg/m)</strong>, used on all TCDD main lines and most European HSR. Rails are produced in lengths up to 120 m (from rolling mills) and then welded into Continuously Welded Rail (CWR) strings of several km. <em>Fun fact: a 1 km UIC 60 rail weighs 60 tonnes — the same as 10 African elephants.</em>
+    </div>
+  </div>
+
+  <!-- BALLAST LOAD CALCULATOR -->
+  <div class="card">
+    <h3>🧮 Track Load Distribution Calculator</h3>
+    <p style="font-size:.86rem;color:var(--textm);margin-bottom:1rem">One of the ballast layer's jobs is to spread the concentrated axle load over a large area before it reaches the subgrade. See how pressure drops through the layers.</p>
+    <div class="calc-grid">
+      <div>
+        <label class="calc-lbl">Axle load (tonnes):</label>
+        <input class="calc-inp" type="number" id="cl-axle" value="22.5" step="0.5" min="10" max="35" oninput="calcLoad()">
+        <div style="font-size:.73rem;color:var(--textl);margin-top:.3rem">TCDD max: 22.5 t · Heavy freight: up to 32.5 t</div>
+      </div>
+      <div>
+        <label class="calc-lbl">Ballast layer thickness (cm):</label>
+        <input class="calc-inp" type="number" id="cl-ballast" value="30" step="5" min="15" max="60" oninput="calcLoad()">
+        <div style="font-size:.73rem;color:var(--textl);margin-top:.3rem">Typical: 25–35 cm · HSR: up to 45 cm</div>
+      </div>
+      <div>
+        <label class="calc-lbl">Sleeper contact area (cm²):</label>
+        <input class="calc-inp" type="number" id="cl-area" value="4500" step="100" oninput="calcLoad()">
+        <div style="font-size:.73rem;color:var(--textl);margin-top:.3rem">Concrete sleeper ~4,500 cm² · Wood ~3,900 cm²</div>
+      </div>
+      <div>
+        <label class="calc-lbl">Sleepers per metre:</label>
+        <input class="calc-inp" type="number" id="cl-spm" value="1.67" step="0.1" min="1" max="3" oninput="calcLoad()">
+        <div style="font-size:.73rem;color:var(--textl);margin-top:.3rem">Standard: 1.67/m (600 mm spacing)</div>
+      </div>
+    </div>
+    <div class="calc-result" id="calc-result">
+      <div id="calc-out"></div>
+    </div>
+  </div>
+
+</div><!-- end t-visual -->
+
+<!-- ══ LECTURE NOTES ══ -->
+<div id="t-notes" class="tab-panel">
+
+  <div class="card">
+    <h3>Part 1 — Track Classification</h3>
+    <p>Railway track can be classified in two major ways, both critical to understanding performance and maintenance.</p>
+    <div class="two-col">
+      <div style="background:linear-gradient(135deg,rgba(30,64,128,.05),rgba(30,64,128,.1));border-radius:10px;padding:1.2rem;border:2px solid rgba(30,64,128,.15)">
+        <div style="font-weight:800;color:var(--navy);margin-bottom:.6rem;font-size:.95rem">🪨 Ballasted Track</div>
+        <p style="font-size:.84rem">The classical solution: rail → fastener → sleeper → ballast → sub-ballast → subgrade. Used on ~95% of the world's railway network. Economical, maintainable, resilient. Can be realigned and adjusted throughout its life.</p>
+        <div class="ibox" style="margin:.6rem 0"><strong>Best for:</strong> Most mainline, freight, and conventional passenger routes</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(214,48,49,.04),rgba(214,48,49,.08));border-radius:10px;padding:1.2rem;border:2px solid rgba(214,48,49,.15)">
+        <div style="font-weight:800;color:var(--navy);margin-bottom:.6rem;font-size:.95rem">🏗️ Slab Track (Ballastless)</div>
+        <p style="font-size:.84rem">Rail fastened to a continuous concrete slab. No ballast, no sleepers in the conventional sense. Higher initial cost (2–3× ballasted), lower maintenance. Cannot be realigned — the slab is permanent.</p>
+        <div class="ibox" style="margin:.6rem 0"><strong>Best for:</strong> Tunnels, bridges, HSR &gt;250 km/h, high-frequency metro lines</div>
+      </div>
+    </div>
+    <div class="abox"><strong>Why does it matter which you choose?</strong> A 1 km ballasted track costs roughly €1–2M. The same in slab track: €3–5M. But slab track maintenance over 60 years costs almost nothing compared to ballasted (which needs tamping every 2–5 years). For a tunnel (excavation dominates cost, tamping is extremely difficult), slab track wins clearly. For a rural freight line: ballasted wins on capital cost.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 2 — Rails: The Heart of the Track</h3>
+    <p>The rail performs three simultaneous functions: it provides a smooth rolling surface for the wheel, guides the wheel laterally (the wheel flange presses against the inner rail face), and carries the bending moment from axle load to the sleepers. Getting the cross-section geometry right is a structural engineering problem that took 200 years to optimise.</p>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .5rem;font-size:.92rem">Rail steel — from cast iron to hypereutectoid</h4>
+    <p>Early rails were cast iron — brittle, failed catastrophically under impact. The shift to <strong>wrought iron</strong>, then <strong>Bessemer steel</strong> (1860s), then <strong>open-hearth steel</strong>, then modern <strong>continuously cast rail steel</strong> tracks the industrial revolution. Modern rails are typically R260 or R350HT grade (UIC standard) — pearlitic steel with 0.6–0.8% carbon content, heat-treated for surface hardness in the head while keeping the web and foot tougher.</p>
+
+    <table>
+      <thead><tr><th>Rail Grade (UIC)</th><th>Hardness (HBW)</th><th>Tensile Strength</th><th>Best Use</th></tr></thead>
+      <tbody>
+        <tr><td>R200</td><td>200–240</td><td>680 MPa</td><td>Lightly used conventional lines</td></tr>
+        <tr><td class="td-hi">R260 (standard)</td><td>260–300</td><td>880 MPa</td><td>Most mainline passenger &amp; freight</td></tr>
+        <tr><td>R350HT</td><td>350–390</td><td>1,175 MPa</td><td>High-speed, heavy haul, tight curves</td></tr>
+        <tr><td>R400HT</td><td>400+</td><td>1,280 MPa</td><td>Heavy haul freight (32.5 t axle loads)</td></tr>
+      </tbody>
+    </table>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .5rem;font-size:.92rem">Common rail sizes on TCDD</h4>
+    <table>
+      <thead><tr><th>Profile</th><th>Weight (kg/m)</th><th>Head width (mm)</th><th>Height (mm)</th><th>Application</th></tr></thead>
+      <tbody>
+        <tr><td>UIC 46</td><td>46.0</td><td>65</td><td>140</td><td>Secondary and branch lines</td></tr>
+        <tr><td class="td-hi">UIC 54</td><td>54.4</td><td>70</td><td>154</td><td>Conventional mainline (existing TCDD)</td></tr>
+        <tr><td class="td-hi">UIC 60</td><td>60.3</td><td>72</td><td>172</td><td>New lines, HSR, heavy traffic</td></tr>
+      </tbody>
+    </table>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .5rem;font-size:.92rem">Jointed vs Continuously Welded Rail (CWR)</h4>
+    <p>Traditional jointed track connects rails with <strong>fishplate bolts</strong> every 12–18 m. Every joint is a structural weak point: impact load, noise ("clickety-clack"), vibration, wear. CWR (also called long-welded rail) eliminates joints using <strong>thermite welding</strong> (aluminium powder + iron oxide, burning at 2,500°C) or <strong>flash-butt welding</strong>. The result: strings of welded rail up to several km long.</p>
+    <div class="wbox"><strong>The thermal problem:</strong> Steel expands ~12 mm per 100 m per 10°C temperature rise. CWR is stressed in tension in winter and compression in summer. It is laid ("stress-neutralised") at a reference temperature so that stresses remain within limits at both extremes. If the compressive stress is too high in summer, the track can <em>buckle</em> — a sudden lateral deflection that derails trains. This is why CWR geometry is inspected intensively after heatwaves.</div>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .5rem;font-size:.92rem">Expansion joints</h4>
+    <p>Where true CWR is impossible (e.g. at bridge abutments, level crossings), <strong>expansion joints</strong> are inserted. These allow controlled longitudinal movement with a slotted rail head and tapered joint face. They are a maintenance liability — the one point that will always need attention.</p>
+  </div>
+
+  <div class="card">
+    <h3>Part 3 — Sleepers (Crossties)</h3>
+    <p>The sleeper serves three purposes simultaneously: supports the rail and distributes load to the ballast; maintains the track gauge; and anchors the track against longitudinal and lateral movement.</p>
+    <div class="abox"><strong>Why 600 mm spacing?</strong> Sleeper spacing balances bending moment in the rail (closer = smaller bending), ballast bearing pressure (wider = higher pressure), material cost, and tamping effectiveness. 600 mm (±50 mm) is the international standard for main lines. Some HSR tracks use 500–550 mm spacing.</div>
+
+    <table>
+      <thead><tr><th>Type</th><th>Material</th><th>Weight</th><th>Lifespan</th><th>Cost (relative)</th><th>Key advantage</th><th>Key issue</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="td-hi">Wooden</td><td>Hardwood (oak, beech, jarrah)</td><td>~100 kg</td><td>20–35 yr</td><td>Medium</td>
+          <td class="pro">Natural elasticity, easy to work</td>
+          <td class="con">Deforestation, chemical treatment (creosote), rot</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Concrete (mono)</td><td>Pre-stressed concrete</td><td>250–300 kg</td><td>40–60 yr</td><td>Low-medium</td>
+          <td class="pro">Long life, stable gauge, no rot</td>
+          <td class="con">Heavy (crane needed), brittle, poor scrap value</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Concrete (twin-block)</td><td>Two concrete blocks + steel bar</td><td>~200 kg</td><td>40–60 yr</td><td>Medium</td>
+          <td class="pro">Better elasticity than mono-block</td>
+          <td class="con">More components, bar corrosion risk</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Steel</td><td>Rolled steel section</td><td>~80 kg</td><td>45–50 yr</td><td>High</td>
+          <td class="pro">Long life, positive scrap value, light</td>
+          <td class="con">Electrical insulation problems, noisy, costly</td>
+        </tr>
+        <tr>
+          <td class="td-hi">Composite/recycled</td><td>Recycled plastic / rubber</td><td>90–130 kg</td><td>50+ yr</td><td>High initial</td>
+          <td class="pro">Low maintenance, chemical resistant, sustainable</td>
+          <td class="con">High cost, limited track record at scale</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Part 4 — Fastening Systems</h3>
+    <p>Fasteners are the least glamorous component — yet they may be the most engineered. A modern elastic fastener (e.g. Pandrol e-Clip, Vossloh W14) must simultaneously: clamp the rail with the correct toe load; allow controlled longitudinal movement; provide electrical isolation between rail and sleeper; dampen high-frequency vibration; maintain a 1/20 (2.86°) rail inclination; and require no maintenance for 30+ years.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="ibox"><strong>Rail inclination 1/20:</strong> Rails are not vertical — they are inclined inward at 1:20 (2.86°). This matches the natural conical profile of railway wheels (~1:20 taper), ensuring the wheel rolls in the centre of the head rather than on the edge. The baseplate or fastener plate provides this inclination. If a rail loses its inclination, wheel-rail contact shifts laterally, accelerating wear and risking instability.</div>
+      </div>
+      <div>
+        <div style="display:grid;gap:.6rem">
+          <div style="background:#f8f9fc;border-radius:8px;padding:.8rem;border-left:3px solid var(--blue)"><b style="font-size:.83rem">Pandrol e-Clip</b><span style="font-size:.77rem;color:var(--textl);display:block;margin-top:.1rem">Most widely used globally. Spring steel clip, no tools needed for installation. Used on most UK, Indian, and many TCDD lines.</span></div>
+          <div style="background:#f8f9fc;border-radius:8px;padding:.8rem;border-left:3px solid var(--blue)"><b style="font-size:.83rem">Vossloh (Skl family)</b><span style="font-size:.77rem;color:var(--textl);display:block;margin-top:.1rem">Standard on most European HSR (DB, SNCF, Renfe). Integrated insulating shoulder avoids separate insulation components.</span></div>
+          <div style="background:#f8f9fc;border-radius:8px;padding:.8rem;border-left:3px solid var(--blue)"><b style="font-size:.83rem">Nabla clip</b><span style="font-size:.77rem;color:var(--textl);display:block;margin-top:.1rem">W-shaped spring clip. Common on concrete sleepers in Eastern Europe including TCDD conventional network.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pbox"><strong>Electrical isolation matters:</strong> Railway signalling uses track circuits — electrical current flows through the rails to detect train presence. If the rail is in direct metal contact with the concrete sleeper (which is grounded via the ballast/soil), the circuit short-circuits and the signalling system cannot detect the train. Every fastener system includes insulating layers (nylon shoulders, rubber pads) to maintain rail-sleeper electrical isolation to &gt;1 kΩ.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 5 — Ballast and Sub-Ballast</h3>
+    <p>Ballast is arguably the most important structural material in classical railway track — and the most misunderstood. It looks like a pile of gravel. It behaves like an engineered granular medium.</p>
+
+    <h4 style="color:var(--navy);margin:.9rem 0 .4rem;font-size:.92rem">What makes good ballast?</h4>
+    <ul style="display:grid;gap:.3rem;margin:.5rem 0 .8rem">
+      <li><strong>Hardness:</strong> Mohs hardness ≥7 — granite, basalt, quartzite preferred. Limestone acceptable for lower-speed lines.</li>
+      <li><strong>Particle shape:</strong> Angular, crushed (not rounded river gravel). Angular particles interlock under load and resist lateral movement. Rounded particles roll — catastrophic for track stability.</li>
+      <li><strong>Particle size:</strong> 25–63 mm typical (UIC standard). Too small: poor drainage, ballast clogs. Too large: poor compaction, rail pad bounces.</li>
+      <li><strong>Strength:</strong> Los Angeles abrasion value ≤20% (how much the stone degrades under repeated impact).</li>
+      <li><strong>Cleanliness:</strong> &lt;1% fines passing 0.5 mm sieve. Dirty ballast loses drainage capacity — water-logged ballast pumps under trains, creating "pumping mud" that rapidly destroys track geometry.</li>
+    </ul>
+
+    <div class="wbox"><strong>Ballast fouling — the main maintenance driver:</strong> Under repeated train loads, ballast particles abrade and fragment, creating fines. Meanwhile, dust, vegetation, and drainage sediment accumulate. When fines content exceeds ~30%, drainage fails and track geometry deteriorates rapidly. Solutions: regular tamping (mechanically re-compacting and re-profiling the ballast), periodic undercutting (removing and cleaning or replacing ballast), or eventually full ballast renewal. A typical mainline tamping cycle: every 2–5 years depending on traffic tonnage.</div>
+
+    <h4 style="color:var(--navy);margin:.9rem 0 .4rem;font-size:.92rem">Sub-ballast layer</h4>
+    <p>Beneath the ballast sits 15–20 cm of graded granular material (sand-gravel mix). Its job is to prevent the angular ballast stones from penetrating into the soft subgrade, act as a capillary break against ground water, provide additional load spreading, and establish the correct cross-fall (3–5%) for drainage. On poor soils, a geotextile fabric is placed between sub-ballast and subgrade to prevent mixing.</p>
+  </div>
+
+  <div class="card">
+    <h3>Part 6 — Track Deterioration</h3>
+    <p>No track is permanent. Understanding how and why track deteriorates is the foundation of maintenance engineering.</p>
+    <table>
+      <thead><tr><th>Defect type</th><th>Mechanism</th><th>Detection method</th><th>Limit (TCDD/UIC)</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">Gauge widening</td><td>Sleeper degradation, fastener wear, rail wear</td><td>Track measurement car, manual gauge</td><td>1,426–1,470 mm acceptable range</td></tr>
+        <tr><td class="td-hi">Rail vertical wear</td><td>Wheel-rail rolling contact → metal loss from head</td><td>Rail profile measurement</td><td>&gt;13 mm wear → renewal needed (UIC 54/60)</td></tr>
+        <tr><td class="td-hi">Lateral rail wear</td><td>Wheel flange contact in curves</td><td>Profile measurement in curves</td><td>Curve-dependent limit</td></tr>
+        <tr><td class="td-hi">Head checks / RCF</td><td>Rolling Contact Fatigue — surface crack initiation</td><td>Ultrasonic inspection, visual</td><td>Crack depth &lt;1 mm → grinding; deeper → renewal</td></tr>
+        <tr><td class="td-hi">Squats / internal cracks</td><td>Sub-surface crack growth from RCF</td><td>Ultrasound (Sperry car, portable)</td><td>Immediate action — derailment risk</td></tr>
+        <tr><td class="td-hi">Ballast fouling</td><td>Fines accumulation → poor drainage</td><td>Ground penetrating radar, sample analysis</td><td>&gt;30% fines content → tamping/renewal</td></tr>
+        <tr><td class="td-hi">Track settlement</td><td>Differential ballast compaction under load</td><td>Track geometry car (longitudinal level)</td><td>Class-dependent; typically &lt;10 mm deviation</td></tr>
+      </tbody>
+    </table>
+    <div class="abox"><strong>Modern defect detection:</strong> Network Rail (UK) operates high-speed track geometry trains at 200 km/h that measure all geometric parameters simultaneously using inertial measurement units, lasers, and cameras. Turkey's TCDD uses similar measurement cars on the HSR network. Ground-penetrating radar can image ballast fouling condition without stopping the train — at speeds up to 100 km/h.</div>
+  </div>
+
+</div><!-- end t-notes -->
+
+<!-- ══ DATA TAB ══ -->
+<div id="t-data" class="tab-panel">
+
+  <div class="fun-facts" style="margin-bottom:1.5rem">
+    <div class="ff"><div class="ff-icon">🇹🇷</div><span class="ff-num" style="color:var(--navy)">9,235 km</span><div class="ff-label">TCDD conventional network<br>(end 2024)</div></div>
+    <div class="ff"><div class="ff-icon">🏗️</div><span class="ff-num" style="color:var(--blue)">~74%</span><div class="ff-label">TCDD track with<br>concrete sleepers (2023)</div></div>
+    <div class="ff"><div class="ff-icon">🔧</div><span class="ff-num" style="color:var(--teal)">UIC 54</span><div class="ff-label">Most common rail profile<br>on existing TCDD lines</div></div>
+    <div class="ff"><div class="ff-icon">🚄</div><span class="ff-num" style="color:var(--red)">UIC 60</span><div class="ff-label">Rail profile on all TCDD<br>HSR lines (new standard)</div></div>
+    <div class="ff"><div class="ff-icon">💰</div><span class="ff-num" style="color:var(--orange)">€1–2M</span><div class="ff-label">Cost per km ballasted track<br>(Europe, 2024 estimate)</div></div>
+    <div class="ff"><div class="ff-icon">🔄</div><span class="ff-num" style="color:var(--purple)">2–5 yr</span><div class="ff-label">Typical tamping cycle<br>on mainline track</div></div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Sleeper Type Distribution — TCDD Network (2019–2023)</h4>
+    <div class="csub">% of total sleepers in use. Concrete monoblock increasingly dominant. Source: TCDD İstatistik Yıllığı 2019–2023.</div>
+    <div class="chart-wrap" style="height:320px"><canvas id="cSleeper"></canvas></div>
+    <div class="ibox" style="margin-top:.8rem"><strong>Trend:</strong> Wooden sleepers are being systematically replaced. Each concrete sleeper lasts 40–60 years vs 20–35 for treated wood, and requires no chemical preservative treatment. The shift is driven by both economics and environmental regulations on creosote use.</div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Rail Profile Weight Comparison — Where Each Size Is Used</h4>
+    <div class="csub">UIC rail profiles by weight class and typical application. Heavier rail = stronger = higher speed and axle loads.</div>
+    <div class="chart-wrap" style="height:240px"><canvas id="cRail"></canvas></div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:1.2rem">
+    <div class="chart-card">
+      <h4>Ballasted vs Slab Track — Cost Comparison</h4>
+      <div class="csub">Indicative lifecycle cost breakdown (relative units). Source: UIC, Network Rail.</div>
+      <div class="chart-wrap" style="height:260px"><canvas id="cSlab"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>Track Deterioration Rate vs Traffic</h4>
+      <div class="csub">How track geometry quality degrades with cumulative traffic (MGT = million gross tonnes). Illustrative curve.</div>
+      <div class="chart-wrap" style="height:260px"><canvas id="cDegrade"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Rail Wear Rate vs Curve Radius</h4>
+    <div class="csub">Tight curves cause dramatically higher lateral rail wear. Why sharp curves drive up maintenance costs. Illustrative relationship based on UIC data.</div>
+    <div class="chart-wrap" style="height:240px"><canvas id="cWear"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ EXERCISES ══ -->
+<div id="t-exercises" class="tab-panel">
+  <div class="card" style="margin-bottom:1.2rem;border-top:4px solid var(--accent)">
+    <h3>Week 2 — Exercises</h3>
+    <div style="background:#f8f9fc;border-radius:10px;padding:1rem 1.2rem;border:1px solid var(--border);font-size:.86rem;color:var(--textm);line-height:1.7">
+      <span style="font-size:1.1rem">📌</span> <strong style="color:var(--navy)">These exercises are entirely optional</strong> — there is no marking, no submission, and no obligation. They are here purely for your own curiosity and to help you think deeper about the material. If you find a question interesting and want to explore it further, you are very welcome to come to the <strong>Friday office hour (13:00–14:30, Room 456)</strong> and we can discuss it together.
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">01</span><span class="ex-type">Conceptual</span><span class="ex-title">Ballasted vs Slab Track — Design Decision</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>A new railway line is being planned with three distinct sections: (A) a 4 km urban tunnel in Istanbul; (B) a 25 km rural viaduct crossing a valley; (C) a 60 km open-country section on flat terrain.</p>
+      <p>For each section, recommend <strong>ballasted track or slab track</strong>, justify your choice using at least two engineering criteria per section, and estimate the relative cost ratio compared to a standard ballasted track baseline.</p>
+      <div class="ex-hint">Think about: access for tamping machines in tunnels; the structural implications of ballast weight on bridge girders; the long maintenance life needed for sections that are difficult to close for maintenance. Look up "ballast weight per metre of track" to quantify the viaduct case.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">02</span><span class="ex-type">Design</span><span class="ex-title">Fastener Selection for a Curve</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>A 300 m radius curve on a mainline carrying 22.5 t axle loads at up to 120 km/h requires a fastener specification. The track uses concrete monoblock sleepers and will pass through a signalled section using track circuits.</p>
+      <p>Specify the fastening system requirements, including: (a) minimum toe load (clamping force) on the rail foot; (b) electrical insulation requirement; (c) whether direct or indirect fastening is preferred and why; (d) rail inclination and how it is achieved; (e) one commercially available fastener type that meets these requirements and briefly justify the choice.</p>
+      <div class="ex-hint">Toe load for mainline: typically 10–18 kN per clip. Electrical insulation: &gt;1 kΩ rail-sleeper. Rail inclination: 1/20 standard for UIC rails. Research Pandrol FastClip, Vossloh W14, or Nabla type online.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">03</span><span class="ex-type">🔬 Research Extension</span><span class="ex-title">Track Maintenance Technology</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <div style="background:rgba(142,68,173,.07);border:1px solid rgba(142,68,173,.2);border-radius:8px;padding:.85rem 1rem;margin-bottom:.8rem;font-size:.85rem;color:var(--textm)">
+        <strong style="color:var(--purple)">🔬 Research Extension</strong> — This is for students who want to go beyond the lecture and explore current research. There is no submission, no marking, and no expectation. If you read a paper and want to talk about it, bring it to the <strong>Friday session (13:00–14:30, Room 456)</strong> — all are welcome.
+      </div>
+      <p>Find ONE peer-reviewed paper or credible technical report (published 2018–2026) on any of the following topics: ballast fouling detection using ground-penetrating radar; predictive maintenance for railway track using machine learning; rolling contact fatigue detection methods; or composite/recycled plastic sleeper performance.</p>
+      <p>Read it and think about: what problem is being addressed? What method did the researchers use? What did they find? What did they say their approach cannot do yet?</p>
+      <div class="ex-hint">Google Scholar: "ballast fouling GPR railway", "railway track RCF detection", "plastic railway sleeper performance", "predictive maintenance rail ML". Good journals: Engineering Structures, Construction and Building Materials, Vehicle System Dynamics, Journal of Rail Transport Planning &amp; Management.</div>
+    </div>
+  </div>
+
+  <div class="wk-nav">
+    <a href="../week01/">← Week 1</a>
+    <span style="font-size:.82rem;color:var(--textl)">Week 3 — Railway Vehicles (13 Oct)</span>
+    <a href="../week03/" style="color:var(--textl);cursor:default">Week 3 → (Coming soon)</a>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="t-quiz" class="tab-panel">
+  <div class="quiz-wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+      <h3 style="font-size:1rem;font-weight:800;color:var(--navy)">🧩 Week 2 — Self-Assessment Quiz</h3>
+      <span class="qsc">Question <span id="qn">1</span> of 10</span>
+    </div>
+    <div class="qprog"><div class="qbar" id="qbar" style="width:10%"></div></div>
+    <div id="qq" class="qq"></div>
+    <div id="qopts" class="qopts"></div>
+    <div id="qfb" class="qfb"></div>
+    <div class="qnav">
+      <span class="qsc">Score: <b id="qscore">0</b> / 10</span>
+      <button class="btn-a" id="qnxt" onclick="qNext()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REFERENCES ══ -->
+<div id="t-refs" class="tab-panel">
+  <div class="card" style="margin-bottom:1rem">
+    <h3>Week 2 — References &amp; Reading</h3>
+  </div>
+  <div class="ref-i"><div class="ref-n">1</div><div class="ref-t"><b><a href="https://link.springer.com/book/10.1007/978-3-031-24030-5" target="_blank" style="color:var(--blue)">Guerrieri, M. (2023).</a></b> Fundamentals of Railway Design. Springer. <span class="rtag core">CORE</span><br>Chapters 3–4: Track structure, rail profiles, sleepers, fasteners, ballast. Primary reference for this week.</div></div>
+  <div class="ref-i"><div class="ref-n">2</div><div class="ref-t"><b><a href="http://www.esveld.com/MRT.htm" target="_blank" style="color:var(--blue)">Esveld, C. (2001).</a></b> Modern Railway Track (2nd ed.). MRT-Productions. <span class="rtag core">CORE</span><br>Chapters 2–5: Comprehensive treatment of all track components and their mechanical behaviour.</div></div>
+  <div class="ref-i"><div class="ref-n">3</div><div class="ref-t"><b><a href="https://www.routledge.com/Railway-Planning-Management-and-Engineering/Profillidis/p/book/9781032109695" target="_blank" style="color:var(--blue)">Profillidis, V. (2022).</a></b> Railway Planning, Management, and Engineering (5th ed.). Routledge. <span class="rtag core">CORE</span><br>Chapter 4: Track structure and maintenance principles.</div></div>
+  <div class="ref-i"><div class="ref-n">4</div><div class="ref-t"><b>UIC Leaflet 860-O.</b> Technical Specification for the Supply of Rails. UIC. <span class="rtag">Standard</span><br>International standard for rail steel grades, dimensions, and quality requirements.</div></div>
+  <div class="ref-i"><div class="ref-n">5</div><div class="ref-t"><b>UIC Leaflet 713R (2004).</b> Design of Monoblock Concrete Sleepers. UIC. <span class="rtag">Standard</span><br>Defines structural requirements and testing procedures for prestressed concrete sleepers.</div></div>
+  <div class="ref-i"><div class="ref-n">6</div><div class="ref-t"><b>TCDD Genel Müdürlüğü (2024).</b> İstatistik Yıllığı 2019–2023. <span class="rtag">Data</span><br>Source for TCDD sleeper type distribution data. Available at tcdd.gov.tr.</div></div>
+  <div class="ref-i"><div class="ref-n">7</div><div class="ref-t"><b>Lichtberger, B. (2011).</b> Track Compendium (2nd ed.). Eurailpress. <span class="rtag">Extended</span><br>Comprehensive handbook of track maintenance technology, including tamping, ballast, and geometry standards.</div></div>
+  <div class="ref-i"><div class="ref-n">8</div><div class="ref-t"><b>Zerbst, U. et al. (2019).</b> Introduction to the damage tolerance behaviour of railway rails — a review. Engineering Fracture Mechanics, 212, 130–150. <span class="rtag">Extended</span><br>Rolling contact fatigue and crack propagation in rails. Relevant to Exercise 5.</div></div>
+</div>
+
+</div><!-- /tab-wrap -->
+</div><!-- /main -->
+
+<footer>
+  <div class="footer-rail"></div>
+  <p><strong>INS 325E Railway Engineering · Week 2</strong> · Istanbul Technical University</p>
+  <p style="margin-top:.3rem"><strong>Dr. Mustafa Can Özkan</strong> · <a href="mailto:ozkanmc@itu.edu.tr">ozkanmc@itu.edu.tr</a> · Office 456</p>
+  <p style="margin-top:.25rem;font-size:.7rem;opacity:.45"><a href="https://ozkanmc.github.io/ins325e-railway-eng/">ozkanmc.github.io/ins325e-railway-eng</a> · Published October 2026</p>
+</footer>
+
+<script>
+// ── TABS ──
+function ST(b,id){
+  document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');document.getElementById(id).classList.add('on');
+  if(id==='t-data')initCharts();
+  if(id==='t-quiz'&&!quizGo){initQuiz();quizGo=true;}
+}
+function EX(h){h.parentElement.classList.toggle('open');}
+
+// ── LAYER DATA ──
+const LAYERS={
+  rail:{
+    title:'🔩 Rail (UIC 60)',
+    color:'#2a5298',
+    html:`<p><strong>Function:</strong> Provides a smooth, hard rolling surface for wheel treads; guides wheels laterally via flange contact against the rail head; transfers wheel load as a continuous beam to the sleepers.</p>
+    <p><strong>Material:</strong> High-carbon pearlitic steel (R260 or R350HT grade). Hardness 260–390 HBW. UIC 60 profile: 60.34 kg/m, 172 mm tall, 150 mm base width.</p>
+    <p><strong>Rail inclination:</strong> 1/20 (2.86°) inward — matches the conical taper of the wheel tread. Ensures contact is in the centre of the rail head, not the edge.</p>
+    <p><strong>Connection:</strong> Rails welded into Continuously Welded Rail (CWR) strings using thermite or flash-butt welding. Expansion joints at bridge abutments and special locations.</p>
+    <div class="lf">🔥 Fun fact: Thermite welding uses aluminium powder + iron oxide burning at 2,500°C to produce liquid steel that fills the joint gap. The reaction is the same chemistry used in old-school military incendiary devices.</div>`
+  },
+  fastener:{
+    title:'🔗 Fastening System',
+    color:'#0ea47a',
+    html:`<p><strong>Function:</strong> Connects rail to sleeper; transmits forces from rail to sleeper; maintains rail inclination (1/20); provides electrical isolation; damps high-frequency vibration.</p>
+    <p><strong>Components:</strong> Spring steel clip (Pandrol, Vossloh, Nabla) + insulating shoulder + rail pad (rubber/EVA, 5–25 mm) + optionally a baseplate.</p>
+    <p><strong>Rail pad:</strong> The rubber pad between rail and sleeper is one of the most important — and least visible — components. Stiffness range: 40–500 kN/mm. Stiffer = more force to sleeper, less dynamic damping. Softer = less force transmitted, better vibration isolation for sensitive areas (near hospitals, historic buildings).</p>
+    <p><strong>Electrical isolation:</strong> Must maintain &gt;1 kΩ resistance between rail and sleeper. Essential for track circuit signalling. Nylon insulators and rubber pads provide this.</p>
+    <div class="lf">💡 A single elastic clip (e.g. Pandrol e-Clip) exerts 10–14 kN toe load on the rail foot — about the weight of a car — without any bolts or tools. It is simply sprung into a cast shoulder on the sleeper.</div>`
+  },
+  sleeper:{
+    title:'🪵 Sleeper (Crosstie)',
+    color:'#8e44ad',
+    html:`<p><strong>Function:</strong> Supports the rail and fastenings; distributes the concentrated rail load over a large area of ballast; maintains track gauge (1,435 mm between rail inner faces); anchors track against longitudinal and lateral forces.</p>
+    <p><strong>Spacing:</strong> 600 mm centres on standard mainline = ~1,666 sleepers per km. Some HSR uses 500–550 mm spacing for higher bending stiffness.</p>
+    <p><strong>Types:</strong> Wooden (100 kg, 20–35 yr), concrete monoblock (250–300 kg, 40–60 yr), concrete twin-block (200 kg), steel (80 kg, 45–50 yr), composite/recycled plastic (50+ yr).</p>
+    <p><strong>Gauge maintenance:</strong> Rail seats are cast or formed at the exact 1,435 mm gauge. Over time, repeated loading can crack concrete or compress wood, allowing gauge to widen — a track geometry defect that must be corrected.</p>
+    <div class="lf">🏋️ One concrete monoblock sleeper (300 kg) weighs as much as 3 wooden sleepers. The extra mass helps resist the tendency of the track to move sideways under train loading — critical for high-speed lines.</div>`
+  },
+  ballast:{
+    title:'🪨 Ballast Layer',
+    color:'#806800',
+    html:`<p><strong>Function:</strong> Distributes load from sleepers over a large formation area; provides lateral and longitudinal stability against track movement; allows drainage; gives elasticity and resilience; allows track geometry adjustment by tamping.</p>
+    <p><strong>Material:</strong> Crushed hard rock: granite, basalt, quartzite. Particle size 25–63 mm (UIC). Must be angular (not rounded) — angular particles interlock and resist movement. Hardness: Mohs ≥7.</p>
+    <p><strong>Depth:</strong> 25–35 cm under sleeper base on mainlines. HSR: up to 45 cm. Minimum 15 cm at sleeper ends (ballast shoulder).</p>
+    <p><strong>Maintenance:</strong> Tamping machines (Plasser &amp; Theurer, Matisa) mechanically re-compact and re-level the ballast every 2–5 years on mainlines. When ballast is too fouled to tamp, it must be removed, cleaned (ballast cleaner), or replaced.</p>
+    <div class="lf">🪨 One km of mainline track contains approximately 1,200 tonnes of ballast. At the end of its life, ballast isn't thrown away — it is cleaned in a ballast cleaning machine and re-laid. The same stones can do 2–3 service lives.</div>`
+  },
+  subballast:{
+    title:'🏗️ Sub-Ballast Layer',
+    color:'#9e9070',
+    html:`<p><strong>Function:</strong> Prevents angular ballast stones from penetrating the soft subgrade under load; provides additional load spreading; acts as a capillary break preventing ground water rising into the ballast; establishes drainage cross-fall (3–5%).</p>
+    <p><strong>Material:</strong> Well-graded gravel-sand mixture. Particle size: 0–30 mm (broadly graded, unlike ballast which is narrowly graded). Often 15–20 cm thick.</p>
+    <p><strong>On poor soils:</strong> A geotextile (non-woven polypropylene fabric) is placed at the sub-ballast/subgrade interface to prevent mixing (filtration and separation functions). The geotextile allows water through but holds the fine particles back.</p>
+    <p><strong>On HSR:</strong> Sub-ballast layer may be replaced by a hydraulically bound mixture (lean concrete) or include a drainage membrane.</p>
+    <div class="lf">🌊 In waterlogged ground, without sub-ballast and drainage, ballast fines and soil mix under train loading into a grey-brown liquid slurry called "pumping mud" — a classic sign of serious track bed failure visible at low speeds as the ground literally squirts sideways.</div>`
+  },
+  subgrade:{
+    title:'🌍 Subgrade (Formation)',
+    color:'#6b5540',
+    html:`<p><strong>Function:</strong> The subgrade (also called the formation or ground) is the earthwork layer on which the entire track structure sits. It is not a railway engineering component per se, but its properties dominate track behaviour.</p>
+    <p><strong>Embankment:</strong> Where the railway sits above natural ground level, the subgrade is a compacted earth embankment. Material: selected fill (clay, sand, or rock depending on availability). Compacted to ≥95% Proctor density.</p>
+    <p><strong>Cutting:</strong> Where the railway is cut into the hillside, the subgrade is the natural in-situ material. Quality varies enormously: rock is ideal; expansive clay is problematic (swells when wet, shrinks when dry — causes track geometry instability).</p>
+    <p><strong>Bearing capacity:</strong> Subgrade stiffness (CBR ≥ 15% typically required for railway formation) governs the required ballast + sub-ballast thickness. Soft subgrades need ground improvement (dynamic compaction, lime stabilisation, stone columns) before track is laid.</p>
+    <div class="lf">⚠️ The subgrade is responsible for the majority of track geometry problems on existing networks. Unlike the ballast (which can be tamped) or rails (which can be replaced), fixing a failed subgrade means closing the line, excavating, and rebuilding from scratch — a multi-million-euro operation.</div>`
+  }
+};
+
+// ── SHOW LAYER ──
+const hlMap={rail:'hl-rail',fastener:'hl-fastener',sleeper:'hl-sleeper',ballast:'hl-ballast',subballast:'hl-subballast',subgrade:'hl-subgrade'};
+function showLayer(name){
+  // hide all highlights (primary ids)
+  Object.values(hlMap).forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity','0');});
+  // hide mirrored right-side highlights
+  document.querySelectorAll('.hl-rail-r,.hl-fastener-r').forEach(el=>el.setAttribute('opacity','0'));
+  // show selected primary
+  const hlEl=document.getElementById(hlMap[name]);
+  if(hlEl)hlEl.setAttribute('opacity','1');
+  // show mirrored highlights for rail and fastener
+  if(name==='rail') document.querySelectorAll('.hl-rail-r').forEach(el=>el.setAttribute('opacity','1'));
+  if(name==='fastener') document.querySelectorAll('.hl-fastener-r').forEach(el=>el.setAttribute('opacity','1'));
+  // update buttons
+  document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.lbtn').forEach(b=>{if(b.textContent.toLowerCase().includes(name.substring(0,4)))b.classList.add('on');});
+  // update info panel
+  const L=LAYERS[name];
+  const info=document.getElementById('layer-info');
+  info.style.borderColor=L.color;
+  info.style.background=`linear-gradient(135deg, ${L.color}08, ${L.color}02)`;
+  info.innerHTML=`<h4 style="color:${L.color}">${L.title}</h4>${L.html}`;
+}
+
+// ── CLICK SVG LAYERS ──
+document.querySelectorAll('.track-layer').forEach(el=>{
+  el.addEventListener('click',()=>showLayer(el.dataset.layer));
+  el.addEventListener('mouseenter',()=>{el.style.filter='brightness(1.15)';});
+  el.addEventListener('mouseleave',()=>{el.style.filter='';});
+});
+
+// ── RAIL PROFILES ──
+const PROFILES={
+  flat:`<b style="color:var(--navy)">Flat Bottom / Vignoles Rail (UIC standard)</b><br>
+    Introduced to Britain by Charles Vignoles in the 1830s, this became the global standard. The wide flat base allows direct clipping to the sleeper without a chair. The asymmetric I-section — heavy head, slender web, broad foot — optimises bending resistance while minimising material. The most common rail today is the <strong>UIC 60 (60.34 kg/m)</strong>, used on all TCDD main lines and most European HSR. <em>Fun fact: a 1 km UIC 60 rail weighs 60 tonnes — the same as 10 African elephants.</em>`,
+  double:`<b style="color:var(--navy)">Double-Headed Rail — The Rail That Was Wrong From the Start</b><br>
+    Developed in Britain around 1830, the idea was clever: when the top surface wore out, flip the rail upside down and use the bottom head as the new running surface — effectively doubling the service life for free. <strong>It never worked.</strong> The bottom head deformed under the load of the chairs supporting it, making it unsuitable as a running surface when flipped. The rail was discontinued in Britain by the early 1900s but remained in use on some lines into the 1970s. A cautionary tale about elegant ideas that fail in practice.`,
+  grooved:`<b style="color:var(--navy)">Grooved Rail — Rails in Roads</b><br>
+    Where track is embedded in a road surface (tram lines, light rail at-grade crossings, quayside railways), the wheel flange has nowhere to go in a standard rail — it would protrude above the road surface and catch vehicles. The solution: a groove machined or rolled into the rail head creates the <strong>flangeway</strong> — a slot that accommodates the flange while keeping the rail head flush with the road surface. The guard on the other side of the groove carries no vertical load but acts as a checkrail in curves. Used on all Istanbul Tramvay and İzmir Metro at-grade sections.`
+};
+function showProfile(card,name){
+  document.querySelectorAll('.rp-card').forEach(c=>c.classList.remove('on'));
+  card.classList.add('on');
+  const info=document.getElementById('profile-info');
+  info.innerHTML=PROFILES[name];
+  info.className='rp-info show';
+}
+
+// ── LOAD CALCULATOR ──
+function calcLoad(){
+  const axle=parseFloat(document.getElementById('cl-axle').value)||22.5;
+  const ballastCm=parseFloat(document.getElementById('cl-ballast').value)||30;
+  const area=parseFloat(document.getElementById('cl-area').value)||4500;
+  const spm=parseFloat(document.getElementById('cl-spm').value)||1.67;
+  // Load on one sleeper (kN): axle distributed to 2 rails, then 2 adjacent sleepers
+  const railLoad = axle * 9.81 / 2; // kN (one rail)
+  const sleeperLoad = railLoad / 2; // shared between 2 sleepers
+  const pressureMPa = (sleeperLoad * 1000) / (area * 100); // N/mm²
+  const pressureKPa = sleeperLoad * 1000 / area * 10; // kPa
+  // Spread factor through ballast (simplified Boussinesq-type 1:2 spread)
+  const spreadArea = (Math.sqrt(area/10000) + 2*ballastCm/100)**2 * 10000; // cm²
+  const subgradePressure = sleeperLoad * 1000 / (spreadArea * 100); // kPa
+  const ok = pressureKPa <= 500;
+  document.getElementById('calc-out').innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+      <div>
+        <div class="cr-val">${(sleeperLoad).toFixed(1)} kN</div>
+        <div class="cr-lbl">Load per sleeper from this axle</div>
+      </div>
+      <div>
+        <div class="cr-val" style="color:${ok?'var(--teal)':'var(--red)'}">${(pressureKPa).toFixed(0)} kPa</div>
+        <div class="cr-lbl">Ballast contact pressure (UIC limit: 500 kPa) ${ok?'✅':'⚠️ EXCEEDS LIMIT'}</div>
+      </div>
+      <div>
+        <div class="cr-val" style="color:var(--blue)">${(subgradePressure).toFixed(0)} kPa</div>
+        <div class="cr-lbl">Approximate subgrade pressure after ${ballastCm}cm ballast spread</div>
+      </div>
+    </div>
+    <div style="margin-top:.8rem;font-size:.8rem;color:var(--textm)">
+      <em>Assumptions: 50% axle load to each rail, shared equally between 2 adjacent sleepers, ${Math.round(area/10000*100)}% contact efficiency, simplified 1:2 load spread through ballast.</em>
+    </div>`;
+}
+calcLoad();
+
+// ── CHARTS ──
+let chartsInited=false;
+function initCharts(){
+  if(chartsInited)return;chartsInited=true;
+  const C=Chart;
+  // Sleeper distribution
+  new C(document.getElementById('cSleeper'),{type:'bar',data:{
+    labels:['2019','2020','2021','2022','2023'],
+    datasets:[
+      {label:'Concrete monoblock',data:[65,67,70,72,74],backgroundColor:'#2a5298',borderRadius:4,stack:'a'},
+      {label:'Wooden',data:[22,21,18,17,16],backgroundColor:'#9b7b55',borderRadius:4,stack:'a'},
+      {label:'Steel',data:[9,8,8,8,7],backgroundColor:'#636e72',borderRadius:4,stack:'a'},
+      {label:'Other',data:[4,4,4,3,3],backgroundColor:'#b0b8c8',borderRadius:4,stack:'a'},
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}},scales:{x:{stacked:true,ticks:{font:{size:11}}},y:{stacked:true,max:100,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'rgba(0,0,0,.04)'}}}}});
+  // Rail profiles
+  new C(document.getElementById('cRail'),{type:'bar',data:{
+    labels:['UIC 33\n(33 kg/m)','UIC 41\n(41 kg/m)','UIC 46\n(46 kg/m)','UIC 54\n(54 kg/m)','UIC 60\n(60 kg/m)','UIC 71\n(71 kg/m)'],
+    datasets:[{
+      label:'Max axle load (t)',
+      data:[12,16,18,22.5,32.5,35],
+      backgroundColor:['#b0b8c8','#8896a7','#636e72','#2a5298','#1e4080','#0b1f3a'],
+      borderRadius:5
+    }]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'Max axle load (tonnes)',font:{size:11}},ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  // Slab vs ballasted cost
+  new C(document.getElementById('cSlab'),{type:'bar',data:{
+    labels:['Construction','Maintenance\n(60 yr)','Total lifecycle'],
+    datasets:[
+      {label:'Ballasted track',data:[100,80,180],backgroundColor:'#2a5298',borderRadius:5},
+      {label:'Slab track',data:[280,15,295],backgroundColor:'#d63031',borderRadius:5}
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Relative cost (ballasted = 100)',font:{size:11}},ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  // Track deterioration
+  const mgts=[0,5,10,20,30,50,80,120];
+  new C(document.getElementById('cDegrade'),{type:'line',data:{
+    labels:mgts.map(v=>v+' MGT'),
+    datasets:[
+      {label:'Track quality index',data:[100,95,88,76,65,50,38,25],borderColor:'#2a5298',backgroundColor:'rgba(42,82,152,.07)',tension:.3,fill:true,pointRadius:3},
+      {label:'Action threshold',data:[60,60,60,60,60,60,60,60],borderColor:'#d63031',backgroundColor:'transparent',borderDash:[5,3],pointRadius:0}
+    ]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}},scales:{y:{min:0,max:110,title:{display:true,text:'Track Quality Index',font:{size:11}},ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  // Wear rate vs curve radius
+  new C(document.getElementById('cWear'),{type:'line',data:{
+    labels:['150','200','300','500','800','1200','2000','∞ (straight)'],
+    datasets:[{
+      label:'Lateral wear rate (relative)',
+      data:[100,70,42,22,11,6,3,1],
+      borderColor:'#d63031',backgroundColor:'rgba(214,48,49,.07)',tension:.3,fill:true,pointRadius:3
+    }]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'Relative lateral wear rate',font:{size:11}},ticks:{font:{size:10}}},x:{title:{display:true,text:'Curve radius (m)',font:{size:11}},ticks:{font:{size:10}}}}}});
+}
+
+// ── QUIZ ──
+const Qs=[
+  {q:"What are the THREE main functions of a railway rail?",opts:["Support axle loads, maintain gauge, provide drainage","Provide rolling surface, guide wheels laterally, transfer load to sleepers","Connect to fasteners, resist thermal expansion, protect sleepers","Carry traction current, resist corrosion, guide the train"],ans:1,exp:"The rail simultaneously: (1) provides a hard, smooth rolling surface for wheel treads; (2) guides wheels laterally via flange contact; and (3) acts as a continuous beam transferring axle load to the sleepers at each support point."},
+  {q:"A UIC 60 rail weighs 60.34 kg per metre. For a double-track 1 km section, what is the total mass of rails? (4 rails needed — 2 per track)",opts:["60 tonnes","121 tonnes","241 tonnes","480 tonnes"],ans:2,exp:"4 rails × 1,000 m × 60.34 kg/m = 241,360 kg ≈ 241 tonnes. This illustrates why rail recycling is economically important — steel scrap value at end-of-life is significant."},
+  {q:"Why was the double-headed rail profile eventually abandoned?",opts:["It was too expensive to manufacture","The lower head deformed under chair loading and couldn't be used when flipped","It was too heavy for existing bridges","It was replaced by a legally mandated UIC standard"],ans:1,exp:"The bottom head — intended to be the 'spare' running surface after the top head wore out — deformed under the load of the chairs sitting on it. When engineers tried to invert the rail, the bottom head was already unusable. The whole concept failed in practice."},
+  {q:"What is the primary reason railway rail is inclined at 1/20 (2.86°) inward?",opts:["To drain rainwater away from the track","To increase the bearing area on the sleeper","To match the conical wheel tread profile and ensure contact at the rail head centre","To reduce lateral forces in curves"],ans:2,exp:"Railway wheels have a conical tread (approximately 1:20 taper). The matching 1:20 rail inclination ensures the wheel-rail contact point is in the centre of the rail head. Without this, contact shifts to the edge, causing rapid wear, instability, and noise."},
+  {q:"What is Continuously Welded Rail (CWR) and what is its main operational advantage?",opts:["Rail with built-in expansion joints every 100 m; advantage is easy replacement","Long strings of rail welded together, eliminating joints; advantage is smooth ride, reduced impact loads, and lower maintenance","Rail with continuous electrical insulation; advantage is better signalling","Pre-stressed rail; advantage is higher bending strength"],ans:1,exp:"CWR eliminates the fishplate joints that were spaced every 12–18 m in traditional track. Joints are the weakest point — they create impact loads, noise (the 'clickety-clack'), vibration, and concentrated wear. CWR allows higher speeds (300+ km/h on HSR) and dramatically reduces maintenance frequency."},
+  {q:"What is the standard sleeper spacing on TCDD mainlines?",opts:["400 mm","500 mm","600 mm","800 mm"],ans:2,exp:"600 mm (0.6 m) between sleeper centres is the international standard for mainline track, giving approximately 1,666 sleepers per km. Some high-speed lines use 500–550 mm spacing to increase track stiffness and reduce rail bending moments."},
+  {q:"Concrete monoblock sleepers have one key structural disadvantage compared to wooden sleepers. What is it?",opts:["They cannot maintain track gauge accurately","They are heavier and more rigid, making them more vulnerable to cracking from derailments and dynamic shocks","They do not provide electrical insulation","They cannot accommodate thermal expansion of rails"],ans:1,exp:"Concrete is brittle. Unlike wooden sleepers which flex and absorb shock, concrete monoblock sleepers can crack under dynamic impact loads (especially from derailments, poor weld geometry, or large rail defects). They also have negative scrap value — disposal costs money rather than earning it."},
+  {q:"Why must the fastening system provide electrical isolation between rail and sleeper?",opts:["To prevent corrosion of the rail foot","Railway signalling track circuits use current flowing through the rails; metal contact would short-circuit the detection system","To prevent electric shocks to maintenance workers","To reduce stray current corrosion in the ballast"],ans:1,exp:"Track circuit signalling works by sending electrical current through one rail, detecting its return through the other. If the rail is in direct metal contact with the grounded sleeper (via concrete or steel), the circuit short-circuits and the system falsely shows the section as clear — potentially allowing two trains to occupy the same section. Insulation resistance must be maintained above 1 kΩ."},
+  {q:"Ballast particles must be ANGULAR (crushed) rather than rounded. Why?",opts:["Angular particles are lighter and easier to tamp","Angular particles interlock under load, resisting lateral track movement; rounded particles roll and provide no stability","Angular particles drain water better due to their shape","Angular particles are cheaper to quarry"],ans:1,exp:"Angular particles from crushed rock interlock mechanically — when loaded, their irregular faces lock together and resist horizontal movement. Rounded particles (such as river gravel) roll freely under lateral forces. The track would shift sideways within days under train loading. This is why river gravel is never used as railway ballast on mainlines."},
+  {q:"What is 'ballast fouling' and why does it matter?",opts:["Ballast contaminated with chemical spills from train cargo","Accumulation of fines (fragmented ballast + dirt + drainage sediment) that clogs the voids between ballast particles, killing drainage capacity","Rail wear debris that stains the ballast grey","Ballast theft by local communities near the railway"],ans:1,exp:"As ballast particles abrade and fragment under repeated loading (plus contamination from mud, dust, and vegetation), fine material accumulates in the voids between particles. Once void space is more than ~30% filled, drainage capacity collapses. Water-logged ballast loses all stiffness and 'pumps' under train loading, creating the 'pumping mud' phenomenon that rapidly destroys track geometry."}
+];
+let cQ=0,sc=0,answered=false,quizGo=false;
+function initQuiz(){cQ=0;sc=0;answered=false;renderQ();}
+function renderQ(){
+  const q=Qs[cQ];
+  document.getElementById('qn').textContent=cQ+1;
+  document.getElementById('qbar').style.width=((cQ+1)/Qs.length*100)+'%';
+  document.getElementById('qq').textContent=q.q;
+  const o=document.getElementById('qopts');o.innerHTML='';
+  q.opts.forEach((t,i)=>{const d=document.createElement('div');d.className='qopt';d.innerHTML=`<div class="qoptl">${'ABCD'[i]}</div><div>${t}</div>`;d.onclick=()=>{if(!answered)pick(i,d);};o.appendChild(d);});
+  document.getElementById('qfb').className='qfb';
+  document.getElementById('qnxt').disabled=true;
+  document.getElementById('qnxt').textContent=cQ<Qs.length-1?'Next →':'Finish ✓';
+  answered=false;
+}
+function pick(i,el){
+  answered=true;const q=Qs[cQ];
+  document.querySelectorAll('.qopt').forEach(o=>o.classList.add('disabled'));
+  if(i===q.ans){el.classList.add('correct');sc++;document.getElementById('qfb').className='qfb ok show';document.getElementById('qfb').innerHTML='✅ Correct! '+q.exp;}
+  else{el.classList.add('wrong');document.querySelectorAll('.qopt')[q.ans].classList.add('correct');document.getElementById('qfb').className='qfb bad show';document.getElementById('qfb').innerHTML='❌ Not quite. '+q.exp;}
+  document.getElementById('qscore').textContent=sc;
+  document.getElementById('qnxt').disabled=false;
+}
+function qNext(){
+  cQ++;
+  if(cQ>=Qs.length){
+    const p=Math.round(sc/Qs.length*100);
+    const m=p>=90?'🎉 Outstanding!':p>=70?'👍 Good work — review what you missed.':p>=50?'📖 Worth revisiting the lecture notes.':'🔄 Try again after reviewing — these concepts build on each other.';
+    document.getElementById('qq').textContent=`Quiz complete! You scored ${sc}/${Qs.length} (${p}%).`;
+    document.getElementById('qopts').innerHTML=`<div style="padding:1.4rem;text-align:center;background:#f0f5ff;border-radius:10px;font-size:.95rem;color:var(--navy)">${m}</div>`;
+    document.getElementById('qfb').className='qfb';
+    document.getElementById('qbar').style.width='100%';
+    document.getElementById('qnxt').textContent='🔄 Restart';document.getElementById('qnxt').disabled=false;
+    document.getElementById('qnxt').onclick=()=>{cQ=0;sc=0;document.getElementById('qscore').textContent=0;document.getElementById('qnxt').onclick=qNext;initQuiz();};
+    return;
+  }renderQ();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>INS 325E – Railway Engineering | ITU Civil Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a;--navy2:#0f2a50;--blue:#1e4080;--blue2:#2a5298;
+  --accent:#f0c040;--accent2:#ffd966;--teal:#0ea47a;
+  --red:#d63031;--orange:#e17055;
+  --text:#1a1f36;--textm:#4a5568;--textl:#8896a7;
+  --bg:#f2f5fa;--card:#fff;--border:#dde3ef;
+  --r:14px;--sh:0 2px 16px rgba(11,31,58,.08);--shl:0 8px 40px rgba(11,31,58,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:16px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:58px}
+.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:#fff;font-weight:800;font-size:.95rem;letter-spacing:-.01em}
+.nav-chip{background:var(--accent);color:var(--navy);padding:.15rem .55rem;border-radius:5px;font-size:.78rem;font-weight:900}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-pill{background:rgba(240,192,64,.15);border:1px solid rgba(240,192,64,.35);color:var(--accent);padding:.25rem .75rem;border-radius:20px;font-size:.75rem;font-weight:700}
+
+/* HERO */
+.hero{background:var(--navy);color:#fff;padding:4.5rem 1.5rem 3.5rem;position:relative;overflow:hidden}
+.hero-track{position:absolute;bottom:0;left:0;width:100%;height:6px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 40px,transparent 40px,transparent 60px)}
+.hero-bg-text{position:absolute;right:-2rem;top:50%;transform:translateY(-50%);font-size:min(22vw,240px);font-weight:900;line-height:1;color:#fff;opacity:.03;letter-spacing:-.05em;pointer-events:none;user-select:none;font-family:'JetBrains Mono',monospace}
+.hero-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(240,192,64,.12);border:1px solid rgba(240,192,64,.3);color:var(--accent);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:.9rem}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:1rem;opacity:.75;max-width:540px;line-height:1.65;margin-bottom:2rem;font-weight:300}
+.hero-tags{display:flex;flex-wrap:wrap;gap:.6rem}
+.htag{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.85);padding:.35rem .85rem;border-radius:20px;font-size:.78rem;font-weight:500;backdrop-filter:blur(6px)}
+.hero-right{display:grid;grid-template-rows:1fr 1fr;gap:1rem;flex-shrink:0}
+.hero-stat-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1.2rem 1.8rem;text-align:center;backdrop-filter:blur(10px);min-width:140px}
+.hero-stat-box .n{font-size:2.2rem;font-weight:900;color:var(--accent);font-family:'JetBrains Mono',monospace;line-height:1;display:block}
+.hero-stat-box .l{font-size:.68rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.07em;margin-top:.3rem}
+
+/* TICKER */
+.ticker{background:var(--accent);color:var(--navy);padding:.45rem 0;overflow:hidden;white-space:nowrap;font-size:.78rem;font-weight:700;letter-spacing:.03em}
+.ticker-inner{display:inline-flex;gap:3rem;animation:ticker 28s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-sep{color:rgba(11,31,58,.35);margin:0 .5rem}
+
+/* MAIN */
+.main{max-width:1240px;margin:0 auto;padding:3rem 1.5rem}
+section{margin-bottom:4.5rem}
+.sec-hd{display:flex;align-items:center;gap:.9rem;margin-bottom:2rem}
+.sec-icon{width:38px;height:38px;background:var(--navy);color:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;box-shadow:0 2px 8px rgba(11,31,58,.15)}
+.sec-title{font-size:1.45rem;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.8rem;box-shadow:var(--sh)}
+.card h3{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--accent);display:inline-block}
+.card p,.card li{color:var(--textm);font-size:.9rem;line-height:1.7;margin-bottom:.7rem}
+.card p:last-child{margin-bottom:0}
+.card ul{padding-left:1.2rem}
+.two-col{display:grid;grid-template-columns:3fr 2fr;gap:1.5rem}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+
+/* BOXES */
+.ibox{border-left:4px solid var(--teal);background:rgba(14,164,122,.06);padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.87rem;color:var(--textm)}
+.ibox strong{color:var(--teal);font-weight:700}
+.wbox{border-left:4px solid var(--orange);background:rgba(225,112,85,.06);padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin:1rem 0;font-size:.87rem;color:var(--textm)}
+.wbox strong{color:var(--orange);font-weight:700}
+
+/* ASSESS */
+.assess-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+@media(max-width:700px){.assess-row{grid-template-columns:1fr}}
+.acard{border-radius:var(--r);padding:1.8rem;text-align:center;border:2px solid;transition:transform .2s,box-shadow .2s}
+.acard:hover{transform:translateY(-4px);box-shadow:var(--shl)}
+.acard.c1{border-color:#0ea47a;background:linear-gradient(135deg,rgba(14,164,122,.05),rgba(14,164,122,.12))}
+.acard.c2{border-color:#1e4080;background:linear-gradient(135deg,rgba(30,64,128,.05),rgba(30,64,128,.12))}
+.acard.c3{border-color:#d63031;background:linear-gradient(135deg,rgba(214,48,49,.05),rgba(214,48,49,.12))}
+.acard .pct{font-size:3rem;font-weight:900;font-family:'JetBrains Mono',monospace;display:block;line-height:1}
+.acard.c1 .pct{color:var(--teal)} .acard.c2 .pct{color:var(--blue)} .acard.c3 .pct{color:var(--red)}
+.acard .nm{font-weight:700;color:var(--navy);margin:.5rem 0 .2rem;font-size:1rem}
+.acard .ds{font-size:.78rem;color:var(--textl)}
+
+/* SCHEDULE */
+.sched{display:grid;grid-template-columns:repeat(7,1fr);gap:.65rem}
+@media(max-width:900px){.sched{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:500px){.sched{grid-template-columns:repeat(2,1fr)}}
+.wk{border-radius:10px;padding:.9rem .7rem;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;text-decoration:none;display:block;border:2px solid transparent}
+.wk:hover{transform:translateY(-4px);box-shadow:var(--shl)}
+.wk.done{background:linear-gradient(145deg,#0ea47a,#0c8a66);color:#fff;border-color:#0a7558}
+.wk.empty{background:var(--card);border:2px dashed #c8d3e0;color:#9aacbe}
+.wk.brk{background:linear-gradient(145deg,#636e72,#4a5568);color:#fff}
+.wk.exam{background:linear-gradient(145deg,#d63031,#b02526);color:#fff}
+.wk .wn{font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;opacity:.7;margin-bottom:.25rem}
+.wk .wd{font-size:.62rem;margin-bottom:.45rem;opacity:.6;font-family:'JetBrains Mono',monospace}
+.wk .wt{font-size:.72rem;font-weight:700;line-height:1.3}
+.wk .ws{position:absolute;top:.35rem;right:.4rem;font-size:.65rem}
+
+/* WEEK HEADER */
+.wk-hdr{background:linear-gradient(135deg,var(--navy) 0%,var(--blue2) 100%);color:#fff;border-radius:var(--r);padding:2.5rem;margin-bottom:2rem;position:relative;overflow:hidden}
+.wk-hdr::before{content:'01';position:absolute;right:1.5rem;bottom:-1rem;font-size:min(20vw,160px);font-weight:900;opacity:.05;font-family:'JetBrains Mono',monospace;line-height:1;pointer-events:none}
+.wk-hdr-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.5rem}
+.wk-hdr h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.5rem;line-height:1.15}
+.wk-hdr p{opacity:.75;font-size:.92rem;max-width:600px;margin-bottom:1.3rem}
+.wk-chips{display:flex;flex-wrap:wrap;gap:.6rem}
+.wk-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.28rem .75rem;border-radius:20px;font-size:.75rem;backdrop-filter:blur(6px)}
+
+/* LO */
+.lo-grid{display:grid;gap:.7rem}
+.lo{display:flex;gap:.8rem;align-items:flex-start;background:linear-gradient(90deg,rgba(30,64,128,.05),transparent);border-left:4px solid var(--blue2);border-radius:0 8px 8px 0;padding:1rem}
+.lo-v{background:var(--navy);color:var(--accent);padding:.18rem .55rem;border-radius:4px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;margin-top:.15rem;font-family:'JetBrains Mono',monospace}
+.lo-t{font-size:.88rem;color:var(--text);font-weight:500}
+
+/* RESOURCES */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:700px){.res-grid{grid-template-columns:1fr}}
+.res-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.4rem;transition:transform .2s,box-shadow .2s;text-decoration:none;display:block}
+.res-card:hover{transform:translateY(-3px);box-shadow:var(--shl);border-color:var(--blue)}
+.res-card h4{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.res-card p{font-size:.82rem;color:var(--textm)}
+
+/* ── ANNOUNCEMENTS ── */
+.ann-empty{text-align:center;padding:2.5rem;color:var(--textl);font-size:.88rem}
+.ann-item{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.2rem 1.4rem;display:flex;gap:1rem;align-items:flex-start;margin-bottom:.8rem;box-shadow:var(--sh);transition:box-shadow .2s}
+.ann-item:hover{box-shadow:var(--shl)}
+.ann-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:.4rem}
+.ann-dot.info{background:var(--blue)}
+.ann-dot.warn{background:var(--orange)}
+.ann-dot.good{background:var(--teal)}
+.ann-dot.urgent{background:var(--red)}
+.ann-body{flex:1;min-width:0}
+.ann-title{font-size:.93rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.ann-text{font-size:.85rem;color:var(--textm);line-height:1.6}
+.ann-meta{font-size:.72rem;color:var(--textl);margin-top:.4rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.ann-tag{display:inline-block;padding:.1rem .5rem;border-radius:4px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.ann-tag.info{background:rgba(30,64,128,.1);color:var(--blue)}
+.ann-tag.warn{background:rgba(225,112,85,.12);color:var(--orange)}
+.ann-tag.good{background:rgba(14,164,122,.12);color:var(--teal)}
+.ann-tag.urgent{background:rgba(214,48,49,.12);color:var(--red)}
+
+/* ── FILES ── */
+.files-grid{display:grid;gap:.7rem}
+.file-item{background:var(--card);border-radius:10px;border:1px solid var(--border);padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;text-decoration:none;transition:all .2s;box-shadow:var(--sh)}
+.file-item:hover{transform:translateY(-2px);box-shadow:var(--shl);border-color:var(--blue)}
+.file-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.file-icon.ppt{background:rgba(214,48,49,.1)}
+.file-icon.pdf{background:rgba(214,48,49,.12)}
+.file-icon.xls{background:rgba(14,164,122,.1)}
+.file-icon.doc{background:rgba(30,64,128,.1)}
+.file-icon.zip{background:rgba(136,150,167,.12)}
+.file-icon.img{background:rgba(240,192,64,.1)}
+.file-icon.res{background:rgba(142,68,173,.1)}
+.file-body{flex:1;min-width:0}
+.file-name{font-size:.9rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-meta{font-size:.75rem;color:var(--textl);margin-top:.15rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.file-cat{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.1rem .45rem;border-radius:3px;flex-shrink:0}
+.file-cat.lecture{background:rgba(30,64,128,.1);color:var(--blue)}
+.file-cat.result{background:rgba(14,164,122,.12);color:var(--teal)}
+.file-cat.project{background:rgba(240,192,64,.15);color:#806800}
+.file-cat.exam{background:rgba(214,48,49,.1);color:var(--red)}
+.file-cat.other{background:var(--border);color:var(--textl)}
+.file-dl{background:var(--navy);color:var(--accent);border:none;border-radius:6px;padding:.35rem .8rem;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:.3rem;flex-shrink:0;transition:background .2s}
+.file-dl:hover{background:var(--blue)}
+.files-cat-hd{font-size:.72rem;font-weight:800;color:var(--textl);text-transform:uppercase;letter-spacing:.08em;margin:.6rem 0 .4rem;padding-left:.2rem}
+
+/* ── FILES HELP ── */
+.files-help{display:none}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:2.5rem 1.5rem;font-size:.8rem;margin-top:3rem;position:relative}
+footer strong{color:#fff}
+footer a{color:var(--accent);text-decoration:none}
+.footer-rail{height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 30px,transparent 30px,transparent 50px);margin-bottom:1.5rem}
+
+@media(max-width:800px){.hero-inner{grid-template-columns:1fr}.hero-right{display:none}.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#"><span class="nav-chip">INS325E</span> Railway Engineering</a>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#announcements">Announcements</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#files">Files</a></li>
+      <li><a href="week02/" class="nav-pill">🟢 Week 2 Live</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="ticker"><div class="ticker-inner" id="ticker-content"></div></div>
+
+<section class="hero">
+  <div class="hero-bg-text">RAIL</div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">🏛️ Istanbul Technical University &nbsp;·&nbsp; Civil Engineering &nbsp;·&nbsp; 2026–27</div>
+      <h1>The Engineering<br>Behind <em>Every Train</em><br>You've Ever Taken</h1>
+      <p class="hero-sub">INS 325E is a 14-week deep dive into how railways are designed, built, and operated — from the geometry of a curve to the dynamics of a 300 km/h train.</p>
+      <div class="hero-tags">
+        <span class="htag">📅 Tuesday 12:30–14:30</span>
+        <span class="htag">🎓 Civil Engineering UG</span>
+        <span class="htag">🛤️ Plan &amp; Profile Project</span>
+        <span class="htag">👨‍🏫 Dr. Mustafa Can Özkan</span>
+        <span class="htag">CRN 14541</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat-box"><span class="n">13,919</span><div class="l">km Railway in Türkiye (2024)</div></div>
+      <div class="hero-stat-box"><span class="n">1,435</span><div class="l">mm Standard Gauge</div></div>
+    </div>
+  </div>
+  <div class="hero-track"></div>
+</section>
+
+<div class="main">
+
+<!-- ANNOUNCEMENTS -->
+<section id="announcements">
+  <div class="sec-hd">
+    <div class="sec-icon">📢</div>
+    <h2 class="sec-title">Announcements</h2>
+
+  </div>
+  <!-- ═══════════════════════════════════════════════════════════
+       ANNOUNCEMENTS — Edit this section to add/remove/change
+       
+       Copy one of the blocks below and fill in your text.
+       Types: info (blue) | warn (orange) | good (green) | urgent (red)
+       To remove an announcement: delete its entire <div class="ann-item"> block
+  ════════════════════════════════════════════════════════════ -->
+
+  <!-- ADD YOUR ANNOUNCEMENTS BELOW THIS LINE -->
+
+  <!-- EMPTY STATE — shown when there are no announcements above -->
+  <div class="ann-empty">No announcements at the moment. Check back or follow Ninova.</div>
+
+  <!-- ANNOUNCEMENT TEMPLATES (copy, uncomment, and fill in):
+
+  <div class="ann-item">
+    <div class="ann-dot info"></div>
+    <div class="ann-body">
+      <div class="ann-title">Your announcement title here</div>
+      <div class="ann-text">Your full message text here. Can be as long as you need.</div>
+      <div class="ann-meta"><span class="ann-tag info">Info</span><span>6 Oct 2026</span></div>
+    </div>
+  </div>
+
+  <div class="ann-item">
+    <div class="ann-dot warn"></div>
+    <div class="ann-body">
+      <div class="ann-title">Warning title</div>
+      <div class="ann-text">Warning message text.</div>
+      <div class="ann-meta"><span class="ann-tag warn">Warning</span><span>6 Oct 2026</span></div>
+    </div>
+  </div>
+
+  <div class="ann-item">
+    <div class="ann-dot good"></div>
+    <div class="ann-body">
+      <div class="ann-title">Good news title</div>
+      <div class="ann-text">Good news message text.</div>
+      <div class="ann-meta"><span class="ann-tag good">Good news</span><span>6 Oct 2026</span></div>
+    </div>
+  </div>
+
+  <div class="ann-item">
+    <div class="ann-dot urgent"></div>
+    <div class="ann-body">
+      <div class="ann-title">Urgent title</div>
+      <div class="ann-text">Urgent message text.</div>
+      <div class="ann-meta"><span class="ann-tag urgent">Urgent</span><span>6 Oct 2026</span></div>
+    </div>
+  </div>
+
+  -->
+  <!-- ADD YOUR ANNOUNCEMENTS ABOVE THIS LINE -->
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="sec-hd"><div class="sec-icon">ℹ️</div><h2 class="sec-title">Course Overview</h2></div>
+  <div class="two-col">
+    <div>
+      <div class="card" style="margin-bottom:1.2rem">
+        <h3>What will you learn?</h3>
+        <p>Railway Engineering (INS 325E) teaches you to design a complete railway line from scratch. You will define the geometry of curves, calculate gradients, understand how vehicles behave on track, analyse capacity, and ultimately submit a full <strong>Railway Plan &amp; Profile</strong> as your semester project.</p>
+        <p>Every formula you learn is used by engineers at TCDD, DB, SNCF, and Network Rail right now — on lines carrying millions of passengers.</p>
+        <div class="ibox"><strong>Course objective:</strong> By the end, you can evaluate, analyse, calculate, and draw a complete railway plan and profile to professional standard.</div>
+        <div class="lo-grid" style="margin-top:1rem">
+          <div class="lo"><span class="lo-v">EVALUATE</span><span class="lo-t">the role of railways in multimodal transport and their environmental advantage</span></div>
+          <div class="lo"><span class="lo-v">ANALYSE</span><span class="lo-t">geometric standards — gauge, clearance, curves, gradients, superelevation, transition curves</span></div>
+          <div class="lo"><span class="lo-v">CALCULATE</span><span class="lo-t">vehicle dynamics, traction, braking, resistance forces and energy consumption</span></div>
+          <div class="lo"><span class="lo-v">DESIGN</span><span class="lo-t">a complete railway route plan and vertical profile to TCDD standards</span></div>
+          <div class="lo"><span class="lo-v">EXPLAIN</span><span class="lo-t">railway capacity principles, track structure, and the role of signalling</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Course Materials &amp; Textbooks</h3>
+        <div style="display:grid;gap:.55rem;margin-top:.5rem">
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--accent)"><b style="color:var(--navy);font-size:.84rem">📋 Course Documents</b><br><span style="font-size:.76rem;color:var(--textl)">Primary material — presented by the instructor. Available on Ninova and in the Files section below.</span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem"><a href="https://www.routledge.com/Railway-Planning-Management-and-Engineering/Profillidis/p/book/9781032109695" target="_blank" style="color:var(--navy)">Profillidis (2022)</a></b><br><span style="font-size:.76rem;color:var(--textl)">Railway Planning, Management &amp; Engineering. Routledge.</span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem"><a href="https://link.springer.com/book/10.1007/978-3-031-24030-5" target="_blank" style="color:var(--navy)">Guerrieri (2023)</a></b><br><span style="font-size:.76rem;color:var(--textl)">Fundamentals of Railway Design. Springer.</span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem"><a href="http://www.esveld.com/MRT.htm" target="_blank" style="color:var(--navy)">Esveld (2001)</a></b><br><span style="font-size:.76rem;color:var(--textl)">Modern Railway Track (2nd ed.). MRT-Productions.</span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem"><a href="https://global.oup.com/academic/product/railway-engineering-9780195651324" target="_blank" style="color:var(--navy)">Chandra &amp; Agarwal (2007)</a></b><br><span style="font-size:.76rem;color:var(--textl)">Railway Engineering. Oxford University Press.</span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem">Evren G. &amp; Dündar S. (2016)</b><br><span style="font-size:.76rem;color:var(--textl)">Demiryolu (Railway). Birsen Yayınevi. <em>[Turkish — available at ITU Library]</em></span></div>
+          <div style="padding:.55rem .8rem;border-radius:8px;background:#f7f9fc;border-left:3px solid var(--blue)"><b style="color:var(--navy);font-size:.84rem">Seçkin, İ. (2003)</b><br><span style="font-size:.76rem;color:var(--textl)">Toprak İşleri ve Demiryolu. Çağlayan Kitabevi. <em>[Turkish — available at ITU Library]</em></span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom:1.2rem">
+        <div class="sec-hd" style="margin-bottom:1rem"><div class="sec-icon">📊</div><h2 class="sec-title" style="font-size:1.1rem">Assessment</h2></div>
+        <div class="assess-row" style="grid-template-columns:1fr">
+          <div class="acard c3"><span class="pct">40%</span><div class="nm">Final Exam</div><div class="ds">Comprehensive written</div></div>
+          <div class="acard c2"><span class="pct">30%</span><div class="nm">Midterm Exam</div><div class="ds">Week 11 · 8 Dec 2026</div></div>
+          <div class="acard c1"><span class="pct">30%</span><div class="nm">Project</div><div class="ds">Railway Plan &amp; Profile · Due Week 8</div></div>
+        </div>
+        <div class="wbox" style="margin-top:.8rem;font-size:.78rem"><strong>To sit the final:</strong> Min score 35 on midterm + project submitted. Late submissions: −20 points/day penalty.</div>
+      </div>
+      <div class="card">
+        <h3>Contact</h3>
+        <p><b style="color:var(--navy)">Dr. Mustafa Can Özkan</b><br>Department of Civil Engineering<br>Istanbul Technical University</p>
+        <p>📧 <a href="mailto:ozkanmc@itu.edu.tr" style="color:var(--blue)">ozkanmc@itu.edu.tr</a><br>
+        🏛️ Office: <strong>Room 456</strong> &nbsp;·&nbsp; Hours: <strong>Anytime</strong><br>
+        📌 Grades &amp; materials: <strong>Ninova</strong> &nbsp;·&nbsp; CRN: <strong>14541</strong></p>
+        <div class="ibox" style="margin-top:.8rem"><strong>Note:</strong> Some schedule changes may occur. Always check Ninova for the latest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="sec-hd"><div class="sec-icon">📅</div><h2 class="sec-title">Course Schedule — Autumn 2026</h2></div>
+  <div class="sched">
+    <a class="wk done" href="week01/"><div class="wn">Week 1</div><div class="wd">29 Sep</div><div class="wt">Introduction &amp; Geometric Standards</div><span class="ws">✓</span></a>
+    <a class="wk done" href="week02/"><div class="wn">Week 2</div><div class="wd">6 Oct</div><div class="wt">Superstructure Elements &amp; Materials</div><span class="ws">✓</span></a>
+    <div class="wk empty"><div class="wn">Week 3</div><div class="wd">13 Oct</div><div class="wt">Railway Vehicles</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 4</div><div class="wd">20 Oct</div><div class="wt">Track Location Survey I</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 5</div><div class="wd">27 Oct</div><div class="wt">Track Location Survey II</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 6</div><div class="wd">3 Nov</div><div class="wt">Track Location Survey III</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 7</div><div class="wd">10 Nov</div><div class="wt">Rail Vehicle Dynamics</div><span class="ws">🔒</span></div>
+    <div class="wk brk"><div class="wn">Week 8</div><div class="wd">17 Nov</div><div class="wt">Semester Break + Project Due</div><span class="ws">📋</span></div>
+    <div class="wk empty"><div class="wn">Week 9</div><div class="wd">24 Nov</div><div class="wt">Rail Vehicle Dynamics</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 10</div><div class="wd">1 Dec</div><div class="wt">Railway Track Capacity</div><span class="ws">🔒</span></div>
+    <div class="wk exam"><div class="wn">Week 11</div><div class="wd">8 Dec</div><div class="wt">Curves + Midterm Exam</div><span class="ws">📝</span></div>
+    <div class="wk empty"><div class="wn">Week 12</div><div class="wd">15 Dec</div><div class="wt">Curves (cont.)</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 13</div><div class="wd">22 Dec</div><div class="wt">Transition Curves</div><span class="ws">🔒</span></div>
+    <div class="wk empty"><div class="wn">Week 14</div><div class="wd">29 Dec</div><div class="wt">Gradients</div><span class="ws">🔒</span></div>
+  </div>
+  <p style="font-size:.75rem;color:var(--textl);margin-top:.8rem">
+    <span style="margin-right:1.2rem">🟢 Content live</span>
+    <span style="margin-right:1.2rem">🔴 Exam</span>
+    <span style="margin-right:1.2rem">⬜ Coming soon</span>
+    Content published each Tuesday before the lecture.
+  </p>
+</section>
+
+<!-- LATEST WEEK -->
+<section id="week1">
+  <div class="sec-hd"><div class="sec-icon">📖</div><h2 class="sec-title">Latest Content</h2></div>
+  <div class="wk-hdr" style="cursor:pointer" onclick="location.href='week02/'">
+    <div class="wk-hdr-label">Week 2 · 6 October 2026 · 🟢 NOW LIVE</div>
+    <h2>Introduction to Railway Engineering<br>&amp; Railway Geometric Standards</h2>
+    <p>Why railways? 200 years of history. The geometry that makes fast, safe rail travel possible. Interactive charts, gauge explorer, gradient converter, and an 8-question quiz.</p>
+    <div class="wk-chips">
+      <span class="wk-chip">🎮 Interactive Cross-Section</span>
+      <span class="wk-chip">📊 TCDD Data</span>
+      <span class="wk-chip">🧮 Load Calculator</span>
+      <span class="wk-chip">✏️ 5 Exercises</span>
+      <span class="wk-chip">🧩 10-Question Quiz</span>
+    </div>
+    <div style="margin-top:1.4rem">
+      <a href="week02/" style="display:inline-block;background:var(--accent);color:var(--navy);font-weight:800;font-size:.9rem;padding:.6rem 1.5rem;border-radius:8px;text-decoration:none">Open Week 2 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FILES -->
+<section id="files">
+  <div class="sec-hd"><div class="sec-icon">📁</div><h2 class="sec-title">Files &amp; Downloads</h2></div>
+  <div id="files-list"></div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="sec-hd"><div class="sec-icon">🔗</div><h2 class="sec-title">Useful Resources</h2></div>
+  <div class="res-grid">
+    <a href="https://www.railengineer.co.uk/" target="_blank" class="res-card"><h4>🇬🇧 Rail Engineer Magazine</h4><p>Free monthly e-magazine covering current UK rail engineering projects.</p></a>
+    <a href="https://www.uic.org/spip.php?rubrique916" target="_blank" class="res-card"><h4>🌍 UIC Statistics</h4><p>International railway statistics — network lengths, passenger flows, freight volumes.</p></a>
+    <a href="https://www.tcdd.gov.tr/sebeke-bildirimi/2025-sebeke-bildirimi-dokumanlari" target="_blank" class="res-card"><h4>🇹🇷 TCDD Network Statement 2025</h4><p>Official TCDD infrastructure parameters, line speeds, and technical specifications.</p></a>
+    <a href="https://data.tuik.gov.tr/" target="_blank" class="res-card"><h4>📊 TÜİK Data Portal</h4><p>Turkish Statistical Institute — transport statistics, passenger numbers, accident data.</p></a>
+    <a href="https://www.eea.europa.eu/themes/transport" target="_blank" class="res-card"><h4>🌱 EEA Transport &amp; Environment</h4><p>European Environment Agency — transport emissions and decarbonisation reports.</p></a>
+    <a href="https://railwayengineering.science/" target="_blank" class="res-card"><h4>📰 Railway Engineering Science</h4><p>Open-access peer-reviewed journal on track, dynamics, traction, and systems.</p></a>
+  </div>
+</section>
+
+</div><!-- /main -->
+
+<footer>
+  <div class="footer-rail"></div>
+  <p><strong>INS 325E Railway Engineering</strong> · Istanbul Technical University · Department of Civil Engineering</p>
+  <p style="margin-top:.4rem"><strong>Dr. Mustafa Can Özkan</strong> · <a href="mailto:ozkanmc@itu.edu.tr">ozkanmc@itu.edu.tr</a></p>
+  <p style="margin-top:.4rem;font-size:.75rem;opacity:.6">🌐 <a href="https://ozkanmc.github.io/ins325e-railway-eng/">ozkanmc.github.io/ins325e-railway-eng</a></p>
+  <p style="margin-top:.3rem;font-size:.72rem;opacity:.5">Data: TÜİK, TCDD, EEA, UIC. Updated September 2026.</p>
+</footer>
+
+
+<script>
+// ══ FILES LIST — ADD YOUR FILES HERE ══
+// Copy a line and fill in: name, file path (relative to site root), cat, type, date, size
+/* ── ADD FILES HERE ── */
+const FILES = [
+  // EXAMPLE (remove the // to activate):
+  // { name:"Week 1 — Lecture Slides", file:"files/week01-slides.pptx", cat:"lecture", type:"ppt", date:"29 Sep 2026", size:"" },
+  // { name:"Midterm Exam Results", file:"files/midterm-results.pdf", cat:"result", type:"pdf", date:"", size:"" },
+  // { name:"Project Brief", file:"files/project-brief.pdf", cat:"project", type:"pdf", date:"", size:"" },
+];
+
+// ══ FILE ICONS & LABELS ══
+const TYPE_ICON = { ppt:'📊', pdf:'📄', xls:'📈', doc:'📝', zip:'🗜️', img:'🖼️', res:'🏆' };
+const CAT_LABEL = { lecture:'Lecture', result:'Results', project:'Project', exam:'Exam', other:'Other' };
+
+// ══ TICKER ══
+const ticks=['🚂 Türkiye HSR network: 2,032 km (2024)','🛤️ Standard gauge: 1,435 mm — 57% of global railways','🌍 ~1.8 million km of railway worldwide','♻️ Rail: ~14 g CO₂/p-km vs ~170 g by car','🏎️ TGV world record: 574.8 km/h (2007)','📐 TCDD mainline max gradient: 8‰','🚉 13,919 km total Turkish railway (2024)','💡 One freight train replaces 300 trucks','⚠️ Level crossings = 67% of TR rail accidents (2023)'];
+const inner=document.getElementById('ticker-content');
+inner.innerHTML=ticks.concat(ticks).map(t=>`<span>${t}<span class="ticker-sep">◆</span></span>`).join('');
+
+
+// ══ FILES ══
+function renderFiles(){
+  const el=document.getElementById('files-list');
+  if(!FILES.length){
+    el.innerHTML='<div style="background:var(--card);border-radius:var(--r);border:2px dashed var(--border);padding:2.5rem;text-align:center;color:var(--textl);font-size:.88rem">No files uploaded yet. Lecture slides, exam results, and project documents will appear here.</div>';
+    return;
+  }
+  const order=['lecture','project','exam','result','other'];
+  const groups={};
+  FILES.forEach(f=>{const c=f.cat||'other';if(!groups[c])groups[c]=[];groups[c].push(f);});
+  let html='<div class="files-grid">';
+  order.forEach(cat=>{
+    if(!groups[cat])return;
+    html+=`<div class="files-cat-hd">${CAT_LABEL[cat]||cat}</div>`;
+    groups[cat].forEach(f=>{
+      const icon=TYPE_ICON[f.type]||'📎';
+      html+=`<a class="file-item" href="${f.file}" target="_blank" download>
+        <div class="file-icon ${f.type}">${icon}</div>
+        <div class="file-body">
+          <div class="file-name">${f.name}</div>
+          <div class="file-meta">${f.date?`<span>${f.date}</span>`:''} ${f.size?`<span>${f.size}</span>`:''}</div>
+        </div>
+        <span class="file-cat ${cat}">${CAT_LABEL[cat]||cat}</span>
+        <span class="file-dl">↓ Download</span>
+      </a>`;
+    });
+  });
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+// ══ ANNOUNCEMENTS — hide empty state if real ones exist ══
+const realAnns=document.querySelectorAll('.ann-item');
+const emptyMsg=document.querySelector('.ann-empty');
+if(realAnns.length>0 && emptyMsg) emptyMsg.style.display='none';
+
+// ══ INIT ══
+renderFiles();
+</script>
+</body>
+</html>
