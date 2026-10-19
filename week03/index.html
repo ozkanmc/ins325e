@@ -190,6 +190,11 @@ footer strong{color:#fff}footer a{color:var(--accent);text-decoration:none}
 .wk-nav a{color:var(--blue);font-size:.86rem;font-weight:600;text-decoration:none}
 
 /* ══ WEEK 3 v3 additions ══ */
+#anatomy-wrap svg{width:100%;max-width:900px;display:block;margin:0 auto;cursor:pointer}
+.an-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.swipe-hint{display:none;text-align:center;font-size:.7rem;color:#5a6b7d;font-weight:700;margin-bottom:.3rem}
+@media(max-width:760px){.swipe-hint{display:block}#anatomy-wrap svg{min-width:700px}#anatomy-end{min-width:520px!important}}
+.dot{display:inline-block;width:.62rem;height:.62rem;border-radius:50%;margin-right:.38rem;vertical-align:-1px}
 .anim-btn{border-color:#aab6c6}
 .howto{background:linear-gradient(135deg,#f0f6ff,#e8f1fc);border:1px solid #c5d8f0;border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:1.1rem}
 .howto-title{font-size:.88rem;font-weight:800;color:var(--navy);margin-bottom:.6rem}
@@ -321,203 +326,45 @@ footer strong{color:#fff}footer a{color:var(--accent);text-decoration:none}
  </div>
 </div>
 
-<!-- VEHICLE ANATOMY SVG -->
+<!-- VEHICLE ANATOMY -->
 <div class="card" style="margin-bottom:1.2rem">
- <h3>🎮 Railway Vehicle Anatomy — Click any part</h3>
- <p style="font-size:.86rem;color:var(--textm);margin-bottom:1rem">Remember this rule: <em>everything above the axleboxes is sprung; the wheelset is not.</em> It decides how hard a vehicle hits the track. Click any coloured zone to learn what it does.</p>
- <div id="anatomy-wrap">
- <svg id="anatomy-svg" viewBox="0 0 780 380" xmlns="http://www.w3.org/2000/svg">
- <defs>
- <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
- <stop offset="0%" stop-color="#4a80d4"/><stop offset="100%" stop-color="#2a5298"/>
- </linearGradient>
- <linearGradient id="bogieG" x1="0" y1="0" x2="0" y2="1">
- <stop offset="0%" stop-color="#e74c3c"/><stop offset="100%" stop-color="#c0392b"/>
- </linearGradient>
- <linearGradient id="wG" x1="0" y1="0" x2="0" y2="1">
- <stop offset="0%" stop-color="#4a5568"/><stop offset="100%" stop-color="#2d3748"/>
- </linearGradient>
- <linearGradient id="railG" x1="0" y1="0" x2="1" y2="0">
- <stop offset="0%" stop-color="#777"/><stop offset="50%" stop-color="#bbb"/><stop offset="100%" stop-color="#777"/>
- </linearGradient>
- </defs>
-
- <!-- Track / ground -->
- <rect x="0" y="345" width="780" height="35" fill="#c8b890"/>
- <!-- Sleeper -->
- <rect x="20" y="348" width="740" height="10" rx="2" fill="#c0aa88" stroke="#a09070" stroke-width="1"/>
- <!-- Rails -->
- <rect x="60" y="335" width="78" height="16" rx="3" fill="url(#railG)"/>
- <rect x="640" y="335" width="78" height="16" rx="3" fill="url(#railG)"/>
- <text x="390" y="373" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#8a7a50" font-weight="600">TRACK — rail · sleeper · ballast (Week 2)</text>
-
- <!-- WHEELSETS -->
- <g class="ap" data-p="wheelset" style="cursor:pointer">
- <!-- Left wheel -->
- <ellipse cx="100" cy="302" rx="40" ry="40" fill="url(#wG)" stroke="#1a252f" stroke-width="2"/>
- <ellipse cx="100" cy="302" rx="28" ry="28" fill="#3d4f63"/>
- <ellipse cx="100" cy="302" rx="9" ry="9" fill="#2d3748"/>
- <line x1="100" y1="276" x2="100" y2="295" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="100" y1="309" x2="100" y2="328" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="74" y1="302" x2="91" y2="302" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="109" y1="302" x2="126" y2="302" stroke="#4a5568" stroke-width="2.5"/>
- <ellipse cx="100" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="5"/>
- <ellipse cx="100" cy="340" rx="12" ry="5" fill="#1a252f"/>
- <!-- Right wheel of same axle (perspective) -->
- <ellipse cx="140" cy="302" rx="40" ry="40" fill="#2d3748" stroke="#1a252f" stroke-width="1.5" opacity=".45"/>
- <ellipse cx="140" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="4" opacity=".45"/>
- <ellipse cx="140" cy="340" rx="12" ry="5" fill="#1a252f" opacity=".45"/>
- <!-- Right bogie wheelset -->
- <ellipse cx="640" cy="302" rx="40" ry="40" fill="url(#wG)" stroke="#1a252f" stroke-width="2"/>
- <ellipse cx="640" cy="302" rx="28" ry="28" fill="#3d4f63"/>
- <ellipse cx="640" cy="302" rx="9" ry="9" fill="#2d3748"/>
- <line x1="640" y1="276" x2="640" y2="295" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="640" y1="309" x2="640" y2="328" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="614" y1="302" x2="631" y2="302" stroke="#4a5568" stroke-width="2.5"/>
- <line x1="649" y1="302" x2="666" y2="302" stroke="#4a5568" stroke-width="2.5"/>
- <ellipse cx="640" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="5"/>
- <ellipse cx="640" cy="340" rx="12" ry="5" fill="#1a252f"/>
- <ellipse cx="680" cy="302" rx="40" ry="40" fill="#2d3748" stroke="#1a252f" stroke-width="1.5" opacity=".45"/>
- <ellipse cx="680" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="4" opacity=".45"/>
- <ellipse cx="680" cy="340" rx="12" ry="5" fill="#1a252f" opacity=".45"/>
- <!-- Axle shaft -->
- <rect x="138" y="295" width="504" height="10" rx="5" fill="#2d3748"/>
- </g>
-
- <!-- AXLEBOXES -->
- <rect class="ap" data-p="axlebox" x="130" y="288" width="30" height="24" rx="5" fill="#e67e22" stroke="#c06010" stroke-width="1.5" style="cursor:pointer"/>
- <rect class="ap" data-p="axlebox" x="620" y="288" width="30" height="24" rx="5" fill="#e67e22" stroke="#c06010" stroke-width="1.5" style="cursor:pointer"/>
-
- <!-- PRIMARY SUSPENSION (orange zigzag springs) -->
- <g class="ap" data-p="primary" style="cursor:pointer">
- <path d="M76,272 L80,264 L72,257 L80,250 L72,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
- <path d="M128,272 L132,264 L124,257 L132,250 L124,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
- <path d="M616,272 L620,264 L612,257 L620,250 L612,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
- <path d="M668,272 L672,264 L664,257 L672,250 L664,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
- </g>
-
- 
- <g class="ap" data-p="bogie" style="cursor:pointer">
- <rect x="48" y="238" width="264" height="26" rx="5" fill="url(#bogieG)" stroke="#a0291e" stroke-width="1.5"/>
- <rect x="50" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
- <rect x="290" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
- <rect x="468" y="238" width="264" height="26" rx="5" fill="url(#bogieG)" stroke="#a0291e" stroke-width="1.5"/>
- <rect x="470" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
- <rect x="710" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
- <text x="180" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)" font-weight="700" pointer-events="none">BOGIE FRAME</text>
- <text x="600" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)" font-weight="700" pointer-events="none">BOGIE FRAME</text>
- </g>
-
- 
- <g class="ap" data-p="secondary" style="cursor:pointer">
- <path d="M130,222 L134,212 L126,204 L134,196 L126,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
- <path d="M240,222 L244,212 L236,204 L244,196 L236,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
- <path d="M540,222 L544,212 L536,204 L544,196 L536,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
- <path d="M650,222 L654,212 L646,204 L654,196 L646,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
- </g>
-
- 
- <g class="ap" data-p="pivot" style="cursor:pointer">
- <!-- Left bogie pivot stem -->
- <rect x="172" y="182" width="16" height="42" rx="4" fill="#4a5568" stroke="#2d3748" stroke-width="1.5"/>
- <!-- Right bogie pivot stem -->
- <rect x="592" y="182" width="16" height="42" rx="4" fill="#4a5568" stroke="#2d3748" stroke-width="1.5"/>
- </g>
-
- <!-- CAR BODY -->
- <g class="ap" data-p="carbody" style="cursor:pointer">
- <rect x="75" y="100" width="630" height="185" rx="12" fill="url(#bodyG)" stroke="#1e3a7a" stroke-width="2"/>
- <!-- Windows -->
- <rect x="105" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <rect x="172" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <rect x="239" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <rect x="337" y="120" width="106" height="42" rx="5" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
- <rect x="489" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <rect x="556" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <rect x="623" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
- <!-- Door -->
- <rect x="337" y="188" width="106" height="97" rx="4" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
- <!-- Underframe -->
- <rect x="75" y="274" width="630" height="11" rx="0" fill="rgba(0,0,0,.2)"/>
- <!-- Labels -->
- <text x="390" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#fff">CAR BODY (CARBODY)</text>
- <text x="390" y="185" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.65)">fully sprung — passengers or freight</text>
- <text x="390" y="268" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.65)">UNDERFRAME / CHASSIS</text>
- </g>
-
- <!-- COUPLER (red boxes at ends) -->
- <g class="ap" data-p="coupler" style="cursor:pointer">
- <rect x="25" y="192" width="52" height="22" rx="4" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
- <rect x="5" y="200" width="22" height="7" rx="2" fill="#c0392b"/>
- <rect x="703" y="192" width="52" height="22" rx="4" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
- <rect x="753" y="200" width="22" height="7" rx="2" fill="#c0392b"/>
- <text x="51" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#fff" font-weight="700">BUFFER</text>
- <text x="729" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#fff" font-weight="700">BUFFER</text>
- </g>
-
- <!-- PANTOGRAPH -->
- <g class="ap" data-p="pantograph" style="cursor:pointer">
- <line x1="200" y1="20" x2="580" y2="20" stroke="#f0c040" stroke-width="2" stroke-dasharray="8,4"/>
- <text x="390" y="14" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#f0c040" font-weight="600">25 kV contact wire</text>
- <line x1="350" y1="100" x2="368" y2="22" stroke="#666" stroke-width="3" stroke-linecap="round"/>
- <line x1="430" y1="100" x2="412" y2="22" stroke="#666" stroke-width="3" stroke-linecap="round"/>
- <line x1="310" y1="100" x2="350" y2="100" stroke="#666" stroke-width="2"/>
- <line x1="430" y1="100" x2="470" y2="100" stroke="#666" stroke-width="2"/>
- <rect x="363" y="17" width="54" height="8" rx="2" fill="#e8b84b" stroke="#c8980b" stroke-width="1.5"/>
- <text x="390" y="89" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#888" font-weight="600">PANTOGRAPH</text>
- </g>
-
- <!-- SPRUNG / UNSPRUNG LINE -->
- <line x1="20" y1="280" x2="760" y2="280" stroke="#e17055" stroke-width="1.5" stroke-dasharray="8,4"/>
- <rect x="22" y="266" width="105" height="15" rx="3" fill="rgba(225,112,85,.12)" stroke="rgba(225,112,85,.4)" stroke-width="1"/>
- <text x="75" y="277" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#c05030" font-weight="700">SPRUNG (above)</text>
- <rect x="655" y="266" width="105" height="15" rx="3" fill="rgba(214,48,49,.12)" stroke="rgba(214,48,49,.4)" stroke-width="1"/>
- <text x="707" y="277" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#a01010" font-weight="700">UNSPRUNG (below)</text>
-
- <!-- HIGHLIGHT RINGS -->
- <rect id="hl-carbody" x="71" y="96" width="638" height="192" rx="14" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
- <rect id="hl-coupler" x="2" y="187" width="80" height="34" rx="6" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
- <rect id="hl-pantograph" x="290" y="10" width="200" height="98" rx="6" fill="none" stroke="#f0c040" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
- <g id="hl-secondary" opacity="0" pointer-events="none">
- <rect x="118" y="183" width="136" height="42" rx="6" fill="none" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="6,3"/>
- <rect x="528" y="183" width="136" height="42" rx="6" fill="none" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- <g id="hl-pivot" opacity="0" pointer-events="none">
- <rect x="163" y="175" width="34" height="54" rx="6" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-dasharray="6,3"/>
- <rect x="583" y="175" width="34" height="54" rx="6" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- <g id="hl-bogie" opacity="0" pointer-events="none">
- <rect x="44" y="218" width="278" height="50" rx="7" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3"/>
- <rect x="464" y="218" width="278" height="50" rx="7" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- <g id="hl-primary" opacity="0" pointer-events="none">
- <rect x="62" y="235" width="80" height="42" rx="5" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
- <rect x="602" y="235" width="80" height="42" rx="5" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- <g id="hl-axlebox" opacity="0" pointer-events="none">
- <rect x="122" y="282" width="46" height="36" rx="7" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
- <rect x="612" y="282" width="46" height="36" rx="7" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- <g id="hl-wheelset" opacity="0" pointer-events="none">
- <circle cx="100" cy="302" r="46" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="6,3"/>
- <circle cx="640" cy="302" r="46" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="6,3"/>
- </g>
- </svg>
- <div class="part-btn-row">
- <button class="pbtn" onclick="SP('carbody')">🔵 Car Body</button>
- <button class="pbtn" onclick="SP('coupler')">🔴 Coupler/Buffer</button>
- <button class="pbtn" onclick="SP('pantograph')">⚡ Pantograph</button>
- <button class="pbtn" onclick="SP('secondary')">🟢 2° Suspension</button>
- <button class="pbtn" onclick="SP('pivot')">🟣 Pivot</button>
- <button class="pbtn" onclick="SP('bogie')">🔴 Bogie Frame</button>
- <button class="pbtn" onclick="SP('primary')">🟠 1° Suspension</button>
- <button class="pbtn" onclick="SP('axlebox')">🟠 Axlebox</button>
- <button class="pbtn" onclick="SP('wheelset')">⚫ Wheelset</button>
- </div>
- </div>
- <div id="part-info" class="part-info">
- <div class="part-hint">👆 Click any part of the vehicle above, or use the buttons below the diagram.</div>
- </div>
+  <h3>🎮 Railway Vehicle Anatomy — Click any part</h3>
+  <p style="font-size:.86rem;color:var(--textm);margin-bottom:.8rem">Remember this rule: <em>everything above the axleboxes is sprung; the wheelset is not.</em> It decides how hard a vehicle hits the track. Use the three views below — the whole coach, a close-up of one bogie, and a wheelset seen along the track — then click any part (or a button) to see what it does.</p>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <linearGradient id="bodyG2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5b8fd4"/><stop offset="100%" stop-color="#2f62ad"/></linearGradient>
+    <linearGradient id="bogG2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ec5b4c"/><stop offset="100%" stop-color="#c0392b"/></linearGradient>
+    <linearGradient id="steelE" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d97a5"/><stop offset=".5" stop-color="#d3dae3"/><stop offset="1" stop-color="#8d97a5"/></linearGradient>
+  </defs></svg>
+  <div class="mode-row">
+    <button class="mode-btn on" id="am-1" onclick="anMode(1)">① Whole vehicle — side view</button>
+    <button class="mode-btn" id="am-2" onclick="anMode(2)">② Bogie close-up — side view</button>
+    <button class="mode-btn" id="am-3" onclick="anMode(3)">③ Wheelset on the rails — end view</button>
+  </div>
+  <div id="anatomy-wrap">
+    <div class="con-cap" id="an-cap"></div>
+    <div class="swipe-hint">↔ swipe the drawing sideways to see all of it</div>
+    <div class="an-scroll">
+    <svg id="anatomy-svg" viewBox="0 0 920 490" xmlns="http://www.w3.org/2000/svg"></svg>
+    <svg id="anatomy-close" viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" style="display:none"></svg>
+    <svg id="anatomy-end" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" style="display:none;max-width:600px"></svg>
+    </div>
+    <div class="part-btn-row">
+      <button class="pbtn" data-p="carbody" onclick="SP('carbody')"><span class="dot" style="background:#2a5298"></span>Car body</button>
+      <button class="pbtn" data-p="coupler" onclick="SP('coupler')"><span class="dot" style="background:#e74c3c"></span>Buffer &amp; coupler</button>
+      <button class="pbtn" data-p="pantograph" onclick="SP('pantograph')"><span class="dot" style="background:#c8980b"></span>Pantograph</button>
+      <button class="pbtn" data-p="secondary" onclick="SP('secondary')"><span class="dot" style="background:#27ae60"></span>Secondary suspension</button>
+      <button class="pbtn" data-p="pivot" onclick="SP('pivot')"><span class="dot" style="background:#8e44ad"></span>Pivot</button>
+      <button class="pbtn" data-p="bogie" onclick="SP('bogie')"><span class="dot" style="background:#e74c3c"></span>Bogie frame</button>
+      <button class="pbtn" data-p="primary" onclick="SP('primary')"><span class="dot" style="background:#e67e22"></span>Primary suspension</button>
+      <button class="pbtn" data-p="axlebox" onclick="SP('axlebox')"><span class="dot" style="background:#a0522d"></span>Axlebox</button>
+      <button class="pbtn" data-p="wheelset" onclick="SP('wheelset')"><span class="dot" style="background:#2d3748"></span>Wheelset (wheels + axle)</button>
+      <button class="pbtn" data-p="flange" onclick="SP('flange')"><span class="dot" style="background:#d63031"></span>Wheel flange</button>
+      <button class="pbtn" data-p="rail" onclick="SP('rail')"><span class="dot" style="background:#6f7a86"></span>Rail &amp; track</button>
+    </div>
+  </div>
+  <div id="part-info" class="part-info">
+    <div class="part-hint">👆 Click any part of the drawing, or press a button above. Fine parts (pivot, springs, axleboxes) open the bogie close-up automatically.</div>
+  </div>
 </div>
 
 <!-- LOAD PATH (interactive 9-element chain) -->
@@ -1151,13 +998,14 @@ const PARTS={
  body:`<p><strong>Function:</strong> Structural sub-frame that: supports the car body via secondary suspension; carries wheelsets via primary suspension; houses traction motors and brakes; enables curve negotiation by rotating under the carbody.</p>
  <p><strong>Structure:</strong> An H-frame with two longitudinal <em>side frames</em> connected by transverse <em>cross-beams (transoms)</em>. The pivot sits at the transom centre. Wheelsets sit in axleboxes at the ends of the side frames.</p>
  <p><strong>Motor arrangement:</strong> Older designs: axle-hung motors (heavy unsprung mass, damages track). Modern designs: bogie-frame-mounted motors with cardan shaft drive (lower unsprung mass). HSR bogies always use frame-mounted motors.</p>
+    <p><strong>Typical dimensions:</strong> a passenger bogie has a wheelbase of about 2.5 m, and the two bogie pivots of a 26 m coach are about 19 m apart.</p>
  <div class="lf-note">The bogie lets its wheelsets deviate slightly from parallel while curving — this reduces flange wear significantly compared with a rigid fixed-wheelbase vehicle.</div>`},
  primary:{col:'#e67e22',hl:'hl-primary',title:'🟠 Primary Suspension',
  body:`<p><strong>Function:</strong> Between the axlebox (which moves with the wheelset) and the bogie frame. Absorbs high-frequency wheel impacts from rail joints, welds, corrugations; keeps the wheel in contact with the rail over irregularities; protects the bogie frame from excessive shock.</p>
  <p><strong>Components:</strong> Coil springs + hydraulic dampers (or chevron rubber springs). Natural frequency ~5–8 Hz. Stiffness must balance: too soft = wheel lifts off rail; too stiff = excessive impact force transmitted to the bogie.</p>
  <p><strong>Unsprung mass:</strong> Everything below the primary suspension is unsprung — it hits every bump directly. Each kg of unsprung mass generates dynamic forces on the rail proportional to speed². This is why the primary suspension must be as low and as light as possible.</p>
  <div class="lf-note">A failed primary damper causes a distinctive "pogo" bounce of the axlebox. The vehicle must be taken out of service — dynamic rail forces increase dramatically and track is damaged rapidly.</div>`},
- axlebox:{col:'#e67e22',hl:'hl-axlebox',title:'🟠 Axlebox & Bearings',
+ axlebox:{col:'#a0522d',hl:'hl-axlebox',title:'🟠 Axlebox & Bearings',
  body:`<p><strong>Function:</strong> Houses the rolling-element bearings that allow the axle to rotate while transmitting vertical and lateral loads from the bogie frame to the wheelset axle. The interface between rotating and stationary structures.</p>
  <p><strong>Bearings:</strong> All modern railway vehicles use tapered or cylindrical roller bearings. A main-line axlebox bearing must sustain: 10–22.5 t radial load, high-speed rotation, vibration, shock, and temperature extremes — for around a million kilometres between overhauls.</p>
  <p><strong>Hot box detection:</strong> Trackside infrared scanners automatically check every passing axlebox temperature. A hot reading is a critical alert — trains are stopped and inspected. Bearing failure can seize the axle and derail the vehicle.</p>
@@ -1167,29 +1015,180 @@ const PARTS={
  <p><strong>Composition:</strong> Two monobloc wheels pressed onto a forged steel axle. The wheels are pressed on with enormous force and cannot be removed without a hydraulic press. Driving axles receive torque from the traction motor; carrying axles roll freely.</p>
  <p><strong>Conicity &amp; hunting:</strong> The tread is conical (1:20) enabling self-steering. As wheels wear, the effective conicity increases — above a critical value, the critical hunting speed falls below the line speed. Wheels must then be re-profiled on a wheel lathe.</p>
  <p><strong>Dimensions:</strong> Tread conicity 1:20 · flange height 29 mm · flange thickness 32.5 mm · diameter 890–920 mm (mainline)</p>
- <div class="lf-note">A wheel starts at roughly 920 mm diameter and is withdrawn at around 840 mm — about 80 mm of diameter to use up, a few millimetres at a time, over roughly a million kilometres of service.</div>`}
+ <div class="lf-note">A wheel starts at roughly 920 mm diameter and is withdrawn at around 840 mm — about 80 mm of diameter to use up, a few millimetres at a time, over roughly a million kilometres of service.</div>`},
+  rail:{col:'#6f7a86',title:'⬛ Rail, Sleeper &amp; Ballast (the track)',
+    body:`<p><strong>Function:</strong> the rail is a continuous steel beam that carries every wheel load, guides the wheels, and — together with the wheel — transmits traction and braking forces through adhesion.</p>
+    <p><strong>Underneath:</strong> sleepers (cross-ties) spread the load into the ballast; the ballast and the subgrade spread it further into the ground. This is the whole structure you studied in Week 2.</p>
+    <p><strong>Geometry that matters here:</strong> standard gauge is 1,435 mm between the inner faces of the two rails (Week 1), and the rails are inclined 1:20 inwards to match the taper of the wheel tread.</p>
+    <div class="lf-note">Every load path in this lecture ends at a contact patch about the size of a small coin, where one steel wheel meets one steel rail.</div>`},
+  flange:{col:'#d63031',title:'🔴 Wheel Flange',
+    body:`<p><strong>Function:</strong> the flange is the inner rim of each wheel, running on the <em>inside</em> of the rail head. It keeps the wheelset from leaving the rails and gives lateral guidance when the wheelset drifts too far — in tight curves or over track irregularities.</p>
+    <p><strong>Dimensions (new wheel):</strong> 29 mm high and 32.5 mm thick, measured 10 mm below the tread.</p>
+    <p><strong>Not the main steering device:</strong> on straight track and in gentle curves the flange does not touch the rail — the conical tread does the steering (see the conicity tool). Flange contact means wear, noise and heat.</p>
+    <p>From the side the flange is hidden behind the rail head, which is why it is only visible in the end view.</p>
+    <div class="lf-note">The squeal you hear in a tight tram or metro curve comes from the wheel slipping against the rail as the flange and tread press on it.</div>`}
 };
 
-const HLS={carbody:'hl-carbody',coupler:'hl-coupler',pantograph:'hl-pantograph',secondary:'hl-secondary',pivot:'hl-pivot',bogie:'hl-bogie',primary:'hl-primary',axlebox:'hl-axlebox',wheelset:'hl-wheelset'};
+// ═══════════════ RAILWAY VEHICLE ANATOMY (3 views) ═══════════════
+const AC={carbody:'#2a5298',coupler:'#e74c3c',pantograph:'#c8980b',secondary:'#27ae60',pivot:'#8e44ad',bogie:'#e74c3c',primary:'#e67e22',axlebox:'#a0522d',wheelset:'#2d3748',flange:'#d63031',rail:'#6f7a86'};
+const ringR=(p,x,y,w,h,r)=>`<rect class="hl hl-${p}" x="${x}" y="${y}" width="${w}" height="${h}" rx="${r||6}" fill="none" stroke="${AC[p]}" stroke-width="3" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>`;
+const ringC=(p,cx,cy,r)=>`<circle class="hl hl-${p}" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${AC[p]}" stroke-width="3" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>`;
+const tx=(t,x,y,a,s,c,w)=>`<text x="${x}" y="${y}" text-anchor="${a||'start'}" font-family="Inter,sans-serif" font-size="${s||12}" font-weight="${w||800}" fill="${c||'#2d3748'}" stroke="#fff" stroke-width="3.2" paint-order="stroke" stroke-linejoin="round">${t}</text>`;
+const tx2=(lines,x,y,a,s,c)=>`<text x="${x}" y="${y}" text-anchor="${a||'start'}" font-family="Inter,sans-serif" font-size="${s||12}" font-weight="800" fill="${c||'#2d3748'}" stroke="#fff" stroke-width="3.2" paint-order="stroke" stroke-linejoin="round">${lines.map((l,i)=>`<tspan x="${x}" dy="${i?14:0}">${l}</tspan>`).join('')}</text>`;
+const ld=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#34495e" stroke-width="1.5" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="3.2" fill="#34495e" stroke="#fff" stroke-width="1.5"/>`;
+const grp=(p,inner)=>`<g class="ap" data-p="${p}">${inner}</g>`;
 
-function SP(name){
- Object.values(HLS).forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity','0');});
- const hlEl=document.getElementById(HLS[name]);
- if(hlEl)hlEl.setAttribute('opacity','1');
- document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));
- document.querySelectorAll('.pbtn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+name+"'"))b.classList.add('on');});
- const P=PARTS[name];
- const info=document.getElementById('part-info');
- info.style.borderColor=P.col;
- info.style.background=`linear-gradient(135deg,${P.col}09,${P.col}02)`;
- info.innerHTML=`<h4 style="color:${P.col}">${P.title}</h4>${P.body}`;
+function coil(x,y1,y2,col){
+  const n=5, dy=(y2-y1)/(n*2); let d=`M${x},${y1}`;
+  for(let i=0;i<n*2;i++) d+=` L${x+(i%2?-7:7)},${(y1+dy*(i+0.5)).toFixed(1)}`;
+  d+=` L${x},${y2}`;
+  return `<path d="${d}" fill="none" stroke="${col}" stroke-width="3.6" stroke-linejoin="round" stroke-linecap="round"/>`;
 }
+function trackShapes(W){
+  let s=`<rect x="0" y="424" width="${W}" height="30" fill="#b9b3a6"/>`;
+  for(let x=6;x<W;x+=13) s+=`<ellipse cx="${x}" cy="${430+((x*7)%18)}" rx="4" ry="2.6" fill="#a39d8f"/>`;
+  for(let x=8;x<W;x+=34) s+=`<rect x="${x}" y="406" width="22" height="18" rx="2" fill="#b79f78" stroke="#8b7653" stroke-width="1"/>`;
+  s+=`<rect x="0" y="380" width="${W}" height="8" fill="#b4bcc6" stroke="#6f7a86" stroke-width="1"/><rect x="0" y="388" width="${W}" height="12" fill="#8e98a4"/><rect x="0" y="400" width="${W}" height="6" fill="#7b8693"/>`;
+  return grp('rail',s)+ringR('rail',-4,376,W+8,82,4);
+}
+function carbodyShapes(txt){
+  let win=''; for(let i=0;i<7;i++) win+=`<rect x="${188+i*80}" y="110" width="64" height="48" rx="6" fill="#cfe6fb" opacity=".92" stroke="#1e3a7a" stroke-width="1.5"/>`;
+  const body=`<rect x="90" y="90" width="740" height="154" rx="16" fill="url(#bodyG2)" stroke="#1e3a7a" stroke-width="2"/>${win}
+    <rect x="105" y="108" width="40" height="136" rx="4" fill="#1d3c78" opacity=".55" stroke="#cfe6fb" stroke-width="1.5"/><rect x="775" y="108" width="40" height="136" rx="4" fill="#1d3c78" opacity=".55" stroke="#cfe6fb" stroke-width="1.5"/>
+    <rect x="90" y="240" width="740" height="22" fill="#1b2f66"/>`;
+  const t=txt?`<text x="460" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="20" font-weight="900" fill="#fff">CAR BODY</text><text x="460" y="224" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="rgba(255,255,255,.78)">sprung — carries passengers or freight</text><text x="460" y="255" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" font-weight="800" fill="#cfe0f7">UNDERFRAME (chassis)</text>`:'';
+  return grp('carbody',body+t)+ringR('carbody',84,84,752,184,18);
+}
+function endGear(){
+  const L=`<rect x="76" y="203" width="16" height="9" fill="#7f8c8d"/><rect x="62" y="192" width="14" height="31" rx="4" fill="#e74c3c" stroke="#a5281b" stroke-width="1.5"/><rect x="52" y="233" width="40" height="9" rx="4" fill="#c0392b" stroke="#8e2a20" stroke-width="1.5"/><circle cx="52" cy="237.5" r="5" fill="#c0392b" stroke="#8e2a20" stroke-width="1.5"/>`;
+  return grp('coupler',L+`<g transform="translate(920,0) scale(-1,1)">${L}</g>`)+ringR('coupler',44,186,52,62,8)+ringR('coupler',824,186,52,62,8);
+}
+function pantoShapes(){
+  return grp('pantograph',`<line x1="300" y1="25" x2="620" y2="25" stroke="#f0c040" stroke-width="3" stroke-dasharray="9,5"/><rect x="436" y="85" width="48" height="6" rx="2" fill="#555"/><line x1="450" y1="86" x2="478" y2="58" stroke="#444" stroke-width="5" stroke-linecap="round"/><line x1="478" y1="58" x2="460" y2="33" stroke="#444" stroke-width="5" stroke-linecap="round"/><rect x="436" y="28" width="48" height="6" rx="2" fill="#e8b84b" stroke="#a37c0a" stroke-width="1.5"/>`)+ringR('pantograph',396,16,128,80,8);
+}
+function bogieParts(cx){
+  const R=32,Y=348,axs=[cx-62,cx+62];
+  let w='',p='',b='',fl='',rings='';
+  axs.forEach(x=>{
+    let sp='';
+    for(let i=0;i<6;i++){const a=i*Math.PI/3; sp+=`<line x1="${(x+9*Math.cos(a)).toFixed(1)}" y1="${(Y+9*Math.sin(a)).toFixed(1)}" x2="${(x+20*Math.cos(a)).toFixed(1)}" y2="${(Y+20*Math.sin(a)).toFixed(1)}" stroke="#6c7a89" stroke-width="3"/>`;}
+    w+=`<circle cx="${x}" cy="${Y}" r="${R}" fill="#aab4c1" stroke="#2d3748" stroke-width="3"/><circle cx="${x}" cy="${Y}" r="${R-6}" fill="#9aa5b3" stroke="#6c7a89" stroke-width="1.5"/><circle cx="${x}" cy="${Y}" r="20" fill="#8995a4"/>${sp}<circle cx="${x}" cy="${Y}" r="8" fill="#3a4556"/>`;
+    p+=coil(x,334,306,'#e67e22');
+    b+=`<rect x="${x-14}" y="334" width="28" height="28" rx="5" fill="#a0522d" stroke="#6e3a1c" stroke-width="2"/><circle cx="${x}" cy="${Y}" r="5" fill="#e0b079" stroke="#6e3a1c"/>`;
+    fl+=`<rect x="${x-11}" y="304" width="22" height="5" rx="2" fill="#7e1d14"/>`;
+    rings+=ringC('wheelset',x,Y,38)+ringR('axlebox',x-18,330,36,36,7)+ringR('primary',x-16,302,32,36,6);
+  });
+  const pin=`<rect x="${cx-4}" y="262" width="8" height="40" fill="#4a5568"/>`;
+  const frame=`<rect x="${cx-100}" y="286" width="200" height="20" rx="7" fill="url(#bogG2)" stroke="#a0291e" stroke-width="2"/>${fl}<text x="${cx}" y="300" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="800" fill="#fff">BOGIE FRAME</text>`;
+  const air=[-44,44].map(d=>`<rect x="${cx+d-14}" y="262" width="28" height="24" rx="8" fill="#2ecc71" stroke="#1e8449" stroke-width="2"/><line x1="${cx+d-12}" y1="270" x2="${cx+d+12}" y2="270" stroke="#1e8449" stroke-width="1.5"/><line x1="${cx+d-12}" y1="278" x2="${cx+d+12}" y2="278" stroke="#1e8449" stroke-width="1.5"/>`).join('');
+  const mark=`<circle cx="${cx}" cy="274" r="11" fill="#8e44ad" stroke="#5b2c6f" stroke-width="2"/><circle cx="${cx}" cy="274" r="3.5" fill="#fff"/>`;
+  return grp('wheelset',w)+grp('primary',p)+grp('axlebox',b)+grp('pivot',pin)+grp('bogie',frame)+grp('secondary',air)+grp('pivot',mark)+rings+ringR('bogie',cx-106,280,212,32,10)+ringR('secondary',cx-62,256,124,36,10)+ringC('pivot',cx,274,17);
+}
+function sprungLine(){ return `<line x1="0" y1="334" x2="920" y2="334" stroke="#e17055" stroke-width="1.6" stroke-dasharray="8,5"/>`; }
 
-document.querySelectorAll('.ap').forEach(el=>{
- el.addEventListener('click',()=>SP(el.dataset.p));
- el.addEventListener('mouseenter',()=>{el.style.filter='brightness(1.15) drop-shadow(0 0 5px rgba(240,192,64,.5))';});
- el.addEventListener('mouseleave',()=>{el.style.filter='';});
-});
+// ── view 1: whole vehicle ──
+function buildSideView(){
+  let o='';
+    o+=trackShapes(920);
+  o+=sprungLine();
+  o+=carbodyShapes(true);
+  o+=bogieParts(215)+bogieParts(705);
+  o+=endGear()+pantoShapes();
+  // labels
+  o+=tx('Pantograph',500,64)+tx('25 kV overhead contact wire',628,29,'start',11.5,'#8a6d00');
+  o+=tx('Buffer',6,194)+ld(46,196,64,203)+tx('Coupler',4,262)+ld(38,254,56,240);
+  o+=tx('Bogie',344,300)+ld(342,296,316,296)+tx('Bogie',576,300,'end')+ld(578,296,604,296);
+  o+=tx('Wheelset',344,378)+ld(342,374,304,365)+tx('Wheelset',576,378,'end')+ld(578,374,616,365);
+  o+=tx('Tab ② zooms in on a bogie',460,326,'middle',11,'#5a6b7d',700);
+  o+=tx('SPRUNG ▲',912,326,'end',11,'#c05030')+tx('UNSPRUNG ▼',912,350,'end',11,'#a01010');
+  o+=tx('Rail',70,478,'middle')+ld(70,470,70,392)+tx('Sleeper',121,478,'middle')+ld(121,470,121,418)+tx('Ballast',200,478,'middle')+ld(200,470,200,444);
+  document.getElementById('anatomy-svg').innerHTML=o;
+}
+// ── view 2: bogie close-up ──
+function buildCloseView(){
+  const T=(x,y)=>[380+2.1*(x-215),14+2.1*(y-236)];
+  let o=`<g transform="translate(380,14) scale(2.1) translate(-215,-236)">${trackShapes(920)}${sprungLine()}${carbodyShapes(false)}${bogieParts(215)}</g>`;
+  o+=tx2(['Carbody &','underframe'],146,42,'end')+ld(150,46,181,46);
+  o+=tx2(['Secondary suspension','(air spring)'],146,92,'end')+ld(150,96,282,94);
+  o+=tx('Bogie frame',146,144,'end')+ld(150,140,173,140);
+  o+=tx2(['Primary suspension','(coil spring)'],146,194,'end')+ld(150,198,243,190);
+  o+=tx('Axlebox',146,254,'end')+ld(150,250,221,249);
+  o+=tx2(['Wheel','(tread + flange)'],146,306,'end')+ld(150,302,203,296);
+  o+=tx2(['Pivot','(centre pin)'],612,92)+ld(608,94,386,94);
+  o+=tx('Rail',612,330)+ld(608,325,560,325);
+  o+=tx('Sleeper',612,390)+ld(608,388,470,390);
+  o+=tx('Ballast',612,450)+ld(608,442,560,442);
+  const a=T(153,0)[0], b2=T(277,0)[0];
+  o+=`<line x1="${a}" y1="172" x2="${b2}" y2="172" stroke="#34495e" stroke-width="1.6"/><line x1="${a}" y1="165" x2="${a}" y2="179" stroke="#34495e" stroke-width="1.6"/><line x1="${b2}" y1="165" x2="${b2}" y2="179" stroke="#34495e" stroke-width="1.6"/>`;
+  o+=tx('bogie wheelbase ≈ 2.5 m',(a+b2)/2,192,'middle',11.5,'#34495e');
+  o+=tx('SPRUNG ▲',752,212,'end',11,'#c05030')+tx('UNSPRUNG ▼',752,238,'end',11,'#a01010');
+  o+=tx('The axle runs across the track, hidden behind each wheel — see tab ③',20,470,'start',11,'#5a6b7d',700);
+  document.getElementById('anatomy-close').innerHTML=o;
+}
+// ── view 3: end view of a wheelset ──
+function buildEndView(){
+  const XL=105,XR=355,CY=250,cy=CY-RN,lo=-40,ti=25,fl=13,hi=33,rt=RN+TAU*ti;
+  let o='';
+  let gr=''; for(let x=8;x<460;x+=15) gr+=`<ellipse cx="${x}" cy="${308+((x*5)%16)}" rx="4.5" ry="2.8" fill="#a39d8f"/>`;
+  o+=grp('rail',`<rect x="0" y="300" width="460" height="30" fill="#b9b3a6"/>${gr}<rect x="30" y="288" width="400" height="12" rx="2" fill="#b79f78" stroke="#8b7653"/>${railSVG(XL,CY)}${railSVG(XR,CY)}`);
+  o+=ringR('rail',82,244,46,48,6)+ringR('rail',332,244,46,48,6)+ringR('rail',26,284,408,20,4);
+  // axle (behind wheels) + wheels
+  const wheel=(xc,side)=>`<polygon points="${wheelPoly(xc,cy,side)}" fill="url(#steelE)" stroke="#2d3748" stroke-width="2.5" stroke-linejoin="round"/>`;
+  o+=grp('wheelset',`<line x1="60" y1="${cy}" x2="400" y2="${cy}" stroke="#3a4556" stroke-width="14" stroke-linecap="round"/>${wheel(XL,1)}${wheel(XR,-1)}`);
+  o+=ringR('wheelset',56,54,92,232,10)+ringR('wheelset',312,54,92,232,10)+ringR('wheelset',146,146,168,28,6);
+  // flange overlay (red) top and bottom, inner side of each wheel
+  const fp=(xc,side,sg)=>{const pts=[[ti,rt],[ti+2,rt+fl],[hi,rt+fl],[hi,rt]].map(([u,r])=>(xc+side*u).toFixed(1)+','+(cy+sg*r).toFixed(1)); return `<polygon points="${pts.join(' ')}" fill="rgba(214,48,49,.75)" stroke="#a5281b" stroke-width="1.5"/>`;};
+  o+=grp('flange',fp(XL,1,1)+fp(XL,1,-1)+fp(XR,-1,1)+fp(XR,-1,-1));
+  o+=ringR('flange',120,236,30,42,6)+ringR('flange',310,236,30,42,6);
+  // axleboxes outboard of the wheels
+  const axb=(x)=>`<rect x="${x}" y="${cy-22}" width="42" height="44" rx="6" fill="#a0522d" stroke="#6e3a1c" stroke-width="2"/><circle cx="${x+21}" cy="${cy}" r="7" fill="#e0b079" stroke="#6e3a1c"/>`;
+  o+=grp('axlebox',axb(18)+axb(400))+ringR('axlebox',14,132,50,56,8)+ringR('axlebox',396,132,50,56,8);
+  // labels
+  o+=tx('Wheel',XL,36,'middle')+ld(XL,42,XL,72)+tx('Wheel',XR,36,'middle')+ld(XR,42,XR,72);
+  o+=tx('Axle',230,116,'middle')+ld(230,122,230,152);
+  o+=tx('Axlebox',39,104,'middle')+ld(39,110,39,138)+tx('Axlebox',421,104,'middle')+ld(421,110,421,138);
+  o+=tx('Flange',232,282,'middle')+ld(200,276,141,268)+ld(264,276,319,268);
+  o+=tx('Rail',34,262,'middle')+ld(52,258,93,256)+tx('Rail',426,262,'middle')+ld(408,258,367,256);
+  o+=tx('SLEEPER',232,298,'middle',10,'#6a5530')+tx('BALLAST',232,322,'middle',10,'#6a6458');
+  o+=tx('tread is conical (taper exaggerated) — flanges on the inside of the rails',230,14,'middle',10.5,'#5a6b7d',700);
+  // gauge dimension
+  o+=`<line x1="115" y1="262" x2="115" y2="346" stroke="#8896a7" stroke-width="1" stroke-dasharray="3,3"/><line x1="345" y1="262" x2="345" y2="346" stroke="#8896a7" stroke-width="1" stroke-dasharray="3,3"/>`;
+  o+=arrowDim(115,340,345,340)+tx('gauge 1,435 mm — between the inner faces of the rails',230,334,'middle',11,'#34495e');
+  document.getElementById('anatomy-end').innerHTML=o;
+}
+function arrowDim(x1,y,x2,y2){ return `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#34495e" stroke-width="1.6"/><polygon points="${x1},${y} ${x1+8},${y-4} ${x1+8},${y+4}" fill="#34495e"/><polygon points="${x2},${y} ${x2-8},${y-4} ${x2-8},${y+4}" fill="#34495e"/>`; }
+
+// ── view switching, selection ──
+let anCur=1;
+const AN_CAP={1:'Side view — one railway coach (schematic, not to scale) · train moves →',2:'Close-up — one bogie, side view (schematic)',3:'End view — looking along the track: one wheelset on the rails (schematic)'};
+const VIS={carbody:[1,2],coupler:[1],pantograph:[1],secondary:[1,2],pivot:[1,2],bogie:[1,2],primary:[1,2],axlebox:[1,2,3],wheelset:[1,2,3],flange:[3],rail:[1,2,3]};
+const PREF={secondary:2,pivot:2,primary:2,axlebox:2,flange:3};
+function anMode(m){
+  anCur=m;
+  ['anatomy-svg','anatomy-close','anatomy-end'].forEach((id,i)=>document.getElementById(id).style.display=(i+1===m)?'block':'none');
+  [1,2,3].forEach(i=>document.getElementById('am-'+i).classList.toggle('on',i===m));
+  document.getElementById('an-cap').textContent=AN_CAP[m];
+  const sc=document.querySelector('.an-scroll'); if(sc) sc.scrollLeft=(sc.scrollWidth-sc.clientWidth)/2;
+}
+function SP(name){
+  const want=(anCur===1&&PREF[name])?PREF[name]:(VIS[name].includes(anCur)?anCur:(PREF[name]||VIS[name][0]));
+  if(want!==anCur) anMode(want);
+  document.querySelectorAll('#anatomy-wrap .hl').forEach(e=>e.setAttribute('opacity','0'));
+  document.querySelectorAll('#anatomy-wrap .hl-'+name).forEach(e=>e.setAttribute('opacity','1'));
+  document.querySelectorAll('#anatomy-wrap .pbtn').forEach(b=>b.classList.toggle('on',b.dataset.p===name));
+  const P=PARTS[name], info=document.getElementById('part-info');
+  info.style.borderColor=P.col;
+  info.style.background=`linear-gradient(135deg,${P.col}09,${P.col}02)`;
+  info.innerHTML=`<h4 style="color:${P.col}">${P.title}</h4>${P.body}`;
+}
+function buildAnatomy(){
+  buildSideView(); buildCloseView(); buildEndView(); anMode(1);
+  document.querySelectorAll('#anatomy-wrap .ap').forEach(el=>{
+    el.addEventListener('click',()=>SP(el.dataset.p));
+    el.addEventListener('mouseenter',()=>{el.style.filter='brightness(1.12) drop-shadow(0 0 4px rgba(240,192,64,.7))';});
+    el.addEventListener('mouseleave',()=>{el.style.filter='';});
+  });
+}
 
 // ── LOAD PATH ──
 const LP=[
@@ -1589,7 +1588,7 @@ function decodeTR(){
 }
 
 // init
-conFront(); conCurve(); calcK(); calcT(); decodeUIC(document.querySelector('#uic-out').closest('.card').querySelector('.pbtn'),'Bo_Bo'); decodeTR(); requestAnimationFrame(huntLoop);
+conFront(); conCurve(); calcK(); calcT(); decodeUIC(document.querySelector('#uic-out').closest('.card').querySelector('.pbtn'),'Bo_Bo'); decodeTR(); buildAnatomy(); requestAnimationFrame(huntLoop);
 
 // ── TCDD fleet data: fill in from TCDD's annual report to show the fleet chart ──
 // Example format:  const FLEET={year:'2024',source:'TCDD Faaliyet Raporu',items:[{label:'Electric locomotives',n:0},{label:'Diesel locomotives',n:0}]};
