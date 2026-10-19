@@ -2,51 +2,1729 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Week 3 — Railway Vehicles | INS 325E</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#f2f5fa;color:#1a1f36;min-height:100vh;display:flex;flex-direction:column}
-nav{background:#0b1f3a;padding:0 1.5rem;height:56px;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10;box-shadow:0 2px 16px rgba(0,0,0,.25)}
-.nb{color:rgba(255,255,255,.7);text-decoration:none;font-size:.83rem;font-weight:600}
-.nb:hover{color:#f0c040}
-.ns{color:rgba(255,255,255,.2)}
-.nc{background:#f0c040;color:#0b1f3a;padding:.12rem .5rem;border-radius:4px;font-size:.75rem;font-weight:900}
-.nt{color:rgba(255,255,255,.8);font-size:.84rem;font-weight:600}
-main{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem}
-.box{background:#fff;border-radius:16px;border:1px solid #dde3ef;padding:3rem 2.5rem;text-align:center;max-width:520px;width:100%;box-shadow:0 4px 24px rgba(11,31,58,.08)}
-.wn{font-size:.72rem;font-weight:800;color:#8896a7;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem}
-.lock{font-size:4rem;margin-bottom:1.2rem;opacity:.2}
-h1{font-size:1.5rem;font-weight:900;color:#0b1f3a;letter-spacing:-.03em;line-height:1.2;margin-bottom:.6rem}
-.dt{font-size:.88rem;color:#8896a7;margin-bottom:1.5rem;font-family:'JetBrains Mono',monospace}
-p{font-size:.88rem;color:#4a5568;line-height:1.65;margin-bottom:1.4rem}
-a.back{display:inline-block;background:#0b1f3a;color:#f0c040;font-weight:700;font-size:.84rem;padding:.58rem 1.3rem;border-radius:8px;text-decoration:none}
-footer{background:#0b1f3a;color:rgba(255,255,255,.45);text-align:center;padding:1.5rem;font-size:.76rem}
-footer a{color:#f0c040;text-decoration:none}
+:root{
+ --navy:#0b1f3a;--blue:#1e4080;--blue2:#2a5298;
+ --accent:#f0c040;--teal:#0ea47a;--red:#d63031;--orange:#e17055;--purple:#8e44ad;--green:#27ae60;
+ --text:#1a1f36;--textm:#4a5568;--textl:#8896a7;
+ --bg:#f2f5fa;--card:#fff;--border:#dde3ef;
+ --r:14px;--sh:0 2px 16px rgba(11,31,58,.08);--shl:0 8px 40px rgba(11,31,58,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+nav{position:sticky;top:0;z-index:200;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:0 1.5rem;height:56px;overflow:hidden}
+.nb{color:rgba(255,255,255,.7);text-decoration:none;font-size:.83rem;font-weight:600;white-space:nowrap}.nb:hover{color:var(--accent)}
+.ns{color:rgba(255,255,255,.2);flex-shrink:0}
+.nc{background:var(--accent);color:var(--navy);padding:.12rem .5rem;border-radius:4px;font-size:.75rem;font-weight:900;white-space:nowrap;flex-shrink:0}
+.nt{color:rgba(255,255,255,.8);font-size:.84rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.nw{margin-left:auto;background:rgba(14,164,122,.2);border:1px solid rgba(14,164,122,.4);color:#4dd9aa;padding:.22rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+.wk-hdr{background:linear-gradient(135deg,#0b1f3a 0%,#1a3460 60%,#0f2850 100%);color:#fff;padding:3rem 1.5rem 2.5rem;position:relative;overflow:hidden}
+.wk-hdr::before{content:'03';position:absolute;right:1rem;bottom:-2rem;font-size:min(22vw,200px);font-weight:900;opacity:.05;font-family:'JetBrains Mono',monospace;line-height:1;pointer-events:none}
+.wk-hdr-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+.wk-hdr-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.5rem}
+.wk-hdr h1{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.4rem;line-height:1.15}
+.puzzle{font-size:.95rem;opacity:.7;font-style:italic;margin-bottom:1rem;font-weight:300}
+.wk-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.wk-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:.25rem .7rem;border-radius:20px;font-size:.73rem}
+.main{max-width:1240px;margin:0 auto;padding:2rem 1.5rem}
+.tab-nav{display:flex;background:var(--card);border-radius:var(--r) var(--r) 0 0;border:1px solid var(--border);border-bottom:none;overflow-x:auto}
+.tab-wrap{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--card);padding:2rem;margin-bottom:2rem;box-shadow:var(--sh)}
+.tb{padding:.75rem 1.3rem;border:none;background:none;font-family:inherit;font-size:.84rem;font-weight:600;color:var(--textl);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .2s;position:relative;top:1px}
+.tb.on{color:var(--navy);border-bottom-color:var(--accent);background:rgba(240,192,64,.05)}
+.tb:hover:not(.on){color:var(--navy);background:#f5f7fc}
+.tab-panel{display:none}.tab-panel.on{display:block}
+.card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.6rem;margin-bottom:1.2rem;box-shadow:var(--sh)}
+.card h3{font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:2px solid var(--accent);display:inline-block}
+.card p,.card li{color:var(--textm);font-size:.89rem;line-height:1.7;margin-bottom:.65rem}
+.card p:last-child{margin-bottom:0}.card ul{padding-left:1.1rem}
+.ibox{border-left:4px solid var(--teal);background:rgba(14,164,122,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.ibox strong{color:var(--teal);font-weight:700}
+.wbox{border-left:4px solid var(--orange);background:rgba(225,112,85,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.wbox strong{color:var(--orange);font-weight:700}
+.abox{border-left:4px solid var(--accent);background:rgba(240,192,64,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.abox strong{color:#806800;font-weight:700}
+.pbox{border-left:4px solid var(--purple);background:rgba(142,68,173,.06);padding:.85rem 1rem;border-radius:0 8px 8px 0;margin:.9rem 0;font-size:.86rem;color:var(--textm)}
+.pbox strong{color:var(--purple);font-weight:700}
+.eq{background:linear-gradient(135deg,#eef2ff,#e6edff);border:1px solid #c5d0f5;border-radius:10px;padding:1rem 1.4rem;margin:.9rem 0;font-family:'JetBrains Mono',monospace;font-size:.92rem;color:var(--navy);text-align:center;position:relative}
+.eq-lbl{position:absolute;top:.35rem;right:.7rem;font-size:.62rem;color:#7090c0;font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:700px){.three-col{grid-template-columns:1fr}}
+.fun-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.5rem}
+@media(max-width:700px){.fun-facts{grid-template-columns:1fr 1fr}}
+.ff{border-radius:12px;padding:1.1rem .9rem;text-align:center;border:2px solid var(--border);background:#fff;transition:transform .2s}
+.ff:hover{transform:translateY(-3px);box-shadow:var(--shl)}
+.ff-icon{font-size:2rem;margin-bottom:.4rem}
+.ff-num{font-size:1.5rem;font-weight:900;font-family:'JetBrains Mono',monospace;display:block;line-height:1.1}
+.ff-label{font-size:.72rem;color:var(--textl);margin-top:.2rem;line-height:1.4}
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.9rem 0}
+th{background:var(--navy);color:#fff;padding:.6rem .9rem;text-align:left;font-weight:700;font-size:.76rem}
+th:first-child{border-radius:6px 0 0 6px}th:last-child{border-radius:0 6px 6px 0}
+td{padding:.58rem .9rem;border-bottom:1px solid var(--border);color:var(--textm)}
+tr:last-child td{border-bottom:none}tr:hover td{background:#f7f9fc}tr:nth-child(even) td{background:#f9fafc}
+.td-hi{font-weight:700;color:var(--navy)}.pro{color:var(--teal);font-weight:700}.con{color:var(--red);font-weight:700}
+.chart-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.3rem;margin-bottom:1.2rem}
+.chart-card h4{font-size:.86rem;font-weight:700;color:var(--navy);margin-bottom:.2rem}
+.csub{font-size:.72rem;color:var(--textl);margin-bottom:.9rem}
+.chart-wrap{position:relative;height:260px}
+
+/* ── VEHICLE ANATOMY ── */
+#anatomy-wrap{background:linear-gradient(180deg,#e8f2fc,#d5e8f5);border-radius:16px;padding:1.2rem;border:2px solid #b5cde0;position:relative}
+#anatomy-svg{width:100%;max-width:780px;display:block;margin:0 auto;cursor:pointer}
+.part-info{background:#fff;border-radius:12px;border:2px solid var(--border);padding:1.2rem 1.5rem;margin-top:1rem;min-height:80px;transition:all .3s;box-shadow:var(--sh)}
+.part-info h4{font-size:.98rem;font-weight:800;margin-bottom:.35rem}
+.part-info p{font-size:.85rem;color:var(--textm);line-height:1.65;margin-bottom:.35rem}
+.part-hint{text-align:center;color:var(--textl);font-size:.83rem;padding:1.2rem;font-style:italic}
+.lf-note{font-size:.78rem;color:var(--textl);font-style:italic;margin-top:.4rem;border-top:1px solid var(--border);padding-top:.4rem}
+.part-btn-row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem;justify-content:center}
+.pbtn{padding:.32rem .85rem;border-radius:20px;border:2px solid var(--border);background:#fff;font-size:.74rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--textm)}
+.pbtn:hover,.pbtn.on{color:#fff;border-color:var(--navy);background:var(--navy)}
+
+/* ── LOAD PATH ── */
+.lp-wrap{display:grid;grid-template-columns:200px 1fr;gap:1.2rem;align-items:start;margin:1rem 0}
+@media(max-width:640px){.lp-wrap{grid-template-columns:1fr}}
+.load-path{display:flex;flex-direction:column;gap:0}
+.lp-item{display:flex;align-items:center;gap:.75rem;padding:.55rem .85rem;border-radius:8px;cursor:pointer;transition:all .2s;border:2px solid transparent;position:relative}
+.lp-item:hover{background:rgba(0,0,0,.04)}
+.lp-item.active{border-color:currentColor;background:rgba(0,0,0,.06);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.lp-num{width:26px;height:26px;min-width:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:900;color:#fff;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.lp-name{font-weight:700;font-size:.83rem;line-height:1.3}
+.lp-arrow{text-align:center;color:#c8d3e0;font-size:.95rem;line-height:1;margin:0;padding-left:38px}
+.lp-info{background:#fff;border-radius:12px;border:2px solid var(--border);padding:1.3rem 1.5rem;font-size:.85rem;color:var(--textm);line-height:1.75;box-shadow:var(--sh);position:sticky;top:72px}
+.lp-info h5{font-size:.95rem;font-weight:800;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:2px solid var(--accent);display:inline-block}
+.lp-empty{font-size:.84rem;color:var(--textl);font-style:italic;padding:.5rem}
+
+/* ── CONICITY ANIMATOR ── */
+#con-canvas{border-radius:12px;background:#141e2e;display:block;margin:0 auto}
+.anim-ctrl{display:flex;align-items:center;gap:.8rem;justify-content:center;margin-top:.8rem;flex-wrap:wrap}
+.anim-btn{padding:.38rem 1rem;border-radius:8px;border:2px solid var(--border);background:#fff;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;color:var(--textm)}
+.anim-btn:hover,.anim-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.anim-stat{font-size:.8rem;color:var(--textl);font-family:'JetBrains Mono',monospace}
+
+/* ── KLINGEL CALC ── */
+.hunt-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.8rem 0}
+@media(max-width:600px){.hunt-grid{grid-template-columns:1fr}}
+.sl-lbl{display:block;font-size:.79rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+input[type=range]{width:100%;accent-color:var(--navy)}
+.sl-val{font-size:.86rem;font-weight:700;color:var(--navy);font-family:'JetBrains Mono',monospace;margin:.15rem 0}
+.k-result{background:linear-gradient(135deg,#f0f4ff,#e8f0ff);border:1px solid #c5d0f5;border-radius:10px;padding:1.1rem;margin-top:.5rem}
+.k-big{font-size:1.4rem;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--navy)}
+
+/* ── TRACTION CALC ── */
+.trac-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin:.8rem 0}
+@media(max-width:600px){.trac-grid{grid-template-columns:1fr}}
+.tc-inp{width:100%;padding:.6rem .85rem;border:2px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.92rem;background:#fff;transition:border-color .2s}
+.tc-inp:focus{outline:none;border-color:var(--blue)}
+.tc-lbl{display:block;font-size:.79rem;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+.tc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:.5rem}
+.tc-card{border-radius:10px;padding:1rem;text-align:center;border:2px solid var(--border)}
+.tc-card.ok{border-color:var(--teal);background:rgba(14,164,122,.06)}
+.tc-card.warn{border-color:var(--orange);background:rgba(225,112,85,.06)}
+.tc-card.bad{border-color:var(--red);background:rgba(214,48,49,.06)}
+.tc-val{font-size:1.3rem;font-weight:900;font-family:'JetBrains Mono',monospace;display:block}
+.tc-card.ok .tc-val{color:var(--teal)}.tc-card.warn .tc-val{color:var(--orange)}.tc-card.bad .tc-val{color:var(--red)}
+.tc-sub{font-size:.73rem;color:var(--textl);margin-top:.15rem}
+
+/* ── UIC DECODER ── */
+.uic-wrap{background:#f8f9fc;border-radius:12px;padding:1.2rem;margin:.8rem 0}
+.uic-formula{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:900;color:var(--navy);letter-spacing:.05em;text-align:center;margin:.8rem 0}
+.uic-parts{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
+.uic-tag{padding:.28rem .7rem;border-radius:6px;font-size:.78rem;font-weight:700;color:#fff}
+.uic-result{font-size:.88rem;color:var(--textm);text-align:center;line-height:1.7}
+
+/* ── EXERCISES ── */
+.ex-item{background:#fff;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:.8rem}
+.ex-hdr{padding:.85rem 1.1rem;background:#f8f9fc;display:flex;align-items:center;gap:.65rem;cursor:pointer;user-select:none}
+.ex-item.open .ex-hdr{border-bottom:1px solid var(--border)}
+.ex-num{background:var(--navy);color:var(--accent);padding:.18rem .5rem;border-radius:4px;font-size:.65rem;font-weight:900;font-family:'JetBrains Mono',monospace}
+.ex-type{font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--textl);font-weight:700;background:var(--border);padding:.13rem .45rem;border-radius:3px}
+.ex-title{font-size:.88rem;font-weight:700;color:var(--navy);flex:1}
+.ex-ch{margin-left:auto;transition:transform .3s;color:var(--textl);font-size:.78rem}
+.ex-item.open .ex-ch{transform:rotate(180deg)}
+.ex-body{padding:1.1rem;display:none}.ex-item.open .ex-body{display:block}
+.ex-body p{font-size:.86rem;color:var(--textm);line-height:1.7;margin-bottom:.65rem}
+.ex-hint{background:rgba(240,192,64,.09);border:1px solid rgba(240,192,64,.3);border-radius:6px;padding:.65rem .9rem;font-size:.79rem;color:#7a6010;margin-top:.75rem}
+.ex-hint::before{content:'💡 Hint: ';font-weight:800}
+
+/* ── QUIZ ── */
+.quiz-wrap{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:1.8rem;box-shadow:var(--sh)}
+.qprog{background:var(--border);border-radius:4px;height:5px;overflow:hidden;margin-bottom:1.3rem}
+.qbar{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:4px;transition:width .4s}
+.qq{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:1.1rem;line-height:1.55}
+.qopts{display:grid;gap:.6rem;margin-bottom:.9rem}
+.qopt{display:flex;align-items:flex-start;gap:.7rem;padding:.8rem .95rem;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:#fff;font-size:.86rem;line-height:1.4;text-align:left}
+.qopt:hover{border-color:var(--blue);background:#f0f5ff}
+.qopt.correct{border-color:var(--teal);background:rgba(14,164,122,.08);color:#0a5e45}
+.qopt.wrong{border-color:var(--red);background:rgba(214,48,49,.08);color:#7a1515}
+.qopt.disabled{pointer-events:none}
+.qoptl{width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;transition:all .2s;font-family:'JetBrains Mono',monospace}
+.qopt.correct .qoptl{background:var(--teal);color:#fff}.qopt.wrong .qoptl{background:var(--red);color:#fff}
+.qfb{padding:.85rem;border-radius:8px;font-size:.83rem;margin-bottom:.85rem;display:none}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(14,164,122,.1);border:1px solid rgba(14,164,122,.3);color:#0a5e45}
+.qfb.bad{background:rgba(214,48,49,.1);border:1px solid rgba(214,48,49,.3);color:#7a1515}
+.qnav{display:flex;justify-content:space-between;align-items:center}
+.qsc{font-size:.81rem;color:var(--textl)}
+.btn-a{padding:.58rem 1.3rem;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.86rem;font-weight:700;background:var(--accent);color:var(--navy);transition:all .2s}
+.btn-a:hover{background:#ffd966}.btn-a:disabled{opacity:.35;cursor:not-allowed}
+
+/* REFS */
+.ref-i{background:#fff;border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.65rem}
+.ref-n{background:var(--navy);color:var(--accent);width:24px;height:24px;min-width:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+.ref-t{font-size:.81rem;color:var(--textm);line-height:1.6}
+.ref-t b{color:var(--navy)}
+.rtag{display:inline-block;background:var(--border);color:var(--textl);padding:.08rem .38rem;border-radius:3px;font-size:.61rem;font-weight:700;text-transform:uppercase;margin:.08rem .15rem 0 0}
+.rtag.core{background:rgba(14,164,122,.15);color:var(--teal)}
+
+footer{background:var(--navy);color:rgba(255,255,255,.55);text-align:center;padding:2rem 1.5rem;font-size:.79rem;margin-top:2rem}
+footer strong{color:#fff}footer a{color:var(--accent);text-decoration:none}
+.footer-rail{height:4px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 30px,transparent 30px,transparent 50px);margin-bottom:1.3rem}
+.wk-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+.wk-nav a{color:var(--blue);font-size:.86rem;font-weight:600;text-decoration:none}
+
+/* ══ WEEK 3 v3 additions ══ */
+.anim-btn{border-color:#aab6c6}
+.howto{background:linear-gradient(135deg,#f0f6ff,#e8f1fc);border:1px solid #c5d8f0;border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:1.1rem}
+.howto-title{font-size:.88rem;font-weight:800;color:var(--navy);margin-bottom:.6rem}
+.steps3{list-style:none;counter-reset:st;display:grid;gap:.55rem;margin:0 0 .8rem;padding:0}
+.steps3 li{counter-increment:st;position:relative;padding-left:2.1rem;font-size:.84rem;color:var(--textm);line-height:1.6;margin:0}
+.steps3 li::before{content:counter(st);position:absolute;left:0;top:.05rem;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--navy);color:var(--accent);font-weight:900;font-size:.72rem;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace}
+.steps3 li b{color:var(--navy)}
+.howto-try{font-size:.82rem;color:var(--textm);background:#fff;border-left:4px solid var(--accent);border-radius:0 8px 8px 0;padding:.6rem .9rem;line-height:1.6}
+.howto-try b{color:var(--navy)}
+.param-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;margin:.2rem 0 .8rem}
+@media(max-width:640px){.param-list{grid-template-columns:1fr}}
+.param{background:#fff;border:1px solid #d3e1f2;border-radius:9px;padding:.55rem .75rem;font-size:.8rem;color:var(--textm);line-height:1.5}
+.param b{color:var(--navy);font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.param .up{color:var(--teal);font-weight:700}.param .dn{color:var(--red);font-weight:700}
+.mode-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:.2rem 0 1rem}
+.mode-btn{padding:.5rem 1.1rem;border-radius:9px;border:2px solid var(--border);background:#fff;font-size:.8rem;font-weight:700;cursor:pointer;color:var(--textm);transition:all .2s;font-family:inherit}
+.mode-btn:hover,.mode-btn.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.con-grid{display:grid;grid-template-columns:1.18fr 1fr;gap:.9rem}
+@media(max-width:760px){.con-grid{grid-template-columns:1fr}}
+.con-panel{background:linear-gradient(180deg,#eaf3fb,#dcebf6);border:2px solid #bcd3e6;border-radius:12px;padding:.6rem .6rem .4rem}
+.con-cap{font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4d6b8a;text-align:center;margin-bottom:.2rem}
+.con-panel svg{width:100%;height:auto;display:block}
+.con-ctrl{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin:.9rem 0 .2rem}
+.con-ctrl .sl{flex:1;min-width:220px}
+.con-ctrl .ends{display:flex;justify-content:space-between;font-size:.7rem;color:var(--textl);font-weight:600;margin-top:.1rem}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin:.8rem 0}
+@media(max-width:640px){.stat-row{grid-template-columns:1fr 1fr}}
+.stat{background:#fff;border:2px solid var(--border);border-radius:10px;padding:.6rem .7rem;text-align:center}
+.stat .v{font-family:'JetBrains Mono',monospace;font-size:1.02rem;font-weight:900;color:var(--navy);display:block;line-height:1.25}
+.stat .l{font-size:.68rem;color:var(--textl);margin-top:.1rem;line-height:1.35}
+.stat.blue{border-color:rgba(42,82,152,.45)}.stat.blue .v{color:#2a5298}
+.stat.orange{border-color:rgba(230,126,34,.5)}.stat.orange .v{color:#d35400}
+.stat.ok{border-color:var(--teal);background:rgba(14,164,122,.06)}.stat.ok .v{color:var(--teal)}
+.stat.bad{border-color:var(--red);background:rgba(214,48,49,.05)}.stat.bad .v{color:var(--red)}
+.say{background:#fff;border:2px solid var(--border);border-left:5px solid var(--navy);border-radius:10px;padding:.8rem 1rem;font-size:.86rem;line-height:1.65;color:var(--textm);min-height:3.6rem}
+.say b{color:var(--navy)}
+.verdict{border-radius:10px;padding:.8rem 1rem;font-size:.85rem;line-height:1.65;margin-top:.6rem;border:2px solid}
+.verdict.ok{background:rgba(14,164,122,.07);border-color:var(--teal);color:#0a5e45}
+.verdict.bad{background:rgba(214,48,49,.06);border-color:var(--red);color:#7a1515}
+.preset-row{display:flex;gap:.45rem;flex-wrap:wrap;margin:.2rem 0 .9rem;align-items:center}
+.preset-row .lbl{font-size:.74rem;font-weight:800;color:var(--navy);margin-right:.2rem}
+.preset{padding:.34rem .8rem;border-radius:20px;border:2px solid var(--border);background:#fff;font-size:.74rem;font-weight:700;cursor:pointer;color:var(--textm);transition:all .2s;font-family:inherit}
+.preset:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+#hunt-canvas{width:100%;max-width:700px;height:auto;display:block;margin:.6rem auto 0;border-radius:12px;background:#eef4fa;border:2px solid #bcd3e6}
+.formula-live{background:#f4f7ff;border:1px dashed #9db4e8;border-radius:9px;padding:.55rem .9rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--navy);text-align:center;margin:.7rem 0}
+.force-svg{width:100%;max-width:560px;display:block;margin:.4rem auto 0;background:linear-gradient(180deg,#eaf3fb,#dcebf6);border:2px solid #bcd3e6;border-radius:12px}
+.fbar{margin:.5rem 0}
+.fbar .lab{font-size:.72rem;font-weight:700;color:var(--navy);display:flex;justify-content:space-between;margin-bottom:.15rem}
+.fbar .track{background:#eef0f5;border-radius:6px;height:16px;overflow:hidden}
+.fbar .fill{height:100%;border-radius:6px;transition:width .35s}
+.tbl-note{font-size:.76rem;color:var(--textl);margin-top:.3rem}
+.misc{background:rgba(214,48,49,.05);border:1px solid rgba(214,48,49,.2);border-radius:10px;padding:.8rem 1rem;margin:.9rem 0;font-size:.84rem;color:var(--textm)}
+.misc b{color:var(--red)}
+.derive{background:#f8f9fc;border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;margin:.8rem 0;font-size:.84rem;line-height:1.8;color:var(--textm)}
+.derive .m{font-family:'JetBrains Mono',monospace;color:var(--navy);font-size:.82rem}
+.uic-in{padding:.55rem .85rem;border:2px solid var(--border);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.95rem;width:170px;text-transform:uppercase}
+.uic-in:focus{outline:none;border-color:var(--blue)}
 </style>
 </head>
 <body>
+
 <nav>
-  <a class="nb" href="../">&#8592; Course Home</a>
-  <span class="ns">|</span>
-  <span class="nc">INS325E</span>
-  <span class="nt">Week 3 &mdash; Railway Vehicles</span>
+ <div class="nav-inner">
+ <a class="nb" href="../">← Course</a>
+ <span class="ns">|</span>
+ <span class="nc">INS325E</span>
+ <span class="nt">Week 3 — Railway Vehicles</span>
+ <span class="nw">🟢 13 Oct 2026</span>
+ </div>
 </nav>
-<main>
-  <div class="box">
-    <div class="wn">Week 3</div>
-    <div class="lock">&#128274;</div>
-    <h1>Railway Vehicles</h1>
-    <div class="dt">13 Oct 2026</div>
-    <p>Content for this week will be published before the lecture. Check back on <strong>13 Oct</strong>, or watch Ninova for the announcement.</p>
-    <p>This page will include lecture notes, interactive charts, exercises, a self-assessment quiz, and a reading list.</p>
-    <a class="back" href="../">&#8592; Back to Course Home</a>
+
+<div class="wk-hdr">
+ <div class="wk-hdr-inner">
+ <div class="wk-hdr-label">Week 3 · 13 October 2026 · Dr. Mustafa Can Özkan</div>
+ <h1>Railway Vehicles</h1>
+ <div class="puzzle">Two wheels. One rigid axle. In a curve the outer wheel must roll further than the inner one — yet both turn at exactly the same speed. So how does it turn?</div>
+ <div class="wk-chips">
+ <span class="wk-chip">🎮 Anatomy Explorer</span>
+ <span class="wk-chip">⬇️ Load Path</span>
+ <span class="wk-chip">🌀 Conicity Views</span>
+ <span class="wk-chip">🌊 Klingel Calculator</span>
+ <span class="wk-chip">🧮 Traction Calculator</span>
+ <span class="wk-chip">🔑 UIC Decoder</span>
+ <span class="wk-chip">📊 Data Charts</span>
+ <span class="wk-chip">🧩 13-Q Quiz</span>
+ </div>
+ </div>
+</div>
+
+<div class="main">
+<div class="tab-nav">
+ <button class="tb on" onclick="ST(this,'t-v')">🎮 Interactive</button>
+ <button class="tb" onclick="ST(this,'t-n')">📖 Notes</button>
+ <button class="tb" onclick="ST(this,'t-d')">📊 Data</button>
+ <button class="tb" onclick="ST(this,'t-e')">✏️ Exercises</button>
+ <button class="tb" onclick="ST(this,'t-q')">🧩 Quiz</button>
+ <button class="tb" onclick="ST(this,'t-r')">📚 Refs</button>
+</div>
+<div class="tab-wrap">
+
+<!-- ══ INTERACTIVE ══ -->
+<div id="t-v" class="tab-panel on">
+
+<!-- FUN FACTS -->
+<div class="fun-facts">
+ <div class="ff" style="border-color:rgba(30,64,128,.25);background:linear-gradient(135deg,rgba(30,64,128,.04),rgba(30,64,128,.1))">
+ <div class="ff-icon">🔄</div><span class="ff-num" style="color:var(--blue)">1:20</span>
+ <div class="ff-label">Wheel tread conicity (tan α = 0.05)<br>also the rail inclination — they match</div>
+ </div>
+ <div class="ff" style="border-color:rgba(14,164,122,.25);background:linear-gradient(135deg,rgba(14,164,122,.04),rgba(14,164,122,.1))">
+ <div class="ff-icon">📏</div><span class="ff-num" style="color:var(--teal)">890–920</span>
+ <div class="ff-label">mm — typical mainline wheel diameter<br>range: 350–1,250 mm across all types</div>
+ </div>
+ <div class="ff" style="border-color:rgba(240,192,64,.45);background:linear-gradient(135deg,rgba(240,192,64,.06),rgba(240,192,64,.14))">
+ <div class="ff-icon">⚙️</div><span class="ff-num" style="color:#806800">Bo′Bo′</span>
+ <div class="ff-label">A very common locomotive formula<br>2 bogies × 2 individually motored axles</div>
+ </div>
+ <div class="ff" style="border-color:rgba(214,48,49,.25);background:linear-gradient(135deg,rgba(214,48,49,.04),rgba(214,48,49,.1))">
+ <div class="ff-icon">⚡</div><span class="ff-num" style="color:var(--red)">25 kV</span>
+ <div class="ff-label">AC electrification — Turkish HSR + main lines<br>5 different systems exist in Europe alone</div>
+ </div>
+ <div class="ff" style="border-color:rgba(142,68,173,.25);background:linear-gradient(135deg,rgba(142,68,173,.04),rgba(142,68,173,.1))">
+ <div class="ff-icon">🌊</div><span class="ff-num" style="color:var(--purple)">≈16.5 m</span>
+ <div class="ff-label">Klingel hunting wavelength (standard conicity)<br>at 100 km/h → 1.7 Hz oscillation</div>
+ </div>
+ <div class="ff" style="border-color:rgba(225,112,85,.25);background:linear-gradient(135deg,rgba(225,112,85,.04),rgba(225,112,85,.1))">
+ <div class="ff-icon">🏋️</div><span class="ff-num" style="color:var(--orange)">22.5 t</span>
+ <div class="ff-label">Typical top axle load on main lines<br>(EN 15528 category D)</div>
+ </div>
+</div>
+
+<!-- VEHICLE ANATOMY SVG -->
+<div class="card" style="margin-bottom:1.2rem">
+ <h3>🎮 Railway Vehicle Anatomy — Click any part</h3>
+ <p style="font-size:.86rem;color:var(--textm);margin-bottom:1rem">Remember this rule: <em>everything above the axleboxes is sprung; the wheelset is not.</em> It decides how hard a vehicle hits the track. Click any coloured zone to learn what it does.</p>
+ <div id="anatomy-wrap">
+ <svg id="anatomy-svg" viewBox="0 0 780 380" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+ <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0%" stop-color="#4a80d4"/><stop offset="100%" stop-color="#2a5298"/>
+ </linearGradient>
+ <linearGradient id="bogieG" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0%" stop-color="#e74c3c"/><stop offset="100%" stop-color="#c0392b"/>
+ </linearGradient>
+ <linearGradient id="wG" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0%" stop-color="#4a5568"/><stop offset="100%" stop-color="#2d3748"/>
+ </linearGradient>
+ <linearGradient id="railG" x1="0" y1="0" x2="1" y2="0">
+ <stop offset="0%" stop-color="#777"/><stop offset="50%" stop-color="#bbb"/><stop offset="100%" stop-color="#777"/>
+ </linearGradient>
+ </defs>
+
+ <!-- Track / ground -->
+ <rect x="0" y="345" width="780" height="35" fill="#c8b890"/>
+ <!-- Sleeper -->
+ <rect x="20" y="348" width="740" height="10" rx="2" fill="#c0aa88" stroke="#a09070" stroke-width="1"/>
+ <!-- Rails -->
+ <rect x="60" y="335" width="78" height="16" rx="3" fill="url(#railG)"/>
+ <rect x="640" y="335" width="78" height="16" rx="3" fill="url(#railG)"/>
+ <text x="390" y="373" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#8a7a50" font-weight="600">TRACK — rail · sleeper · ballast (Week 2)</text>
+
+ <!-- WHEELSETS -->
+ <g class="ap" data-p="wheelset" style="cursor:pointer">
+ <!-- Left wheel -->
+ <ellipse cx="100" cy="302" rx="40" ry="40" fill="url(#wG)" stroke="#1a252f" stroke-width="2"/>
+ <ellipse cx="100" cy="302" rx="28" ry="28" fill="#3d4f63"/>
+ <ellipse cx="100" cy="302" rx="9" ry="9" fill="#2d3748"/>
+ <line x1="100" y1="276" x2="100" y2="295" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="100" y1="309" x2="100" y2="328" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="74" y1="302" x2="91" y2="302" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="109" y1="302" x2="126" y2="302" stroke="#4a5568" stroke-width="2.5"/>
+ <ellipse cx="100" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="5"/>
+ <ellipse cx="100" cy="340" rx="12" ry="5" fill="#1a252f"/>
+ <!-- Right wheel of same axle (perspective) -->
+ <ellipse cx="140" cy="302" rx="40" ry="40" fill="#2d3748" stroke="#1a252f" stroke-width="1.5" opacity=".45"/>
+ <ellipse cx="140" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="4" opacity=".45"/>
+ <ellipse cx="140" cy="340" rx="12" ry="5" fill="#1a252f" opacity=".45"/>
+ <!-- Right bogie wheelset -->
+ <ellipse cx="640" cy="302" rx="40" ry="40" fill="url(#wG)" stroke="#1a252f" stroke-width="2"/>
+ <ellipse cx="640" cy="302" rx="28" ry="28" fill="#3d4f63"/>
+ <ellipse cx="640" cy="302" rx="9" ry="9" fill="#2d3748"/>
+ <line x1="640" y1="276" x2="640" y2="295" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="640" y1="309" x2="640" y2="328" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="614" y1="302" x2="631" y2="302" stroke="#4a5568" stroke-width="2.5"/>
+ <line x1="649" y1="302" x2="666" y2="302" stroke="#4a5568" stroke-width="2.5"/>
+ <ellipse cx="640" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="5"/>
+ <ellipse cx="640" cy="340" rx="12" ry="5" fill="#1a252f"/>
+ <ellipse cx="680" cy="302" rx="40" ry="40" fill="#2d3748" stroke="#1a252f" stroke-width="1.5" opacity=".45"/>
+ <ellipse cx="680" cy="302" rx="40" ry="40" fill="none" stroke="#555" stroke-width="4" opacity=".45"/>
+ <ellipse cx="680" cy="340" rx="12" ry="5" fill="#1a252f" opacity=".45"/>
+ <!-- Axle shaft -->
+ <rect x="138" y="295" width="504" height="10" rx="5" fill="#2d3748"/>
+ </g>
+
+ <!-- AXLEBOXES -->
+ <rect class="ap" data-p="axlebox" x="130" y="288" width="30" height="24" rx="5" fill="#e67e22" stroke="#c06010" stroke-width="1.5" style="cursor:pointer"/>
+ <rect class="ap" data-p="axlebox" x="620" y="288" width="30" height="24" rx="5" fill="#e67e22" stroke="#c06010" stroke-width="1.5" style="cursor:pointer"/>
+
+ <!-- PRIMARY SUSPENSION (orange zigzag springs) -->
+ <g class="ap" data-p="primary" style="cursor:pointer">
+ <path d="M76,272 L80,264 L72,257 L80,250 L72,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
+ <path d="M128,272 L132,264 L124,257 L132,250 L124,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
+ <path d="M616,272 L620,264 L612,257 L620,250 L612,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
+ <path d="M668,272 L672,264 L664,257 L672,250 L664,244" fill="none" stroke="#e67e22" stroke-width="3.5" stroke-linecap="round"/>
+ </g>
+
+ 
+ <g class="ap" data-p="bogie" style="cursor:pointer">
+ <rect x="48" y="238" width="264" height="26" rx="5" fill="url(#bogieG)" stroke="#a0291e" stroke-width="1.5"/>
+ <rect x="50" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
+ <rect x="290" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
+ <rect x="468" y="238" width="264" height="26" rx="5" fill="url(#bogieG)" stroke="#a0291e" stroke-width="1.5"/>
+ <rect x="470" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
+ <rect x="710" y="222" width="18" height="44" rx="4" fill="#c0392b" stroke="#a0291e" stroke-width="1"/>
+ <text x="180" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)" font-weight="700" pointer-events="none">BOGIE FRAME</text>
+ <text x="600" y="256" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)" font-weight="700" pointer-events="none">BOGIE FRAME</text>
+ </g>
+
+ 
+ <g class="ap" data-p="secondary" style="cursor:pointer">
+ <path d="M130,222 L134,212 L126,204 L134,196 L126,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+ <path d="M240,222 L244,212 L236,204 L244,196 L236,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+ <path d="M540,222 L544,212 L536,204 L544,196 L536,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+ <path d="M650,222 L654,212 L646,204 L654,196 L646,190" fill="none" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+ </g>
+
+ 
+ <g class="ap" data-p="pivot" style="cursor:pointer">
+ <!-- Left bogie pivot stem -->
+ <rect x="172" y="182" width="16" height="42" rx="4" fill="#4a5568" stroke="#2d3748" stroke-width="1.5"/>
+ <!-- Right bogie pivot stem -->
+ <rect x="592" y="182" width="16" height="42" rx="4" fill="#4a5568" stroke="#2d3748" stroke-width="1.5"/>
+ </g>
+
+ <!-- CAR BODY -->
+ <g class="ap" data-p="carbody" style="cursor:pointer">
+ <rect x="75" y="100" width="630" height="185" rx="12" fill="url(#bodyG)" stroke="#1e3a7a" stroke-width="2"/>
+ <!-- Windows -->
+ <rect x="105" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <rect x="172" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <rect x="239" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <rect x="337" y="120" width="106" height="42" rx="5" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+ <rect x="489" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <rect x="556" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <rect x="623" y="120" width="52" height="42" rx="5" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+ <!-- Door -->
+ <rect x="337" y="188" width="106" height="97" rx="4" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+ <!-- Underframe -->
+ <rect x="75" y="274" width="630" height="11" rx="0" fill="rgba(0,0,0,.2)"/>
+ <!-- Labels -->
+ <text x="390" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="800" fill="#fff">CAR BODY (CARBODY)</text>
+ <text x="390" y="185" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.65)">fully sprung — passengers or freight</text>
+ <text x="390" y="268" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="rgba(255,255,255,.65)">UNDERFRAME / CHASSIS</text>
+ </g>
+
+ <!-- COUPLER (red boxes at ends) -->
+ <g class="ap" data-p="coupler" style="cursor:pointer">
+ <rect x="25" y="192" width="52" height="22" rx="4" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
+ <rect x="5" y="200" width="22" height="7" rx="2" fill="#c0392b"/>
+ <rect x="703" y="192" width="52" height="22" rx="4" fill="#e74c3c" stroke="#c0392b" stroke-width="1.5"/>
+ <rect x="753" y="200" width="22" height="7" rx="2" fill="#c0392b"/>
+ <text x="51" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#fff" font-weight="700">BUFFER</text>
+ <text x="729" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#fff" font-weight="700">BUFFER</text>
+ </g>
+
+ <!-- PANTOGRAPH -->
+ <g class="ap" data-p="pantograph" style="cursor:pointer">
+ <line x1="200" y1="20" x2="580" y2="20" stroke="#f0c040" stroke-width="2" stroke-dasharray="8,4"/>
+ <text x="390" y="14" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#f0c040" font-weight="600">25 kV contact wire</text>
+ <line x1="350" y1="100" x2="368" y2="22" stroke="#666" stroke-width="3" stroke-linecap="round"/>
+ <line x1="430" y1="100" x2="412" y2="22" stroke="#666" stroke-width="3" stroke-linecap="round"/>
+ <line x1="310" y1="100" x2="350" y2="100" stroke="#666" stroke-width="2"/>
+ <line x1="430" y1="100" x2="470" y2="100" stroke="#666" stroke-width="2"/>
+ <rect x="363" y="17" width="54" height="8" rx="2" fill="#e8b84b" stroke="#c8980b" stroke-width="1.5"/>
+ <text x="390" y="89" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#888" font-weight="600">PANTOGRAPH</text>
+ </g>
+
+ <!-- SPRUNG / UNSPRUNG LINE -->
+ <line x1="20" y1="280" x2="760" y2="280" stroke="#e17055" stroke-width="1.5" stroke-dasharray="8,4"/>
+ <rect x="22" y="266" width="105" height="15" rx="3" fill="rgba(225,112,85,.12)" stroke="rgba(225,112,85,.4)" stroke-width="1"/>
+ <text x="75" y="277" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#c05030" font-weight="700">SPRUNG (above)</text>
+ <rect x="655" y="266" width="105" height="15" rx="3" fill="rgba(214,48,49,.12)" stroke="rgba(214,48,49,.4)" stroke-width="1"/>
+ <text x="707" y="277" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#a01010" font-weight="700">UNSPRUNG (below)</text>
+
+ <!-- HIGHLIGHT RINGS -->
+ <rect id="hl-carbody" x="71" y="96" width="638" height="192" rx="14" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+ <rect id="hl-coupler" x="2" y="187" width="80" height="34" rx="6" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+ <rect id="hl-pantograph" x="290" y="10" width="200" height="98" rx="6" fill="none" stroke="#f0c040" stroke-width="2.5" stroke-dasharray="6,3" opacity="0" pointer-events="none"/>
+ <g id="hl-secondary" opacity="0" pointer-events="none">
+ <rect x="118" y="183" width="136" height="42" rx="6" fill="none" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <rect x="528" y="183" width="136" height="42" rx="6" fill="none" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ <g id="hl-pivot" opacity="0" pointer-events="none">
+ <rect x="163" y="175" width="34" height="54" rx="6" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <rect x="583" y="175" width="34" height="54" rx="6" fill="none" stroke="var(--purple)" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ <g id="hl-bogie" opacity="0" pointer-events="none">
+ <rect x="44" y="218" width="278" height="50" rx="7" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <rect x="464" y="218" width="278" height="50" rx="7" fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ <g id="hl-primary" opacity="0" pointer-events="none">
+ <rect x="62" y="235" width="80" height="42" rx="5" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <rect x="602" y="235" width="80" height="42" rx="5" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ <g id="hl-axlebox" opacity="0" pointer-events="none">
+ <rect x="122" y="282" width="46" height="36" rx="7" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <rect x="612" y="282" width="46" height="36" rx="7" fill="none" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ <g id="hl-wheelset" opacity="0" pointer-events="none">
+ <circle cx="100" cy="302" r="46" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="6,3"/>
+ <circle cx="640" cy="302" r="46" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="6,3"/>
+ </g>
+ </svg>
+ <div class="part-btn-row">
+ <button class="pbtn" onclick="SP('carbody')">🔵 Car Body</button>
+ <button class="pbtn" onclick="SP('coupler')">🔴 Coupler/Buffer</button>
+ <button class="pbtn" onclick="SP('pantograph')">⚡ Pantograph</button>
+ <button class="pbtn" onclick="SP('secondary')">🟢 2° Suspension</button>
+ <button class="pbtn" onclick="SP('pivot')">🟣 Pivot</button>
+ <button class="pbtn" onclick="SP('bogie')">🔴 Bogie Frame</button>
+ <button class="pbtn" onclick="SP('primary')">🟠 1° Suspension</button>
+ <button class="pbtn" onclick="SP('axlebox')">🟠 Axlebox</button>
+ <button class="pbtn" onclick="SP('wheelset')">⚫ Wheelset</button>
+ </div>
+ </div>
+ <div id="part-info" class="part-info">
+ <div class="part-hint">👆 Click any part of the vehicle above, or use the buttons below the diagram.</div>
+ </div>
+</div>
+
+<!-- LOAD PATH (interactive 9-element chain) -->
+<div class="card" style="margin-bottom:1.2rem">
+ <h3>⬇️ Load Path — From Passenger to Ground</h3>
+ <p style="font-size:.86rem;color:var(--textm);margin-bottom:1rem">Every force — the weight of passengers, braking, acceleration, a curve's centrifugal push — travels downward through exactly nine structural elements before it reaches the ground. Each element transforms and redistributes that force. Click any step to see what it does and why it matters.</p>
+ <div class="lp-wrap">
+ <div class="load-path" id="lp-chain"></div>
+ <div id="lp-info" class="lp-info"><div class="lp-empty">👈 Click any element on the left to learn what it does, the forces it carries, and why it matters.</div></div>
+ </div>
+</div>
+
+<!-- CONICITY -->
+<div class="card" id="conicity-card" style="margin-bottom:1.2rem">
+  <h3>🌀 Conicity — How a Rigid Axle Steers Itself</h3>
+
+  <div class="howto">
+    <div class="howto-title">📖 Before you start: the idea in three steps</div>
+    <ol class="steps3">
+      <li><b>One axle, one speed.</b> Both wheels are pressed onto the same axle, so they always turn at exactly the same rate (same rpm). Neither wheel can spin faster than the other.</li>
+      <li><b>Wheels are cones, not cylinders.</b> The tread is tapered 1:20 — a bigger radius on the flange side, a smaller radius on the outside. If the wheelset sits off-centre, the two wheels touch the rails at <em>different radii</em>.</li>
+      <li><b>Bigger radius = longer path.</b> Distance per turn = 2π × radius. The wheel on the larger radius runs further every turn, so the wheelset swings towards the side with the smaller radius. No steering mechanism, no driver input — just geometry.</li>
+    </ol>
+    <div class="howto-try"><b>How to use it:</b> drag the slider (or press ▶ Play). Watch three things at once — <b>left</b>: which wheel touches the rail at the bigger radius; <b>right</b>: the arrows showing how far each wheel rolls in one turn and which way the wheelset turns; <b>below</b>: a plain-language sentence. Colours are fixed: <span style="color:#2a5298;font-weight:800">blue = left wheel</span>, <span style="color:#d35400;font-weight:800">orange = right wheel</span>. The drawing is exaggerated so you can see it — real radius differences are fractions of a millimetre (the numbers shown are the real ones).</div>
   </div>
-</main>
+
+  <div class="mode-row">
+    <button class="mode-btn on" id="mb-front" onclick="conMode('front')">① Off-centre wheelset — front &amp; top view</button>
+    <button class="mode-btn" id="mb-curve" onclick="conMode('curve')">② Going round a curve — how tight is too tight?</button>
+  </div>
+
+  <!-- VIEW 1 -->
+  <div id="con-front">
+    <div class="con-grid">
+      <div class="con-panel"><div class="con-cap">Front view — looking along the track</div><svg id="svg-front" viewBox="0 0 440 350" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <div class="con-panel"><div class="con-cap">Top view — same wheelset, train moving up ↑</div><svg id="svg-top" viewBox="0 0 360 350" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    </div>
+    <div class="con-ctrl">
+      <button class="anim-btn" id="con-play" onclick="conTogglePlay()">▶ Play</button>
+      <button class="anim-btn" onclick="conReset()">↺ Centre it</button>
+      <div class="sl">
+        <input type="range" id="con-s" min="-30" max="30" step="0.5" value="18" oninput="conFront()">
+        <div class="ends"><span>← shift left</span><span>centred</span><span>shift right →</span></div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><span class="v" id="st-y">+6.0 mm</span><div class="l">Sideways shift of the wheelset</div></div>
+      <div class="stat blue"><span class="v" id="st-rl">459.7 mm</span><div class="l">LEFT wheel rolling radius</div></div>
+      <div class="stat orange"><span class="v" id="st-rr">460.3 mm</span><div class="l">RIGHT wheel rolling radius</div></div>
+      <div class="stat"><span class="v" id="st-dp">3.8 mm</span><div class="l">Extra distance the bigger wheel rolls per turn</div></div>
+    </div>
+    <div class="say" id="con-say"></div>
+    <div class="abox" style="margin-top:.8rem"><strong>Paper-cup test:</strong> roll a paper cup (a cone) across a table — it doesn't go straight, it curves towards its narrow end. A wheelset is two cones joined at their narrow ends, so it "wants" to curve whenever it is off-centre. The rails turn that tendency into self-centring.</div>
+  </div>
+
+  <!-- VIEW 2 -->
+  <div id="con-curve" style="display:none">
+    <div class="howto" style="margin-bottom:.9rem">
+      <div class="howto-title">📖 What this view shows</div>
+      <p style="font-size:.83rem;color:var(--textm);margin:0 0 .5rem">In a curve the outer rail is longer than the inner rail, so the outer wheel must roll further. Conicity can only provide that if the wheelset moves sideways — but there is only about <b>±5 mm</b> of free play before the flange touches the rail. A tighter curve needs a bigger shift.</p>
+      <div class="howto-try"><b>Try this:</b> start at 5,000 m (gentle) and drag the radius down. Watch the required shift grow. At what radius does the outer flange touch (the red marker)? Then switch the taper to 1:40 and see what happens to that radius.</div>
+    </div>
+    <div class="con-panel"><div class="con-cap">Top view — a left-hand curve, train moving up ↑</div><svg id="svg-curve" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="con-ctrl">
+      <div class="sl">
+        <input type="range" id="cv-R" min="0" max="100" step="1" value="62" oninput="conCurve()">
+        <div class="ends"><span>tight curve (100 m)</span><span>Curve radius R: <b id="cv-Rv" style="color:var(--navy)">1,000 m</b></span><span>gentle (5,000 m)</span></div>
+      </div>
+    </div>
+    <div class="preset-row">
+      <span class="lbl">Tread taper:</span>
+      <button class="preset" id="tp-20" style="background:var(--navy);color:#fff;border-color:var(--navy)" onclick="conTaper(0.05)">1:20 (λ = 0.05) — standard</button>
+      <button class="preset" id="tp-40" onclick="conTaper(0.025)">1:40 (λ = 0.025) — gentler</button>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><span class="v" id="cv-ds">—</span><div class="l">Extra length of the outer rail per 100 m of curve</div></div>
+      <div class="stat"><span class="v" id="cv-dr">—</span><div class="l">Radius difference the wheels must provide</div></div>
+      <div class="stat" id="cv-ybox"><span class="v" id="cv-y">—</span><div class="l">Sideways shift needed (free play ±5 mm)</div></div>
+      <div class="stat"><span class="v" id="cv-rc">—</span><div class="l">Tightest curve conicity alone can steer</div></div>
+    </div>
+    <div class="verdict ok" id="cv-verdict"></div>
+    <div class="derive" style="margin-top:.8rem">
+      <b style="color:var(--navy)">Where the numbers come from</b> (r₀ = 0.46 m wheel radius, e₀ = 0.75 m half the distance between contact points):<br>
+      Outer wheel path ÷ inner wheel path = (R + e₀) ÷ (R − e₀) → the radius difference needed is <span class="m">Δr = 2·r₀·e₀ / R</span><br>
+      A shift y gives Δr = 2·λ·y, so the shift needed is <span class="m">y = r₀·e₀ / (λ·R)</span> — the same formula you meet in the lecture.
+    </div>
+  </div>
+</div>
+
+<!-- KLINGEL -->
+<div class="card" style="margin-bottom:1.2rem">
+  <h3>🌊 Klingel's Formula — Why Trains Sway on Straight Track</h3>
+
+  <div class="howto">
+    <div class="howto-title">📖 Before you start: what is "hunting"?</div>
+    <p style="font-size:.84rem;color:var(--textm);margin:0 0 .6rem">Conicity steers a wheelset back to the centre — but it arrives at the centre still pointing slightly sideways, so it overshoots to the other side, then corrects again, and again. Like a driver who over-corrects on a slippery road, the wheelset swings left–right–left down the track in a smooth snake-like wave. That is <b>hunting</b>. In 1883 Klingel showed that the length of one full swing is:</p>
+    <div class="formula-live" style="margin:.2rem 0 .8rem">L = 2π · √( r₀ · e₀ / λ )</div>
+    <div class="howto-title" style="margin-top:.2rem">The four sliders — what they mean and what happens when you push them</div>
+    <div class="param-list">
+      <div class="param"><b>r₀</b> wheel radius (0.46 m for a 920 mm wheel). <span class="up">↑ bigger wheels</span> → longer wavelength, calmer ride.</div>
+      <div class="param"><b>e₀</b> half the distance between the two contact points (≈ 0.75 m). <span class="up">↑ wider contact spacing</span> → longer wavelength.</div>
+      <div class="param"><b>λ</b> conicity = tan of the taper angle. 1:20 → 0.05. <span class="dn">↑ steeper taper</span> → <i>shorter</i> wavelength, faster swaying. Wear raises it.</div>
+      <div class="param"><b>Speed</b> doesn't change the wavelength (that's geometry) but sets the <i>frequency</i>: f = speed ÷ L. <span class="dn">↑ faster</span> → more swings per second.</div>
+    </div>
+    <div class="howto-try"><b>What to look at:</b> the animation shows the wheelset's path from above (slow motion; the sideways swing is exaggerated roughly 50–100×, and the wheels are drawn wide so you can see them sitting on the rails). The cards give the real wavelength L, frequency f and cycles per minute. Colour bands: <b style="color:var(--teal)">&lt; 1.5 Hz</b> gentle sway · <b style="color:var(--orange)">1.5–3 Hz</b> noticeable · <b style="color:var(--red)">&gt; 3 Hz</b> approaching a bogie's own natural frequencies — this is where yaw dampers earn their keep.</div>
+  </div>
+
+  <div class="preset-row">
+    <span class="lbl">Quick experiments:</span>
+    <button class="preset" onclick="kPreset(0.46,0.75,0.05,100)">Standard wheel @ 100 km/h</button>
+    <button class="preset" onclick="kPreset(0.46,0.75,0.05,250)">Same wheel @ 250 km/h</button>
+    <button class="preset" onclick="kPreset(0.46,0.75,0.20,160)">Badly worn wheels (λ = 0.20) @ 160</button>
+    <button class="preset" onclick="kPreset(0.46,0.75,0.025,250)">Gentle 1:40 taper @ 250 km/h</button>
+  </div>
+
+  <div class="hunt-grid">
+    <div><label class="sl-lbl">Wheel radius r₀ (m):</label><input type="range" id="r0" min="0.30" max="0.65" step="0.01" value="0.46" oninput="calcK()"><div class="sl-val" id="r0v">0.46 m</div></div>
+    <div><label class="sl-lbl">Half contact spacing e₀ (m):</label><input type="range" id="e0" min="0.60" max="0.85" step="0.01" value="0.75" oninput="calcK()"><div class="sl-val" id="e0v">0.75 m</div></div>
+    <div><label class="sl-lbl">Conicity λ (1:20 = 0.05):</label><input type="range" id="lam" min="0.01" max="0.30" step="0.005" value="0.05" oninput="calcK()"><div class="sl-val" id="lamv">0.05 (1:20)</div></div>
+    <div><label class="sl-lbl">Train speed (km/h):</label><input type="range" id="spd" min="40" max="350" step="10" value="100" oninput="calcK()"><div class="sl-val" id="spdv">100 km/h</div></div>
+  </div>
+
+  <div class="formula-live" id="kform"></div>
+  <canvas id="hunt-canvas" width="700" height="240"></canvas>
+  <div class="anim-ctrl"><button class="anim-btn on" id="hunt-play" onclick="huntToggle()">⏸ Pause</button><span class="anim-stat">slow motion · path drawn from above</span></div>
+  <div class="stat-row" id="kres" style="margin-top:.6rem"></div>
+  <div class="say" id="ksay"></div>
+  <div class="pbox" style="margin-top:.8rem"><strong>Why engineers can't just pick λ = 0:</strong> with no taper the wheelset couldn't steer through curves, and flanges would grind the rail in every bend. With a big taper it steers beautifully but starts hunting at lower speed. Real wheel profiles are a compromise — and they change as the wheel wears, which is why high-speed fleets re-profile wheels regularly.</div>
+</div>
+
+<!-- TRACTION -->
+<div class="card" style="margin-bottom:1.2rem">
+  <h3>🧮 Traction &amp; Adhesion — How Much Can a Locomotive Pull?</h3>
+
+  <div class="howto">
+    <div class="howto-title">📖 Before you start: what limits a locomotive?</div>
+    <p style="font-size:.84rem;color:var(--textm);margin:0 0 .6rem">A locomotive pulls through friction between steel wheels and steel rail — a contact patch only about the size of a small coin under each wheel. That friction is called <b>adhesion</b>. The most pulling force the wheels can transmit before they spin is:</p>
+    <div class="formula-live" style="margin:.2rem 0 .8rem">F<sub>max</sub> = μ · m<sub>driven</sub> · g</div>
+    <p style="font-size:.84rem;color:var(--textm);margin:0 0 .6rem">Only the weight on the <i>driven</i> axles counts — that is why locomotives are built so heavy. Going uphill, the train needs a force of <b>m · g · (gradient ÷ 1000)</b> just to avoid rolling backwards (1‰ = 1 m of climb per km). If the needed force is above F<sub>max</sub>, the wheels slip.</p>
+    <div class="howto-title">The inputs — and what to expect when you change them</div>
+    <div class="param-list">
+      <div class="param"><b>Driven axles × axle load</b> — total weight pressing on powered wheels. <span class="up">↑ more driven axles</span> → proportionally more pulling force. (Bo′Bo′ = 4, Co′Co′ = 6.)</div>
+      <div class="param"><b>μ — rail condition</b> — dry ≈ 0.30, damp ≈ 0.20, wet ≈ 0.15, icy / leaves ≈ 0.10. <span class="dn">Wet rail halves your pulling power.</span></div>
+      <div class="param"><b>Gradient (‰)</b> — steeper = more force needed. 25‰ is a hard freight grade; high-speed lines are built far gentler.</div>
+      <div class="param"><b>Train mass</b> — locomotive plus wagons. <span class="dn">Double the train, double the force needed.</span></div>
+    </div>
+    <div class="howto-try"><b>Reading the result:</b> the green arrow is what the wheels can deliver, the red arrow is what the slope demands. Green longer than red → the train climbs. The tool counts <i>gradient only</i>; in real life rolling, curve and air resistance add to the red arrow, so real margins are thinner.</div>
+  </div>
+
+  <div class="preset-row">
+    <span class="lbl">Quick experiments:</span>
+    <button class="preset" onclick="tPreset(4,22.5,25,1000,0.30)">Dry rail, 25‰ — just fits</button>
+    <button class="preset" onclick="tPreset(4,22.5,15,1000,0.15)">Wet rail, only 15‰ — slips!</button>
+    <button class="preset" onclick="tPreset(4,22.5,35,1000,0.30)">Dry, but 35‰ — too steep</button>
+    <button class="preset" onclick="tPreset(8,22.5,25,1000,0.15)">Add a helper loco (8 axles), wet</button>
+  </div>
+
+  <div class="trac-grid">
+    <div><label class="tc-lbl">Number of driven axles:</label><input class="tc-inp" type="number" id="tc-n" value="4" min="1" max="12" step="1" oninput="calcT()"></div>
+    <div><label class="tc-lbl">Axle load (t per axle):</label><input class="tc-inp" type="number" id="tc-a" value="22.5" min="10" max="32.5" step="0.5" oninput="calcT()"></div>
+    <div><label class="tc-lbl">Gradient to climb (‰):</label><input class="tc-inp" type="number" id="tc-g" value="25" min="0" max="45" step="1" oninput="calcT()"></div>
+    <div><label class="tc-lbl">Total train mass (t):</label><input class="tc-inp" type="number" id="tc-m" value="1000" min="100" max="6000" step="100" oninput="calcT()"></div>
+    <div><label class="tc-lbl">Rail condition:</label>
+      <select class="tc-inp" id="tc-mu" onchange="calcT()" style="font-family:inherit">
+        <option value="0.30">Dry — μ ≈ 0.30</option>
+        <option value="0.20">Damp — μ ≈ 0.20</option>
+        <option value="0.15">Wet — μ ≈ 0.15</option>
+        <option value="0.10">Icy / leaves — μ ≈ 0.10</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:flex-end"><div style="background:#f0f4ff;border-radius:8px;padding:.6rem .8rem;font-size:.78rem;color:var(--textm);line-height:1.55;flex:1">1 tonne of weight = 9.81 kN of force.<br>On 25‰ every tonne of train needs 0.245 kN.</div></div>
+  </div>
+
+  <svg id="force-svg" class="force-svg" viewBox="0 0 460 204" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div id="tc-bars" style="margin-top:.8rem"></div>
+  <div class="stat-row" id="tc-res"></div>
+  <div class="say" id="tc-say"></div>
+</div>
+
+<!-- UIC DECODER -->
+<div class="card">
+  <h3>🔑 Decode a Locomotive — UIC Axle Formula &amp; Turkish Numbers</h3>
+  <div class="howto">
+    <div class="howto-title">📖 The rules (all you need)</div>
+    <ol class="steps3">
+      <li><b>Count axles, not wheels.</b> One axle = one pair of wheels.</li>
+      <li><b>Letters = driven (powered) axles:</b> A = 1, B = 2, C = 3, D = 4. <b>Numbers = carrying (unpowered) axles.</b></li>
+      <li><b>o</b> after a letter = every axle has its own motor. <b>′</b> = the axles sit in a bogie. A dash separates the bogies.</li>
+    </ol>
+    <div class="howto-try"><b>Try it:</b> press a formula to see it taken apart, colour by colour. Then try the Turkish numbering decoder underneath.</div>
+  </div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">
+    <button class="pbtn on" onclick="decodeUIC(this,'Bo_Bo')">Bo′Bo′</button>
+    <button class="pbtn" onclick="decodeUIC(this,'Co_Co')">Co′Co′</button>
+    <button class="pbtn" onclick="decodeUIC(this,'1Co')">1′Co′Co′1′</button>
+    <button class="pbtn" onclick="decodeUIC(this,'A1A')">A1A′A1A′</button>
+  </div>
+  <div id="uic-out" class="uic-wrap"></div>
+
+  <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border)">
+    <div style="font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:.4rem">🇹🇷 Turkish locomotive numbers (older TCDD scheme)</div>
+    <p style="font-size:.84rem;color:var(--textm);margin-bottom:.7rem">Letters tell you the traction type (<b>E</b> electric · <b>DE</b> diesel-electric · <b>DH</b> diesel-hydraulic). The first two digits give the power in hundreds of horsepower, the last three are the factory serial number. Type one in:</p>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+      <input class="uic-in" id="tr-in" value="E 14090" oninput="decodeTR()" spellcheck="false">
+      <button class="preset" onclick="trSet('E 14090')">E 14090</button>
+      <button class="preset" onclick="trSet('E 43002')">E 43002</button>
+      <button class="preset" onclick="trSet('DE 24005')">DE 24005</button>
+      <button class="preset" onclick="trSet('DH 11001')">DH 11001</button>
+    </div>
+    <div class="say" id="tr-out" style="margin-top:.7rem"></div>
+  </div>
+</div>
+
+</div><!-- end t-v -->
+
+<!-- ══ NOTES ══ -->
+<div id="t-n" class="tab-panel">
+
+  <div class="card">
+    <h3>Part 1 — The Puzzle and the Three Vehicle Families</h3>
+    <p>Here is the question that drives this whole week. A railway wheelset has two wheels pressed rigidly onto one axle, so they <em>always</em> turn at exactly the same rate. In a curve, though, the outer wheel has to travel a longer arc than the inner one. There is no differential, no steering rack, no driver turning anything. So how does a train get round a bend without scrubbing its wheels along the rail?</p>
+    <p>The answer is built into the shape of the wheel — and we will get there in Part 4. First, the cast of characters. Railway vehicles fall into three families:</p>
+    <div class="three-col" style="margin:1rem 0">
+      <div style="background:linear-gradient(135deg,rgba(30,64,128,.05),rgba(30,64,128,.12));border:2px solid rgba(30,64,128,.2);border-radius:12px;padding:1.1rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.4rem">🚂</div>
+        <b style="color:var(--navy);font-size:.92rem">Locomotive</b>
+        <p style="font-size:.78rem;margin-top:.3rem">A traction vehicle: it creates the pull and carries no payload. Passenger and freight locomotives are designed differently — speed versus pulling force.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(14,164,122,.04),rgba(14,164,122,.12));border:2px solid rgba(14,164,122,.2);border-radius:12px;padding:1.1rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.4rem">🚃</div>
+        <b style="color:var(--navy);font-size:.92rem">Wagons &amp; Coaches</b>
+        <p style="font-size:.78rem;margin-top:.3rem">Trailed vehicles with no power of their own. Coaches carry passengers, wagons carry freight. A locomotive moves them.</p>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(240,192,64,.06),rgba(240,192,64,.15));border:2px solid rgba(240,192,64,.3);border-radius:12px;padding:1.1rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:.4rem">🚄</div>
+        <b style="color:var(--navy);font-size:.92rem">Multiple Units</b>
+        <p style="font-size:.78rem;margin-top:.3rem">Self-propelled train-sets: EMU (electric) or DMU (diesel). Power is spread along the train instead of concentrated in one locomotive.</p>
+      </div>
+    </div>
+    <div class="abox"><strong>Why spread the power?</strong> With motors under many axles, a multiple unit has lots of driven axles <em>and</em> a light axle load — so it accelerates quickly without hammering the track. That is ideal for commuter lines with a station every couple of kilometres. A locomotive-hauled freight train does the opposite: one heavy machine concentrates weight on its driven wheels (more adhesion) and can be swapped, doubled up or coupled to any length of train. A multiple unit has <b>motor coaches</b> (powered) and <b>trailers</b> (unpowered), coupled permanently or semi-permanently.</div>
+    <div class="ibox"><strong>Numbers to anchor it:</strong> a standard UIC-type passenger coach is about <b>26.4 m</b> long, with its two bogie pivots about <b>19 m</b> apart and a bogie wheelbase of about <b>2.56 m</b>. A common freight-wagon bogie (the Y25 type) has a wheelbase of only <b>1.8 m</b>. Keep these in mind — they matter for curving in Part 3.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 2 — Anatomy of a Vehicle and the Load Path</h3>
+    <p>Every railway vehicle is built from three structural groups:</p>
+    <ul style="display:grid;gap:.3rem;margin:.5rem 0 .8rem">
+      <li><strong>Bodywork (carbody)</strong> — the enclosed structure carrying passengers or freight, plus the driver's cab and, in powered vehicles, the traction equipment.</li>
+      <li><strong>Chassis (underframe)</strong> — the structural base the carbody sits on. It carries the <b>draw gear</b> (couplers, which transmit pulling and pushing forces between vehicles) and the <b>buffers</b> (spring-loaded pads that cushion impacts), along with lighting and heating systems.</li>
+      <li><strong>Bogies and wheelsets</strong> — carry the load from above, deliver it to the track, and allow smooth rolling along the rails.</li>
+    </ul>
+    <div class="ibox"><strong>The sprung / unsprung line.</strong> Everything above the axleboxes is <em>sprung</em> — separated from the track by springs and dampers. The wheelset (wheels, axle, bearings, and any motor hung directly on the axle) is <em>unsprung</em>: it follows every rail irregularity directly, with nothing to cushion it.</div>
+    <p><b>Why two suspension stages?</b> A spring only isolates vibration at frequencies well above its own natural frequency. The soft secondary suspension (around 1 Hz) filters out the slow sway and the low-frequency components of track roughness, which is what passengers feel. The stiffer primary suspension (a few Hz) has a different job: keep the wheel pressed on the rail over short, sharp irregularities such as joints, welds and switches. Together they let the carbody float while the wheels stay in contact.</p>
+    <p><b>Why unsprung mass is the villain.</b> A passenger wheelset typically weighs on the order of 1.3–2 tonnes, and it is that mass — not the carbody's — that smashes into every rail irregularity. The force it generates grows with speed. More unsprung mass means larger dynamic forces on rail, fastenings, sleepers and ballast, and faster track deterioration (Week 2). This is why modern designs mount traction motors on the <i>bogie frame</i> or the carbody instead of hanging them on the axle, and why every line has a <b>maximum axle load</b>.</p>
+    <div class="ibox"><strong>What is a "line category"?</strong> European standard EN 15528 labels every line with a letter and a number — for example <b>D4</b>: the letter gives the permitted axle load (D = 22.5 t) and the number gives the permitted load per metre (4 = 8.0 t/m). Vehicles are matched to lines by these codes. The full table is in the Data tab.</div>
+    <p>The complete load path from passenger to ground has nine steps: <strong>pivot → cross beams → spring group → side frames → axle box → wheel → rail → fastening → sleeper / ballast / subgrade</strong>. Use the interactive load path to explore each one.</p>
+  </div>
+
+  <div class="card">
+    <h3>Part 3 — The Bogie</h3>
+    <p>A bogie is a structural sub-frame that connects two or more wheelsets and does three jobs:</p>
+    <div class="two-col" style="margin:.8rem 0">
+      <div>
+        <div style="padding:.8rem;background:#f8f9fc;border-radius:10px;border-left:3px solid var(--red);margin-bottom:.6rem"><b style="font-size:.84rem;color:var(--navy)">1. Suspension</b><p style="font-size:.79rem;margin:.2rem 0 0">Isolates the carbody from track irregularities through primary (axle ↔ bogie) and secondary (bogie ↔ carbody) suspension.</p></div>
+        <div style="padding:.8rem;background:#f8f9fc;border-radius:10px;border-left:3px solid var(--teal);margin-bottom:.6rem"><b style="font-size:.84rem;color:var(--navy)">2. Guidance</b><p style="font-size:.79rem;margin:.2rem 0 0">Keeps both wheelsets aligned with the rails and provides lateral stability, with yaw dampers suppressing hunting at speed.</p></div>
+        <div style="padding:.8rem;background:#f8f9fc;border-radius:10px;border-left:3px solid var(--blue)"><b style="font-size:.84rem;color:var(--navy)">3. Curving</b><p style="font-size:.79rem;margin:.2rem 0 0">The bogie rotates under the carbody about the pivot. The carbody stays almost straight while each bogie turns to follow the rails.</p></div>
+      </div>
+      <div>
+        <p style="font-size:.86rem;color:var(--textm)">Structurally the bogie frame is an H: two <strong>side frames</strong> (longitudinal beams that carry load from the suspension to the axleboxes) joined by <strong>transoms</strong> (transverse beams that spread load from the pivot to both side frames).</p>
+        <p style="font-size:.86rem;color:var(--textm)">Most bogies have two wheelsets; heavy freight vehicles can have more. A bogie also lets its wheelsets deviate slightly from parallel while curving — and that flexibility is what keeps flange and rail wear down.</p>
+      </div>
+    </div>
+    <h4 style="color:var(--navy);margin:.9rem 0 .4rem;font-size:.92rem">Why not just use a long rigid vehicle?</h4>
+    <p>In a curve, an axle that cannot swivel meets the rail at an <b>angle of attack</b> of roughly <span style="font-family:'JetBrains Mono',monospace;color:var(--navy)">ψ ≈ wheelbase ÷ (2 × R)</span> (ignoring free play). That angle is what makes flanges grind.</p>
+    <div class="derive">
+      <b style="color:var(--navy)">Worked comparison — a 300 m curve</b><br>
+      Bogie with a 2.56 m wheelbase: ψ ≈ 2.56 ÷ (2 × 300) = <span class="m">0.0043 rad ≈ 0.24°</span><br>
+      Same 26.4 m coach with just two axles 19 m apart: ψ ≈ 19 ÷ (2 × 300) = <span class="m">0.032 rad ≈ 1.8°</span> — about <b>7 times larger</b>.<br>
+      Short-wheelbase bogies that swivel keep the angle of attack small — that is exactly why the bogie was invented.
+    </div>
+    <div class="ibox"><strong>The pivot in action:</strong> in a curve each bogie yaws to point along the rails while the carbody, held at the two pivots, runs a smooth chord between them. Because the bogies do the curving, a 26 m carbody can take curves with far less flange wear than a rigid vehicle of the same length.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 4 — Wheels, Conicity and Hunting</h3>
+    <h4 style="color:var(--navy);margin:.2rem 0 .4rem;font-size:.92rem">The wheel</h4>
+    <p>A wheel has two functional parts: the <strong>tread</strong> — the rolling surface that carries the vertical load and provides adhesion — and the <strong>flange</strong> — the inner guiding rim that prevents derailment and provides lateral guidance as a last resort.</p>
+    <table>
+      <thead><tr><th>Dimension</th><th>Value</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">Wheel diameter</td><td>350–1,250 mm (typically 890–920 mm on main lines)</td><td>Varies with vehicle type; profiles standardised, e.g. EN 13715</td></tr>
+        <tr><td class="td-hi">Flange height</td><td>29 mm</td><td>Above the tread</td></tr>
+        <tr><td class="td-hi">Flange thickness</td><td>32.5 mm</td><td>Measured 10 mm below the tread</td></tr>
+        <tr><td class="td-hi">Tread taper (conicity)</td><td>1:20 (tan α = 0.05, α ≈ 2.86°)</td><td>Some networks use 1:40</td></tr>
+        <tr><td class="td-hi">Rail inclination</td><td>1:20 inward, matching the wheel</td><td>Built in by the fastening / baseplate (Week 2)</td></tr>
+      </tbody>
+    </table>
+    <p>Why match the taper on wheel <i>and</i> rail? Because it maximises the contact area, reduces contact stress and wear, and gives smooth, stable running at speed. If the two did not agree, contact would be at an edge — a small area, high stress and rapid wear.</p>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .4rem;font-size:.92rem">Self-steering, step by step</h4>
+    <ol style="padding-left:1.3rem;display:grid;gap:.35rem;font-size:.87rem;color:var(--textm);margin-bottom:.8rem">
+      <li>The wheelset drifts sideways toward the outer rail.</li>
+      <li>The outer wheel now touches the rail on the wider part of its cone — a larger rolling radius. The inner wheel touches on the narrower part.</li>
+      <li>Same rpm, larger radius → the outer wheel rolls further per turn.</li>
+      <li>The wheelset turns towards the curve — with no steering input at all. This is called <i>kinematic steering</i>.</li>
+    </ol>
+    <div class="derive">
+      <b style="color:var(--navy)">How far must the wheelset shift?</b> Let the curve radius be R, wheel radius r₀, half the distance between contact points e₀, and conicity λ.<br>
+      • The outer rail is longer than the inner in the ratio (R + e₀) : (R − e₀). So the wheels need radii in the same ratio: Δr ≈ <span class="m">2·r₀·e₀ / R</span>.<br>
+      • A sideways shift y changes the two radii by ±λy, so Δr = <span class="m">2·λ·y</span>.<br>
+      • Equate: <span class="m">y = r₀·e₀ / (λ·R)</span>
+    </div>
+    <div class="eq"><span class="eq-lbl">Lateral shift needed</span>y = r₀ · e₀ / (λ · R)</div>
+    <div class="derive">
+      <b style="color:var(--navy)">Two worked examples</b> (r₀ = 0.46 m, e₀ = 0.75 m, λ = 0.05; the new-wheel flangeway play is about ±5 mm):<br>
+      • R = 1,400 m → y = 0.46 × 0.75 ÷ (0.05 × 1,400) = <span class="m">4.9 mm</span> — just fits inside the play. Conicity alone steers.<br>
+      • R = 300 m → y = 0.345 ÷ (0.05 × 300) = <span class="m">23 mm</span> — far more than the 5 mm available. The flange takes over.<br>
+      So in this simple model conicity alone can steer curves larger than about <b>1.4 km</b>. Below that, the flange meets the rail: wear, noise, heat. Engineers respond with <b>gauge widening</b>, <b>flange lubrication</b>, <b>speed limits</b> and bogies that help steer — and we will return to this in the Curves lectures. (Real wheel–rail profiles are not perfectly linear cones; this is the idealised model.)
+    </div>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .4rem;font-size:.92rem">The price of self-steering: hunting</h4>
+    <p>On straight track the same conicity causes trouble. The wheelset steers back to the centre, arrives still pointing sideways, overshoots, corrects, overshoots again — a smooth snake-like swing called <b>hunting</b>. Klingel showed in 1883 that the wavelength is</p>
+    <div class="eq"><span class="eq-lbl">Klingel (1883)</span>L = 2π √( r₀ · e₀ / λ )<br><small style="color:#7090c0">r₀ = 0.46 m · e₀ = 0.75 m · λ = 0.05 → L ≈ 16.5 m</small></div>
+    <p>The frequency is simply speed ÷ wavelength: about <b>1.7 Hz at 100 km/h</b> and about <b>4.2 Hz at 250 km/h</b>. At low frequency the sway is gentle and dies out. As the frequency climbs towards the natural frequencies of the bogie, the oscillation can <em>grow</em> rather than decay — above this <b>critical speed</b> the vehicle is unstable and, in the worst case, can derail.</p>
+    <div class="ibox"><strong>The engineering trade-off:</strong> more conicity → better curving but a lower critical speed. Less conicity → higher stability but worse curving. The toolkit: <b>yaw dampers</b> between bogie and carbody, tuned bogie stiffness, low-conicity wheel profiles for fast fleets, and regular <b>wheel re-profiling</b> — because wear changes the tread shape and raises the effective conicity.</div>
+    <div class="misc"><b>Common misconceptions.</b><br>
+      ✗ "The flange steers the train." — On gentle curves the flange never touches the rail; conicity does the steering. The flange is the safety net.<br>
+      ✗ "The outer wheel spins faster." — No. Both wheels turn at the <i>same</i> rpm; the outer one simply rolls on a <i>larger radius</i>.<br>
+      ✗ "Wheels are flat cylinders." — They are shallow cones, 1:20.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 5 — Power: Where Does the Energy Come From?</h3>
+    <table>
+      <thead><tr><th>Type</th><th>How it works</th><th>Best for</th><th>The catch</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">Electric (overhead line)</td><td>A pantograph on the roof presses a carbon strip against the contact wire; transformer / converter → traction motors; current returns through the rails</td><td>Busy lines, high speed, metros, tunnels</td><td>Costly infrastructure — wires, substations, clearance restrictions on existing routes</td></tr>
+        <tr><td class="td-hi">Electric (third rail)</td><td>A collector shoe slides on a conductor rail beside the track (top, side or bottom contact), typically 600–750 V DC</td><td>Metro and suburban DC networks</td><td>Exposed conductor rail; low voltage limits power and speed</td></tr>
+        <tr><td class="td-hi">Diesel-electric (DE)</td><td>Diesel engine drives a generator that feeds the traction motors</td><td>Freight; lines without wires. Strong, controllable pull at low speed</td><td>Emissions, noise, fuel logistics</td></tr>
+        <tr><td class="td-hi">Diesel-hydraulic (DH)</td><td>Diesel engine drives the axles through a hydraulic transmission</td><td>Smaller, lighter locomotives and railcars</td><td>Used mainly where compactness matters</td></tr>
+        <tr><td class="td-hi">Battery / hybrid / hydrogen</td><td>Energy stored on board (batteries, or hydrogen for fuel cells)</td><td>Branch lines and gaps in electrification</td><td>Range, charging or refuelling infrastructure; case-by-case</td></tr>
+        <tr><td class="td-hi">Maglev</td><td>Electromagnets lift the vehicle 1–10 cm above a guideway and propel it; no wheel–rail contact</td><td>Very high speed on dedicated lines (Shanghai Maglev: 430 km/h; Nagoya Linimo: 100 km/h)</td><td>Needs its own guideway — cannot use existing railways; very high capital cost</td></tr>
+      </tbody>
+    </table>
+    <div class="abox"><strong>Why electric wins when traffic is heavy:</strong> electric traction is clean and energy-efficient, high-power motors can haul heavy loads, and maintenance costs are about <b>35% lower</b> than diesel traction. The price is the infrastructure. And because the motors can act as generators when braking, modern electric trains can feed energy back into the line.</div>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .4rem;font-size:.92rem">Electrification: a patchwork of incompatible systems</h4>
+    <table>
+      <thead><tr><th>System</th><th>Where</th><th>Current needed for 5 MW</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">25 kV, 50 Hz AC</td><td>High-speed and main lines — Türkiye, UK, French high-speed lines</td><td>≈ 200 A</td></tr>
+        <tr><td class="td-hi">15 kV, 16.7 Hz AC</td><td>Germany, Austria, Switzerland, Sweden, Norway</td><td>≈ 333 A</td></tr>
+        <tr><td class="td-hi">3 kV DC</td><td>Italy, Belgium, Poland, Spain (conventional lines)</td><td>≈ 1,670 A</td></tr>
+        <tr><td class="td-hi">1.5 kV DC</td><td>Netherlands, parts of France</td><td>≈ 3,330 A</td></tr>
+        <tr><td class="td-hi">600–750 V DC</td><td>Metros, trams, some suburban systems</td><td>≈ 6,700 A (at 750 V)</td></tr>
+      </tbody>
+    </table>
+    <p>The current column is just P = V × I rearranged. <b>Higher voltage → lower current → thinner wire, fewer substations, smaller losses</b> — which is why high-speed lines use 25 kV. The downside is that cross-border trains need multi-system locomotives or multiple units, adding cost, weight and complexity. After the gauge break of Week 1, electrification is the <b>second great interoperability barrier</b>.</p>
+
+    <h4 style="color:var(--navy);margin:1rem 0 .4rem;font-size:.92rem">What limits a locomotive? Adhesion and power</h4>
+    <p>Two separate limits control how hard a locomotive can pull, and which one bites depends on speed.</p>
+    <div class="derive">
+      <b style="color:var(--navy)">1. Adhesion limit (low speed):</b> <span class="m">F<sub>max</sub> = μ · m<sub>driven</sub> · g</span>. A Bo′Bo′ locomotive with four 22.5 t axles has 90 t on its driven wheels. Dry rail (μ ≈ 0.30): ≈ <b>265 kN</b>. Wet rail (μ ≈ 0.15): ≈ <b>132 kN</b>.<br>
+      <b style="color:var(--navy)">2. Power limit (high speed):</b> <span class="m">F = P / v</span>. A 5 MW locomotive at 100 km/h (27.8 m/s) can deliver at most 5,000 kW ÷ 27.8 m/s ≈ <b>180 kN</b>; at 200 km/h only ≈ <b>90 kN</b>.<br>
+      The two curves cross at v = P ÷ F<sub>max</sub> = 5,000 ÷ 265 ≈ 18.9 m/s ≈ <b>68 km/h</b> for this example. Below it the locomotive is adhesion-limited (it could use more power but the wheels would slip); above it, it is power-limited.
+    </div>
+    <p><b>Gradient.</b> To avoid rolling backwards, a train on a slope needs a force of m·g·(grade ÷ 1000). A 1,000 t train on 25‰ needs about <b>245 kN</b> (just for gravity). On dry rail the locomotive above delivers 265 kN — it just fits. At 35‰ the train needs about 343 kN and the wheels slip. On wet rail even 15‰ (≈ 147 kN) is too much. The fixes: more driven axles, helper locomotives, sand on the rail — or a gentler route. <i>(This counts gradient only; rolling, curve and air resistance add further force.)</i></p>
+    <div class="ibox"><strong>That is why locomotives are heavy.</strong> Only the weight on driven wheels creates adhesion, so for a locomotive weight is a feature, not a flaw. It is also why the traction calculator above uses <i>driven</i> axles only.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 6 — Reading a Locomotive: UIC Axle Formulas and Turkish Numbers</h3>
+    <p>The UIC classification describes a locomotive's axle arrangement with two rules: wheels are counted as <em>axle sets</em>, not single wheels; and <em>driving</em> axles are letters while <em>carrying</em> (unpowered) axles are numbers.</p>
+    <table>
+      <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">A, B, C, D</td><td>Number of driven axles per bogie: 1, 2, 3, 4</td><td>B = 2 driven axles</td></tr>
+        <tr><td class="td-hi">1, 2, 3 …</td><td>Number of carrying (unpowered) axles</td><td>1 = one carrying axle</td></tr>
+        <tr><td class="td-hi">o</td><td>Each axle of the group has its own motor (A₀, B₀, C₀ …). Without it, all axles of the bogie are driven together — an obsolete arrangement</td><td>Bo = 2 axles, 2 motors</td></tr>
+        <tr><td class="td-hi">′</td><td>The axles sit in a bogie</td><td>Bo′ = a two-axle motor bogie</td></tr>
+      </tbody>
+    </table>
+    <p><b>Bo′Bo′</b> = two bogies, each with two individually powered axles → 4 axles, all driven. <b>Co′Co′</b> = two bogies with three individually powered axles each → 6 axles, all driven. A historic British layout from 1948, <b>1′Co′Co′1′</b>, adds a carrying axle at each end: 8 axles, 6 driven.</p>
+    <div class="abox"><strong>Turkish traction numbers (older TCDD scheme).</strong> Letters give the traction type — <b>E</b> electric, <b>DE</b> diesel-electric, <b>DH</b> diesel-hydraulic. The first two (or three) digits give the power in horsepower classes; the last digits are the factory serial number. Example: <b>E 14090</b> = electric · 1,400 HP · the 90th unit built. This is an older scheme; newer fleets use other designations. Use the decoder in the Interactive tab to try more.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 7 — Spot It in Istanbul</h3>
+    <p>You can see every vehicle type from this week without leaving the city.</p>
+    <table>
+      <thead><tr><th>Vehicle</th><th>Type</th><th>Power</th><th>What to look for</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">YHT high-speed train</td><td>Electric multiple unit</td><td>25 kV AC overhead</td><td>Pantograph on the roof</td></tr>
+        <tr><td class="td-hi">Marmaray</td><td>Electric multiple unit</td><td>25 kV AC overhead</td><td>Same wires as the main line — even under the Bosphorus</td></tr>
+        <tr><td class="td-hi">Metro lines</td><td>Electric multiple unit</td><td>Mostly 750 V DC</td><td>A third-rail shoe or a low overhead wire, depending on the line</td></tr>
+        <tr><td class="td-hi">T1 tram</td><td>Light rail vehicle</td><td>750 V DC overhead</td><td>Grooved rail set into the street (Week 2!)</td></tr>
+        <tr><td class="td-hi">Freight train</td><td>Locomotive + wagons</td><td>Electric or diesel</td><td>Couplers, buffers, bogie wagons</td></tr>
+      </tbody>
+    </table>
+    <div class="ibox"><strong>Your mission:</strong> on your next ride, (1) find the pantograph or the shoe; (2) count the bogies under your car; (3) spot the coupler. Bonus: on a straight stretch, can you feel a faint side-to-side sway? That is the hunting you simulated above.</div>
+  </div>
+
+  <div class="card">
+    <h3>Part 8 — From Vehicle Limits to Route Design</h3>
+    <p>Everything in this lecture sets a limit that the route has to respect. That is where the course goes next.</p>
+    <table>
+      <thead><tr><th>Vehicle property</th><th>What it limits on the route</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">Adhesion (μ × driven weight)</td><td><b>How steep?</b> — the maximum gradient a train can climb, especially on wet rail</td></tr>
+        <tr><td class="td-hi">Conicity and flange free play</td><td><b>How tight?</b> — the curve radius below which flanges grind; cant, gauge widening and speed limits</td></tr>
+        <tr><td class="td-hi">Hunting stability</td><td><b>How fast?</b> — the speed limit, and the wheel-profile maintenance the fleet needs</td></tr>
+        <tr><td class="td-hi">Axle load</td><td><b>How strong?</b> — the track category (Week 2): rail, sleepers, ballast, bridges</td></tr>
+        <tr><td class="td-hi">Power system</td><td><b>How costly?</b> — wires, substations, clearances in tunnels and under bridges (Week 1)</td></tr>
+      </tbody>
+    </table>
+    <div class="abox"><strong>Next week — Route / Track Location Survey:</strong> you now know what a train can climb and how tightly it can turn. Next we turn those limits into a real line on a map: how steep, how tight, how costly — earthworks, tunnels and bridges.</div>
+  </div>
+
+</div><!-- end t-n -->
+
+<!-- ══ DATA ══ -->
+<div id="t-d" class="tab-panel">
+  <div class="howto" style="margin-bottom:1.2rem">
+    <div class="howto-title">📖 About this data</div>
+    <p style="font-size:.83rem;color:var(--textm);margin:0">The charts below are built from the formulas and standards in this week's lecture — so you can reproduce every curve yourself with the interactive tools. Hover over any chart for exact values.</p>
+  </div>
+
+  <div class="fun-facts">
+    <div class="ff"><div class="ff-icon">🚄</div><span class="ff-num" style="color:var(--navy)">574.8</span><div class="ff-label">km/h — wheel-on-rail world speed record (TGV, France, 2007)</div></div>
+    <div class="ff"><div class="ff-icon">🧲</div><span class="ff-num" style="color:var(--blue)">603</span><div class="ff-label">km/h — maglev world record (SCMaglev, Japan, 2015)</div></div>
+    <div class="ff"><div class="ff-icon">🇹🇷</div><span class="ff-num" style="color:var(--teal)">250</span><div class="ff-label">km/h — Turkish high-speed (YHT) operating speed</div></div>
+    <div class="ff"><div class="ff-icon">🛤️</div><span class="ff-num" style="color:var(--red)">2,032</span><div class="ff-label">km of Turkish high-speed line (end of 2024)</div></div>
+    <div class="ff"><div class="ff-icon">🔧</div><span class="ff-num" style="color:var(--orange)">~35%</span><div class="ff-label">lower maintenance cost for electric vs diesel traction</div></div>
+    <div class="ff"><div class="ff-icon">🌍</div><span class="ff-num" style="color:var(--purple)">5</span><div class="ff-label">different electrification systems across Europe</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-card">
+      <h4>Same 5 MW, five different voltages</h4>
+      <div class="csub">Current = power ÷ voltage (log scale). Why high-speed lines use 25 kV.</div>
+      <div class="chart-wrap"><canvas id="cAmps"></canvas></div>
+      <div class="ibox" style="margin-top:.8rem;font-size:.8rem"><strong>Read it:</strong> a 750 V system needs about <b>33 times</b> the current of a 25 kV system for the same power. Heating losses scale with current squared — so low-voltage systems need thick conductors and frequent substations.</div>
+    </div>
+    <div class="chart-card">
+      <h4>Hunting frequency vs speed</h4>
+      <div class="csub">f = speed ÷ Klingel wavelength, for four tread tapers.</div>
+      <div class="chart-wrap"><canvas id="cHunt"></canvas></div>
+      <div class="ibox" style="margin-top:.8rem;font-size:.8rem"><strong>Read it:</strong> at the same speed, a worn wheel (λ = 0.20) sways twice as fast as a new 1:20 wheel (f ∝ √λ). That is why worn wheels must be re-profiled on fast lines.</div><div class="wbox" style="font-size:.8rem"><strong>What this is — and is not:</strong> the plotted value is the <i>kinematic</i> (Klingel) frequency of a free wheelset, f = speed ÷ L. It shows how conicity and speed move the swaying frequency. It does not give the critical speed, which also depends on bogie stiffness, damping and creep forces.</div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h4>How tight a curve can conicity steer?</h4>
+    <div class="csub">Sideways shift the wheelset needs, y = r₀·e₀ / (λ·R), against the ±5 mm of free play (new wheel, 1,435 mm gauge).</div>
+    <div class="chart-wrap" style="height:290px"><canvas id="cShift"></canvas></div>
+    <div class="wbox" style="margin-top:.8rem"><strong>Read it:</strong> where the blue line crosses the red dashed line (about 1.4 km) the flange starts to touch. The gentler 1:40 taper crosses at about 2.8 km — better at speed, worse in curves.</div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Axle-load limits by line category (EN 15528)</h4>
+    <div class="csub">Every category is a <b>letter + number</b>. The letter sets the maximum <b>axle load</b> (tonnes on one axle); the number sets the maximum <b>load per metre</b> of vehicle (t/m).</div>
+    <div class="chart-wrap" style="height:300px"><canvas id="cAxle"></canvas></div>
+    <table style="margin-top:1rem">
+      <thead><tr><th>Category</th><th>Max axle load</th><th>Max load per metre</th><th>Category</th><th>Max axle load</th><th>Max load per metre</th></tr></thead>
+      <tbody>
+        <tr><td class="td-hi">A</td><td>16.0 t</td><td>5.0 t/m</td><td class="td-hi">D2</td><td>22.5 t</td><td>6.4 t/m</td></tr>
+        <tr><td class="td-hi">B1</td><td>18.0 t</td><td>5.0 t/m</td><td class="td-hi">D3</td><td>22.5 t</td><td>7.2 t/m</td></tr>
+        <tr><td class="td-hi">B2</td><td>18.0 t</td><td>6.4 t/m</td><td class="td-hi">D4</td><td>22.5 t</td><td>8.0 t/m</td></tr>
+        <tr><td class="td-hi">C2</td><td>20.0 t</td><td>6.4 t/m</td><td class="td-hi">E4</td><td>25.0 t</td><td>8.0 t/m</td></tr>
+        <tr><td class="td-hi">C3</td><td>20.0 t</td><td>7.2 t/m</td><td class="td-hi">E5</td><td>25.0 t</td><td>8.8 t/m</td></tr>
+        <tr><td class="td-hi">C4</td><td>20.0 t</td><td>8.0 t/m</td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
+    <div class="ibox" style="margin-top:.6rem"><strong>How to read a code:</strong> <b>D4</b> = letter D → 22.5 t per axle; number 4 → 8.0 t per metre. <b>Axle load</b> stresses rail, sleepers and ballast under each wheelset; <b>metre load</b> matters for bridges and long structures, where a whole train's weight spreads along the span. A vehicle may run on a line only if its axle load <i>and</i> its metre load fit the line's category. Category D4 is a common target for European freight corridors. High-speed trains keep their axle load at about 17 t or less.</div>
+  </div>
+
+  <div class="chart-card">
+    <h4>Adhesion vs rail condition</h4>
+    <div class="csub">Bo′Bo′ locomotive, 4 × 22.5 t driven axles (90 t), pulling a 1,000 t train up 25‰. Bars: F<sub>max</sub> = μ · m<sub>driven</sub> · g. Dashed line: force needed to overcome gravity on the slope (m · g · 0.025 ≈ 245 kN).</div>
+    <div class="chart-wrap" style="height:290px"><canvas id="cTrac"></canvas></div>
+    <div class="ibox" style="margin-top:.8rem;font-size:.82rem"><strong>Read it:</strong> only dry rail clears the dashed line (265 kN vs 245 kN). On damp rail (≈ 177 kN) the same locomotive on the same slope slips.</div>
+    <div class="wbox" style="font-size:.82rem"><strong>How far to trust the μ values?</strong> The formula F = μ · m · g is exact; the μ values are typical orders of magnitude, not constants. Real adhesion falls as speed rises, drops sharply with contamination (leaf film, oil, rust, damp) and varies along the line, so designers use conservative values — and leaf contamination can push adhesion well below 0.10. Sanding the rail and wheel-slip control systems exist for exactly this reason. The chart also counts gravity only; rolling, curve and air resistance add to the force needed.</div>
+  </div>
+
+  <div class="chart-card" id="fleet-card" style="display:none">
+    <h4 id="fleet-title">TCDD fleet composition</h4>
+    <div class="csub" id="fleet-sub"></div>
+    <div class="chart-wrap" style="height:300px"><canvas id="cFleet"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ EXERCISES ══ -->
+<div id="t-e" class="tab-panel">
+  <div class="card" style="margin-bottom:1.2rem;border-top:4px solid var(--accent)">
+    <h3>Week 3 — Exercises</h3>
+    <div style="background:#f8f9fc;border-radius:10px;padding:1rem 1.2rem;border:1px solid var(--border);font-size:.86rem;color:var(--textm);line-height:1.7">
+      <span style="font-size:1.1rem">📌</span> <strong style="color:var(--navy)">Entirely optional</strong> — no marking, no submission, no obligation. They are here for your curiosity. If you want to talk any of them through, come to the <strong>Friday session (13:00–14:30, Room 456)</strong>.
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">01</span><span class="ex-type">Explain it</span><span class="ex-title">The 15-Year-Old on the Train</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>You are on a train with a curious 15-year-old who asks: <em>"Both wheels are stuck on the same axle — so how does the train get round a corner?"</em> Explain it using nothing but words and a sketch. Then answer their follow-up: <em>"So why does the train shake sideways when it goes really fast?"</em></p>
+      <div class="ex-hint">Open the conicity animator and move the slider slowly. Try the paper-cup trick. The word you need is "radius" — and the follow-up answer is the same idea, seen on a straight track.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">02</span><span class="ex-type">Explore</span><span class="ex-title">Find the Squeal Radius</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>Open <b>② Going round a curve</b> in the conicity tool. Drag the radius until the red flange-contact marker appears. Note the radius where it happens. Now switch to the 1:40 taper and find the new radius.</p>
+      <p>Why would a railway <em>choose</em> a gentler 1:40 taper for a high-speed line, even though it is worse in curves? And what could it do to help the curves instead?</p>
+      <div class="ex-hint">Compare with the hunting-frequency chart in the Data tab. Think about what flange contact feels and sounds like — and what the notes say about gauge widening and lubrication.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">03</span><span class="ex-type">Decode</span><span class="ex-title">Read the Locomotive</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>For each designation say how many bogies and axles it has, and how many axles are driven: <b>Bo′Bo′</b>, <b>Co′Co′</b>, <b>1′Co′Co′1′</b>, <b>A1A′A1A′</b>. Then decode the Turkish numbers <b>E 14090</b> and <b>DE 24005</b>: what kind of traction, roughly how much power, and which unit off the production line?</p>
+      <p>Finally: which would you pick to haul a heavy freight train up a long steep grade, and why — more driven axles, or fewer?</p>
+      <div class="ex-hint">The decoder in the Interactive tab will check your answers. For the last question, try the adhesion calculator: change only the number of driven axles and watch the pulling force.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">04</span><span class="ex-type">Design</span><span class="ex-title">You Are the Fleet Planner</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <p>Choose a vehicle type — locomotive + wagons, EMU, DMU or battery train — and a power source for each line, and give two engineering reasons. Discuss it with a neighbour for three minutes.</p>
+      <p><strong>A.</strong> A 320 km high-speed corridor, 250 km/h, fully electrified.<br><strong>B.</strong> A 40 km commuter line with a station every 2 km.<br><strong>C.</strong> A 900 km freight route with long 25‰ grades, partly electrified.<br><strong>D.</strong> A 60 km branch line with low demand and no overhead wire.</p>
+      <p>There is no single right answer. Justify with acceleration, adhesion, infrastructure cost and emissions.</p>
+      <div class="ex-hint">For C, test your locomotive in the adhesion calculator on <i>wet</i> rail. For B, think about how many driven axles you want when you stop every two kilometres. For D, ask whether a wire is worth it for a handful of trains.</div>
+    </div>
+  </div>
+
+  <div class="ex-item">
+    <div class="ex-hdr" onclick="EX(this)"><span class="ex-num">05</span><span class="ex-type">🔬 Research Extension</span><span class="ex-title">Beyond the Rigid Axle</span><span class="ex-ch">▼</span></div>
+    <div class="ex-body">
+      <div style="background:rgba(142,68,173,.07);border:1px solid rgba(142,68,173,.2);border-radius:8px;padding:.85rem 1rem;margin-bottom:.8rem;font-size:.85rem;color:var(--textm)">
+        <strong style="color:#8e44ad">🔬 Research Extension</strong> — for students who want to go beyond the lecture. No submission, no marking. Bring anything you find to the <strong>Friday session (13:00–14:30, Room 456)</strong>.
+      </div>
+      <p>The rigid axle is a 200-year-old design, and engineers are still trying to improve it: bogies whose wheelsets are actively steered into curves, independently rotating wheels that remove the rigid-axle constraint altogether, and digital twins that predict wheel wear before it happens.</p>
+      <p>Find one paper (2018–2026) on any of these. What problem does it attack, and what does it claim to do better than a conventional wheelset?</p>
+      <div class="ex-hint">Google Scholar: "active steering bogie", "independently rotating wheels railway", "wheel wear prediction digital twin". Journals worth browsing: Vehicle System Dynamics, Wear, Proceedings of the IMechE Part F.</div>
+    </div>
+  </div>
+
+  <div class="wk-nav">
+    <a href="../week02/">← Week 2</a>
+    <span style="font-size:.82rem;color:var(--textl)">Week 4 — Route/Track Location Survey (20 Oct)</span>
+    <a href="../week04/" style="color:var(--textl);cursor:default">Week 4 → (Coming soon)</a>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="t-q" class="tab-panel">
+ <div class="quiz-wrap">
+ <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+ <h3 style="font-size:1rem;font-weight:800;color:var(--navy)">🧩 Week 3 — Self-Assessment Quiz (13 questions)</h3>
+ <span class="qsc">Question <span id="qn">1</span> of 13</span>
+ </div>
+ <div class="qprog"><div class="qbar" id="qbar" style="width:10%"></div></div>
+ <div id="qq" class="qq"></div>
+ <div id="qopts" class="qopts"></div>
+ <div id="qfb" class="qfb"></div>
+ <div class="qnav"><span class="qsc">Score: <b id="qscore">0</b> / 13</span><button class="btn-a" id="qnxt" onclick="qNext()" disabled>Next →</button></div>
+ </div>
+</div>
+
+<!-- ══ REFS ══ -->
+<div id="t-r" class="tab-panel">
+ <div class="card" style="margin-bottom:1rem"><h3>Week 3 — References &amp; Further Reading</h3></div>
+ <div class="ref-i"><div class="ref-n">1</div><div class="ref-t"><b>Iwnicki, S. (ed.) (2006).</b> Handbook of Railway Vehicle Dynamics. CRC Press. <span class="rtag core">CORE</span><br>Wheelsets, bogies, conicity and hunting — the standard academic reference for railway vehicle dynamics.</div></div>
+ <div class="ref-i"><div class="ref-n">2</div><div class="ref-t"><b><a href="http://www.esveld.com/MRT.htm" target="_blank" style="color:var(--blue)">Esveld, C. (2001).</a></b> Modern Railway Track (2nd ed.). MRT-Productions. <span class="rtag core">CORE</span><br>Vehicle–track interaction, axle loads and wheel profiles, and their effect on track deterioration.</div></div>
+ <div class="ref-i"><div class="ref-n">3</div><div class="ref-t"><b><a href="https://link.springer.com/book/10.1007/978-3-031-24030-5" target="_blank" style="color:var(--blue)">Guerrieri, M. (2023).</a></b> Fundamentals of Railway Design. Springer. <span class="rtag core">CORE</span><br>Railway vehicles, traction and braking.</div></div>
+ <div class="ref-i"><div class="ref-n">4</div><div class="ref-t"><b><a href="https://www.routledge.com/Railway-Planning-Management-and-Engineering/Profillidis/p/book/9781032109695" target="_blank" style="color:var(--blue)">Profillidis, V. (2022).</a></b> Railway Planning, Management, and Engineering (5th ed.). Routledge. <span class="rtag core">CORE</span><br>Vehicle mechanics, traction systems, and fleet planning chapters.</div></div>
+ <div class="ref-i"><div class="ref-n">5</div><div class="ref-t"><b>EN 13715 (current edition).</b> Wheelsets and bogies — wheels — tread profile. CEN. <span class="rtag">Standard</span><br>Standard wheel tread profiles: S1002, GV1/40, etc. Used on European networks.</div></div>
+ <div class="ref-i"><div class="ref-n">6</div><div class="ref-t"><b>EN 15302 (current edition).</b> Railway applications — method for determining equivalent conicity. CEN. <span class="rtag">Standard</span><br>The standard method for calculating equivalent conicity from measured wheel and rail profiles.</div></div>
+ <div class="ref-i"><div class="ref-n">7</div><div class="ref-t"><b>EN 50163 (current edition).</b> Railway applications — supply voltages of traction systems. CEN. <span class="rtag">Standard</span><br>Defines the voltage systems (25 kV, 15 kV, 3 kV, 1.5 kV, 750 V) and their tolerances.</div></div>
+ <div class="ref-i"><div class="ref-n">8</div><div class="ref-t"><b>MEGEP (2011).</b> Raylı Sistem Araçları, Module 525MT0052. T.C. Milli Eğitim Bakanlığı. <span class="rtag">Turkish source</span><br>Source for TCDD vehicle numbering system (E, DE, DH prefixes and digit coding).</div></div>
+ <div class="ref-i"><div class="ref-n">9</div><div class="ref-t"><b>UIC 519.</b> Method for determining the equivalent conicity (the basis of EN 15302). <span class="rtag">Standard</span></div></div>
+ <div class="ref-i"><div class="ref-n">10</div><div class="ref-t"><b>Klingel, W. (1883).</b> Über den Lauf der Eisenbahnwagen auf gerader Bahn. Organ für die Fortschritte des Eisenbahnwesens. <span class="rtag">Historical</span><br>The original 1883 paper deriving the hunting wavelength formula still in use today.</div></div>
+  <div class="ref-i"><div class="ref-n">11</div><div class="ref-t"><b>Wickens, A.H. (2003).</b> Fundamentals of Rail Vehicle Dynamics: Guidance and Stability. Swets &amp; Zeitlinger. <span class="rtag core">CORE</span><br>Kinematic and dynamic analysis of wheelset guidance, conicity, hunting and critical speed.</div></div>
+  <div class="ref-i"><div class="ref-n">12</div><div class="ref-t"><b>Polach, O. (2005).</b> Creep forces in simulations of traction vehicles running on adhesion limit. Wear, 258, 992–1000. <span class="rtag">Paper</span><br>How adhesion between wheel and rail is modelled for traction vehicles, including its dependence on speed and contact conditions.</div></div>
+  <div class="ref-i"><div class="ref-n">13</div><div class="ref-t"><b>EN 15528 (current edition).</b> Railway applications — Line categories for managing the interface between load limits of vehicles and infrastructure. CEN. <span class="rtag">Standard</span><br>Defines the letter-and-number line categories (axle load and load per metre).</div></div>
+</div>
+
+</div><!-- /tab-wrap -->
+</div><!-- /main -->
+
 <footer>
-  <p><strong>INS 325E Railway Engineering</strong> &middot; Dr. Mustafa Can &Ouml;zkan &middot; <a href="mailto:ozkanmc@itu.edu.tr">ozkanmc@itu.edu.tr</a></p>
-  <p style="margin-top:.3rem"><a href="https://ozkanmc.github.io/ins325e-railway-eng/">ozkanmc.github.io/ins325e-railway-eng</a></p>
+ <div class="footer-rail"></div>
+ <p><strong>INS 325E Railway Engineering · Week 3</strong> · Istanbul Technical University · Civil Engineering</p>
+ <p style="margin-top:.3rem"><strong>Dr. Mustafa Can Özkan</strong> · <a href="mailto:ozkanmc@itu.edu.tr">ozkanmc@itu.edu.tr</a> · Office 456</p>
+ <p style="margin-top:.25rem;font-size:.7rem;opacity:.45"><a href="https://ozkanmc.github.io/ins325e-railway-eng/">ozkanmc.github.io/ins325e-railway-eng</a> · October 2026</p>
 </footer>
+
+<script>
+// ── TABS ──
+function ST(b,id){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById(id).classList.add('on');if(id==='t-d')initCharts();if(id==='t-q'&&!quizGo){initQuiz();quizGo=true;}}
+function EX(h){h.parentElement.classList.toggle('open');}
+
+// ── ANATOMY PARTS DATA ──
+const PARTS={
+ carbody:{col:'#2a5298',hl:'hl-carbody',title:'🔵 Car Body (Carbody)',
+ body:`<p><strong>Function:</strong> The enclosed structure containing passengers or freight, the driver's cab, and (in powered vehicles) traction equipment. Must handle: static passenger/cargo loads, dynamic accelerations, crashworthiness, aerodynamic pressure at speed, and temperature extremes.</p>
+ <p><strong>Structure:</strong> Modern carbodies are welded aluminium alloy extrusions (lighter, corrosion-resistant) or stainless steel. The underframe (floor) is the primary load-bearing element — it connects to the bogie pivots and transmits all traction/braking forces along the train.</p>
+ <p><strong>Underframe (Chassis):</strong> The structural base below the car body. Carries the coupler/draw gear and buffers at each end.</p>
+ <div class="lf-note">Everything above the axleboxes is <em>sprung</em> — passengers feel a smoothed version of the track irregularities.</div>`},
+ coupler:{col:'#e74c3c',hl:'hl-coupler',title:'🔴 Buffer & Coupler (Draw Gear)',
+ body:`<p><strong>Buffer:</strong> A spring-loaded energy-absorbing device at both ends of the vehicle that cushions impacts during coupling and operation. In side-buffer systems (common on European freight), two buffers are mounted symmetrically on the end frame.</p>
+ <p><strong>Draw gear (coupling gear):</strong> The mechanical assembly connecting vehicles, transmitting tensile (pulling) and compressive (buffing) forces. On freight stock: screw coupling between the buffers — manually tightened by a shunter. On passenger multiple units: automatic tight-lock couplers that couple mechanically, electrically, and pneumatically in one push.</p>
+ <div class="lf-note">The gap between buffer faces on European freight wagons can pinch a person fatally — this is why shunting has strict safety rules, and why passenger stock uses automatic couplers (no staff needed between cars).</div>`},
+ pantograph:{col:'#c8980b',hl:'hl-pantograph',title:'⚡ Pantograph (Current Collector)',
+ body:`<p><strong>Function:</strong> A spring-loaded, hinged arm on the vehicle roof pressing a carbon contact strip against the overhead contact wire to collect electric current.</p>
+ <p><strong>The overhead line system:</strong> (1) Feeder cable from substation to overhead. (2) Contact wire — the wire that directly supplies current to the train. (3) Pantograph — collects current. (4) Motor — converts electrical energy to mechanical tractive effort. (5) Current returns through the rails.</p>
+ <p><strong>Design challenge:</strong> At 300 km/h, the pantograph must maintain contact despite vertical wire movement, aerodynamic forces, and vehicle oscillations. Too little contact force → arcing and wire damage. Too much → excessive wear on both surfaces.</p>
+ <div class="lf-note">The carbon strip on a pantograph is a wear part, replaced regularly. The contact wire wears too, and is renewed when its thickness falls below a minimum — across whole kilometres of line at a time.</div>`},
+ secondary:{col:'#27ae60',hl:'hl-secondary',title:'🟢 Secondary Suspension',
+ body:`<p><strong>Function:</strong> Connects the bogie frame to the car body. Isolates passengers from bogie vibrations; maintains constant ride height despite passenger load changes; provides lateral and vertical compliance for ride comfort.</p>
+ <p><strong>Modern air springs:</strong> Rubber bellows filled with compressed air. Natural frequency ~1 Hz (very soft). Air pressure automatically adjusted to maintain constant floor height regardless of passenger load — critical for platform gap control. All modern passenger stock uses air springs.</p>
+ <p><strong>Yaw dampers:</strong> Hydraulic dampers between bogie and carbody that resist horizontal rotation of the bogie — suppressing hunting oscillation. Essential on all high-speed bogies. Without yaw dampers, the critical speed can be dangerously low.</p>
+ <div class="lf-note">Air spring failure makes the car tilt and sink visibly on one side. The vehicle must reduce speed and go to the next depot — passengers always notice the sudden roughness.</div>`},
+ pivot:{col:'#8e44ad',hl:'hl-pivot',title:'🟣 Pivot (Centre Pin)',
+ body:`<p><strong>Function:</strong> The central bearing point connecting the car body to the bogie frame. It must simultaneously: transmit all vertical loads (full car body weight), transmit horizontal traction/braking forces, and allow the bogie to rotate freely — a few degrees in ordinary curves — as the train corners.</p>
+ <p><strong>In a curve:</strong> The pivot is why the carbody stays straight while the bogies turn to follow the rails. Without the pivot rotation, a long vehicle would push against the outer rail in every curve and derail.</p>
+ <p><strong>Traction force path:</strong> On a locomotive, the pivot also transmits the full tractive effort from the powered bogies through to the carbody and then to the train behind — hundreds of kilonewtons through a single pivot pin.</p>
+ <div class="lf-note">Bogies were developed in the early decades of the railways — and became standard on American lines — precisely so that long vehicles could follow tight curves. A long rigid vehicle simply cannot.</div>`},
+ bogie:{col:'#e74c3c',hl:'hl-bogie',title:'🔴 Bogie Frame',
+ body:`<p><strong>Function:</strong> Structural sub-frame that: supports the car body via secondary suspension; carries wheelsets via primary suspension; houses traction motors and brakes; enables curve negotiation by rotating under the carbody.</p>
+ <p><strong>Structure:</strong> An H-frame with two longitudinal <em>side frames</em> connected by transverse <em>cross-beams (transoms)</em>. The pivot sits at the transom centre. Wheelsets sit in axleboxes at the ends of the side frames.</p>
+ <p><strong>Motor arrangement:</strong> Older designs: axle-hung motors (heavy unsprung mass, damages track). Modern designs: bogie-frame-mounted motors with cardan shaft drive (lower unsprung mass). HSR bogies always use frame-mounted motors.</p>
+ <div class="lf-note">The bogie lets its wheelsets deviate slightly from parallel while curving — this reduces flange wear significantly compared with a rigid fixed-wheelbase vehicle.</div>`},
+ primary:{col:'#e67e22',hl:'hl-primary',title:'🟠 Primary Suspension',
+ body:`<p><strong>Function:</strong> Between the axlebox (which moves with the wheelset) and the bogie frame. Absorbs high-frequency wheel impacts from rail joints, welds, corrugations; keeps the wheel in contact with the rail over irregularities; protects the bogie frame from excessive shock.</p>
+ <p><strong>Components:</strong> Coil springs + hydraulic dampers (or chevron rubber springs). Natural frequency ~5–8 Hz. Stiffness must balance: too soft = wheel lifts off rail; too stiff = excessive impact force transmitted to the bogie.</p>
+ <p><strong>Unsprung mass:</strong> Everything below the primary suspension is unsprung — it hits every bump directly. Each kg of unsprung mass generates dynamic forces on the rail proportional to speed². This is why the primary suspension must be as low and as light as possible.</p>
+ <div class="lf-note">A failed primary damper causes a distinctive "pogo" bounce of the axlebox. The vehicle must be taken out of service — dynamic rail forces increase dramatically and track is damaged rapidly.</div>`},
+ axlebox:{col:'#e67e22',hl:'hl-axlebox',title:'🟠 Axlebox & Bearings',
+ body:`<p><strong>Function:</strong> Houses the rolling-element bearings that allow the axle to rotate while transmitting vertical and lateral loads from the bogie frame to the wheelset axle. The interface between rotating and stationary structures.</p>
+ <p><strong>Bearings:</strong> All modern railway vehicles use tapered or cylindrical roller bearings. A main-line axlebox bearing must sustain: 10–22.5 t radial load, high-speed rotation, vibration, shock, and temperature extremes — for around a million kilometres between overhauls.</p>
+ <p><strong>Hot box detection:</strong> Trackside infrared scanners automatically check every passing axlebox temperature. A hot reading is a critical alert — trains are stopped and inspected. Bearing failure can seize the axle and derail the vehicle.</p>
+ <div class="lf-note">Many main lines have trackside hot-axlebox detectors every few tens of kilometres. A bearing that is starting to fail generates heat well before it seizes — early detection prevents derailments.</div>`},
+ wheelset:{col:'#2d3748',hl:'hl-wheelset',title:'⚫ Wheelset (Axle Set)',
+ body:`<p><strong>Function:</strong> The railway vehicle's fundamental interface with the track. Supports all loads; provides lateral guidance (flange contacts inner rail face in curves); transmits traction and braking forces; self-steers through conicity. It is <em>unsprung mass</em>.</p>
+ <p><strong>Composition:</strong> Two monobloc wheels pressed onto a forged steel axle. The wheels are pressed on with enormous force and cannot be removed without a hydraulic press. Driving axles receive torque from the traction motor; carrying axles roll freely.</p>
+ <p><strong>Conicity &amp; hunting:</strong> The tread is conical (1:20) enabling self-steering. As wheels wear, the effective conicity increases — above a critical value, the critical hunting speed falls below the line speed. Wheels must then be re-profiled on a wheel lathe.</p>
+ <p><strong>Dimensions:</strong> Tread conicity 1:20 · flange height 29 mm · flange thickness 32.5 mm · diameter 890–920 mm (mainline)</p>
+ <div class="lf-note">A wheel starts at roughly 920 mm diameter and is withdrawn at around 840 mm — about 80 mm of diameter to use up, a few millimetres at a time, over roughly a million kilometres of service.</div>`}
+};
+
+const HLS={carbody:'hl-carbody',coupler:'hl-coupler',pantograph:'hl-pantograph',secondary:'hl-secondary',pivot:'hl-pivot',bogie:'hl-bogie',primary:'hl-primary',axlebox:'hl-axlebox',wheelset:'hl-wheelset'};
+
+function SP(name){
+ Object.values(HLS).forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity','0');});
+ const hlEl=document.getElementById(HLS[name]);
+ if(hlEl)hlEl.setAttribute('opacity','1');
+ document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));
+ document.querySelectorAll('.pbtn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+name+"'"))b.classList.add('on');});
+ const P=PARTS[name];
+ const info=document.getElementById('part-info');
+ info.style.borderColor=P.col;
+ info.style.background=`linear-gradient(135deg,${P.col}09,${P.col}02)`;
+ info.innerHTML=`<h4 style="color:${P.col}">${P.title}</h4>${P.body}`;
+}
+
+document.querySelectorAll('.ap').forEach(el=>{
+ el.addEventListener('click',()=>SP(el.dataset.p));
+ el.addEventListener('mouseenter',()=>{el.style.filter='brightness(1.15) drop-shadow(0 0 5px rgba(240,192,64,.5))';});
+ el.addEventListener('mouseleave',()=>{el.style.filter='';});
+});
+
+// ── LOAD PATH ──
+const LP=[
+ {n:1,c:'#8e44ad',name:'Pivot',
+ desc:`The pivot — sometimes called the centre pin or king pin — is a hardened steel bearing at the geometric centre of each bogie. It does three things at once: it carries the full vertical weight of the car body above it, it transmits horizontal traction and braking forces between the bogie and the car body, and it allows the bogie to rotate freely in the horizontal plane so the vehicle can negotiate curves.
+ <br><br>On a loaded passenger car weighing 60 tonnes, the pivot carries around 30 tonnes per bogie — roughly the weight of 6 adult African elephants — while simultaneously allowing the bogie to yaw — a few degrees in ordinary curves — beneath a carbody that stays essentially straight. Without bogies that can rotate, a long vehicle would behave like a rigid beam on rails and would grind and ride up in every curve.
+ <br><br>On a powered locomotive, the pivot also transmits the entire tractive effort from the motorised bogie into the car body and then along to the rest of the train. A Bo′Bo′ locomotive on dry rail can develop about 265 kN of adhesion-limited tractive effort (try the traction calculator) — and every newton of it passes through the bogie pivots.`},
+ {n:2,c:'#2a5298',name:'Cross Beams (Transoms)',
+ desc:`The transoms are the transverse structural beams inside the bogie frame that run across the track, connecting the two longitudinal side frames. They sit directly below the pivot and carry the load outward to both sides of the bogie — this is where the concentrated pivot load gets spread laterally before it reaches the suspension on each side.
+ <br><br>Transoms also carry the traction motor in frame-mounted motor arrangements, and house the secondary suspension support points (air spring seats). In modern high-speed bogies the transom is a welded steel box section, carefully optimised for stiffness in bending but flexibility in torsion — it must resist enormous vertical bending moments while allowing the bogie frame to twist slightly when one rail is higher than the other (cross-level irregularity).
+ <br><br>Every wheel load that reaches the pivot must cross the transom, so it is one of the most carefully fatigue-checked parts of the whole bogie.`},
+ {n:3,c:'#27ae60',name:'Spring Group (Suspension)',
+ desc:`The spring group is where the load path passes through two separate suspension stages, each doing a different job at a different frequency range.
+ <br><br><strong>Secondary suspension</strong> (between carbody and bogie frame): modern passenger vehicles use air springs — pneumatic rubber bellows filled with compressed air. Natural frequency: ~1 Hz. This is deliberately very soft — at 1 Hz, passengers feel gentle rocking rather than sharp jolts. The air pressure adjusts automatically to keep the floor at constant height regardless of passenger load, which is critical for consistent platform gap at stations. Air springs also provide lateral flexibility, absorbing swaying motions that would otherwise throw passengers sideways.
+ <br><br><strong>Primary suspension</strong> (between bogie frame and axlebox): coil springs or rubber-metal chevron elements. Natural frequency: 5–8 Hz. Much stiffer, because this suspension must keep the wheel pressing firmly against the rail at all times — if it's too soft, the wheel bounces off the rail at speed, losing all guidance and traction.
+ <br><br>The two stages work together: the primary suspension keeps the wheels on the rail, and the secondary suspension lets the carbody float above all the small jolts — so passengers feel far less of the track's roughness than the wheels do.`},
+ {n:4,c:'#636e72',name:'Side Frames',
+ desc:`The side frames are the two longitudinal beams that run parallel to the rails on each side of the bogie. They connect the transoms at the centre of the bogie to the axlebox housings at each end, completing the H-shaped bogie frame. Every load — vertical, lateral, longitudinal — that has come down through the pivot and transoms must now travel outward and downward through the side frames to reach the wheels.
+ <br><br>Side frames are one of the most heavily loaded structural members in railway engineering. They experience: bending from vertical axle loads, torsion when the bogie negotiates twisted track, lateral loads from curve guidance forces through the flanges, and fatigue from millions of repeated load cycles over decades of service. A bogie side frame is designed for a fatigue life of decades, through tens of millions of load cycles.
+ <br><br>Modern side frames are welded steel fabrications, sometimes with cast steel inserts at the axlebox housings. Older designs used cast steel one-piece frames — heavier but extremely robust.`},
+ {n:5,c:'#e67e22',name:'Axle Box',
+ desc:`The axlebox is the housing that contains the wheel bearings — the critical interface between the rotating axle and the stationary bogie frame. All vertical and lateral forces from the side frame are transmitted through the axlebox to the axle.
+ <br><br>Inside every modern axlebox are tapered or cylindrical roller bearings (never ball bearings — too fragile for railway loads). A typical main-line axlebox bearing sustains 10–22.5 tonnes of radial load, operates at rotational speeds equivalent to well over 200 km/h, and must do so for around a million kilometres between overhauls — roughly 25 times round the world. The bearing grease is specially formulated to last this long without replacement.
+ <br><br>Bearing failure is one of the most dangerous faults in railway operation. A seized bearing can lock the axle, causing a derailment. This is why hot axlebox detector systems — trackside infrared cameras that scan every passing wheel bearing — are installed every few tens of kilometres on many main lines. A bearing starting to fail generates heat before it seizes, and the detectors catch it automatically, alerting the control centre in real time.`},
+ {n:6,c:'#2d3748',name:'Wheel',
+ desc:`The wheel is where every force in the load path finally becomes contact force — the actual push and pull between vehicle and rail. A steel wheel of 890–920 mm diameter, weighing around 300–400 kg, is the most mechanically remarkable component of the whole system.
+ <br><br>The <strong>tread</strong> carries the full vertical axle load (up to 22.5 tonnes) concentrated into a contact patch only about the size of a small coin — roughly 1 cm². Peak contact stresses there reach around 1,000 MPa or more. The steel must be hard enough not to wear rapidly, yet tough enough not to crack under these cyclic stresses — achieved through careful heat treatment of the rail steel head (R260 or R350HT grade).
+ <br><br>The <strong>flange</strong> (29 mm high, 32.5 mm thick) provides the last resort lateral guidance. On a straight track and gentle curves, the flange never touches the rail — the conical tread geometry handles all the steering. The flange only makes contact when the wheelset drifts too far laterally (tight curves, track irregularities). Flange contact generates noise, heat, and rapid wear — engineers design to minimise it.
+ <br><br>As wheels wear, they must be re-profiled on a wheel lathe. A wheel starts at roughly 920 mm diameter and is withdrawn at around 840 mm — about 80 mm of diameter to use up, a few millimetres at a time, over roughly a million kilometres of service.`},
+ {n:7,c:'#5b8fd4',name:'Rail',
+ desc:`The rail receives concentrated wheel loads — up to 22.5 tonnes static, potentially 2–3× that dynamically at speed — and redistributes them in two directions simultaneously: <strong>longitudinally</strong> (along its own length, acting as a continuous beam) and <strong>transversely</strong> (downward through the fastenings into the sleepers below).
+ <br><br>A UIC 60 rail (60.34 kg/m, the standard on Turkish HSR and mainlines) is a precisely engineered I-beam. Its asymmetric cross-section — wide, rounded head; thin web; broad foot — is optimised to resist vertical bending while keeping material use efficient. The head is manufactured with a specific hardness (R260: ~260–300 HBW) so it resists wear without being brittle. The web and foot remain tougher, absorbing impact without fracture.
+ <br><br>On Continuously Welded Rail (CWR), the rail forms strings of several kilometres with no expansion joints. In Turkish summers, rail temperatures can reach 55–60°C. Since the rail cannot expand freely, thermal compressive stresses build up — up to 80–100 MPa. If these stresses become too large (e.g. after a rail anchor fails), the rail can buckle sideways — a sudden kink in the track that can derail a train. This is why track geometry is inspected intensively during heatwaves.`},
+ {n:8,c:'#e74c3c',name:'Fastening System',
+ desc:`The fastening system — the elastic clips and pads connecting rail to sleeper — is the least glamorous but most precisely engineered element in the chain. It must do six incompatible things simultaneously: clamp the rail firmly (each clip presses on the rail foot with a force of the order of ten kilonewtons), allow the rail to move slightly longitudinally under thermal expansion, provide a specific electrical resistance between rail and sleeper (above 1 kΩ for track circuit signalling), absorb high-frequency vibration, maintain the 1:20 rail inclination, and do all of this for 30+ years with zero maintenance.
+ <br><br>The rubber rail pad between rail and sleeper is particularly important. Its stiffness determines how much of the wheel impact is transmitted to the sleeper and how much is absorbed. In areas near hospitals, schools, or historic buildings, softer pads (lower stiffness) are specified to reduce ground vibration — at the cost of slightly faster rail wear. In heavily loaded freight corridors, stiffer pads are often preferred.
+ <br><br>Electrical insulation is life-safety critical: if the rail conducts current through a metallic fastener into the grounded concrete sleeper, the track circuit short-circuits, and the signalling system cannot detect the train — potentially allowing two trains to occupy the same block.`},
+ {n:9,c:'#8B7355',name:'Sleeper → Ballast → Subgrade',
+ desc:`The final stage of the load path: the concentrated rail load (transferred at each sleeper) is progressively spread over an ever-larger area until the pressure per square metre is low enough for the ground to bear safely.
+ <br><br><strong>Sleeper:</strong> A concrete monoblock sleeper (2.6 m long, 0.28 m wide, ~280 kg) spreads the load from the two small rail seats over its full bottom face — a contact area of roughly 3,000–4,000 cm². Designers keep the average pressure on the ballast within a limit of a few hundred kilopascals — which is one reason every line has a maximum permitted axle load, and why overloaded wagons damage the track so quickly.
+ <br><br><strong>Ballast:</strong> The ~30 cm layer of crushed granite or limestone does more than spread the load further — it provides the track's elasticity, drainage, and the ability to be realigned by tamping machines. The void ratio between angular ballast stones (~30–40% voids in clean ballast) is what gives it these properties. When those voids fill with fines (from stone abrasion and contamination), drainage fails and the track deteriorates rapidly — requiring tamping every 2–5 years on busy lines.
+ <br><br><strong>Subgrade:</strong> The ground formation that everything rests on. If the subgrade is soft clay, the entire load-spreading chain above must be made even more effective — more ballast depth, a sub-ballast drainage layer, sometimes geotextile separation fabrics or ground improvement. A poor subgrade is responsible for the majority of track geometry problems on existing networks, and fixing it means closing the line and rebuilding from scratch.`}
+];
+
+function buildLP(){
+ const c=document.getElementById('lp-chain');
+ LP.forEach((item,i)=>{
+ const div=document.createElement('div');div.className='lp-item';div.style.color=item.c;
+ div.innerHTML=`<div class="lp-num" style="background:${item.c}">${item.n}</div><span class="lp-name">${item.name}</span>`;
+ div.onclick=()=>{
+ document.querySelectorAll('.lp-item').forEach(x=>x.classList.remove('active'));
+ div.classList.add('active');
+ const info=document.getElementById('lp-info');
+ info.style.borderColor=item.c;
+ info.innerHTML=`<h5 style="color:${item.c}">${item.n}. ${item.name}</h5><div style="font-size:.84rem;color:var(--textm);line-height:1.75">${item.desc}</div>`;
+ };
+ c.appendChild(div);
+ if(i<LP.length-1){
+ const arr=document.createElement('div');arr.className='lp-arrow';arr.innerHTML='↓';c.appendChild(arr);
+ }
+ });
+ // Auto-open first item
+ c.querySelector('.lp-item').click();
+}
+buildLP();
+
+// ═══════════════ CONICITY ═══════════════
+const R0=0.46, E0=0.75;            // wheel radius, half contact spacing (m)
+const TAU=0.35, RN=90;             // DRAWN taper (exaggerated) and drawn nominal radius (px)
+const PX_PER_MM=3;                 // drawn sideways scale: 3 px = 1 mm  (±15 px = ±5 mm free play)
+let conPlay=false, conT=0, conRAF=null, conLam=0.05;
+
+function wheelPoly(xc,cy,side){
+  // side=+1: inside of the vehicle is +x (left wheel); side=-1: inside is -x (right wheel)
+  const lo=-40, ti=25, fl=13, hi=33, rt=RN+TAU*ti;
+  const prof=[[lo,RN+TAU*lo],[ti,rt],[ti+2,rt+fl],[hi,rt+fl]];
+  const pts=[];
+  prof.forEach(([u,r])=>pts.push([xc+side*u,cy+r]));
+  prof.slice().reverse().forEach(([u,r])=>pts.push([xc+side*u,cy-r]));
+  return pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+}
+function railSVG(x,CY){
+  return `<rect x="${x-10}" y="${CY}" width="20" height="11" rx="3" fill="#b4bcc6" stroke="#6f7a86" stroke-width="1"/>
+          <rect x="${x-4}" y="${CY+11}" width="8" height="20" fill="#8e98a4"/>
+          <rect x="${x-17}" y="${CY+31}" width="34" height="7" rx="2" fill="#8e98a4"/>`;
+}
+function arrow(x1,y1,x2,y2,col,w){
+  const a=Math.atan2(y2-y1,x2-x1),h=12;
+  const p1=[x2-h*Math.cos(a-0.45),y2-h*Math.sin(a-0.45)],p2=[x2-h*Math.cos(a+0.45),y2-h*Math.sin(a+0.45)];
+  return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="${w||3}" stroke-linecap="round"/>
+          <polygon points="${x2},${y2} ${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}" fill="${col}"/>`;
+}
+const BLUE='#2a5298', ORG='#d35400';
+
+function frontSVG(s){
+  const XL=110,XR=330,XC=220,CY=270;
+  const rL=RN+TAU*(-s), rR=RN+TAU*s;               // drawn radii at the contact points
+  const cyL=CY-rL, cyR=CY-rR, xcL=XL+s, xcR=XR+s; // wheel centres (each wheel sits on its rail)
+  const big = s>0.3?'R':(s<-0.3?'L':'');
+  let o=`<defs><linearGradient id="gSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d97a5"/><stop offset=".5" stop-color="#cdd4dd"/><stop offset="1" stop-color="#8d97a5"/></linearGradient></defs>`;
+  // sleeper + ground
+  o+=`<rect x="40" y="${CY+38}" width="360" height="12" rx="2" fill="#b79f78"/><rect x="0" y="${CY+50}" width="440" height="6" fill="#a8956f" opacity=".5"/>`;
+  o+=railSVG(XL,CY)+railSVG(XR,CY);
+  // reference lines
+  o+=`<line x1="${XC}" y1="62" x2="${XC}" y2="${CY+36}" stroke="#7a8a9c" stroke-width="1.2" stroke-dasharray="5,4"/>`;
+  o+=`<text x="${XC}" y="${CY+30}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="#6a7b8e" font-weight="700">track centre</text>`;
+  if(Math.abs(s)>0.4){
+    o+=`<line x1="${XC+s}" y1="62" x2="${XC+s}" y2="${Math.min(cyL,cyR)}" stroke="#0ea47a" stroke-width="1.6" stroke-dasharray="3,3"/>`;
+    o+=arrow(XC,56,XC+s,56,'#0ea47a',2.4);
+    o+=`<text x="${XC+s/2}" y="48" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" font-weight="800" fill="#0a8a66">shift ${(s/PX_PER_MM>0?'+':'')+(s/PX_PER_MM).toFixed(1)} mm</text>`;
+  }
+  // axle (behind wheels)
+  o+=`<line x1="${xcL-46}" y1="${cyL}" x2="${xcR+46}" y2="${cyR}" stroke="#3a4556" stroke-width="12" stroke-linecap="round"/>`;
+  // wheels
+  o+=`<polygon points="${wheelPoly(xcL,cyL,1)}" fill="url(#gSteel)" stroke="${BLUE}" stroke-width="${big==='L'?4:2.5}" stroke-linejoin="round"/>`;
+  o+=`<polygon points="${wheelPoly(xcR,cyR,-1)}" fill="url(#gSteel)" stroke="${ORG}" stroke-width="${big==='R'?4:2.5}" stroke-linejoin="round"/>`;
+  // centre marks
+  o+=`<circle cx="${xcL}" cy="${cyL}" r="4" fill="#1f2a38"/><circle cx="${xcR}" cy="${cyR}" r="4" fill="#1f2a38"/>`;
+  // radius lines from axle to contact point
+  o+=`<line x1="${XL}" y1="${cyL}" x2="${XL}" y2="${CY}" stroke="${BLUE}" stroke-width="3.5"/><line x1="${XL-8}" y1="${cyL}" x2="${XL+8}" y2="${cyL}" stroke="${BLUE}" stroke-width="3"/>`;
+  o+=`<line x1="${XR}" y1="${cyR}" x2="${XR}" y2="${CY}" stroke="${ORG}" stroke-width="3.5"/><line x1="${XR-8}" y1="${cyR}" x2="${XR+8}" y2="${cyR}" stroke="${ORG}" stroke-width="3"/>`;
+  o+=`<circle cx="${XL}" cy="${CY}" r="5.5" fill="${BLUE}" stroke="#fff" stroke-width="2"/><circle cx="${XR}" cy="${CY}" r="5.5" fill="${ORG}" stroke="#fff" stroke-width="2"/>`;
+  o+=`<rect x="${XL+8}" y="${(cyL+CY)/2-11}" width="30" height="20" rx="5" fill="#fff" opacity=".85"/><text x="${XL+14}" y="${(cyL+CY)/2+4}" font-family="JetBrains Mono,monospace" font-size="14" font-weight="900" fill="${BLUE}">r<tspan font-size="9" dy="3">L</tspan></text>`;
+  o+=`<rect x="${XR-38}" y="${(cyR+CY)/2-11}" width="30" height="20" rx="5" fill="#fff" opacity=".85"/><text x="${XR-32}" y="${(cyR+CY)/2+4}" font-family="JetBrains Mono,monospace" font-size="14" font-weight="900" fill="${ORG}">r<tspan font-size="9" dy="3">R</tspan></text>`;
+  // flange contact markers (free play used up)
+  if(s>=14.6) o+=`<circle cx="${XR-10}" cy="${CY+7}" r="9" fill="none" stroke="#d63031" stroke-width="3"/><text x="${XR-18}" y="${CY+34}" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="800" fill="#d63031">flange touches rail</text>`;
+  if(s<=-14.6) o+=`<circle cx="${XL+10}" cy="${CY+7}" r="9" fill="none" stroke="#d63031" stroke-width="3"/><text x="${XL+18}" y="${CY+34}" font-family="Inter,sans-serif" font-size="10.5" font-weight="800" fill="#d63031">flange touches rail</text>`;
+  // titles
+  o+=`<text x="12" y="20" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="${BLUE}">LEFT wheel${big==='L'?'  ▲ bigger radius':big==='R'?'  smaller radius':''}</text>`;
+  o+=`<text x="428" y="20" text-anchor="end" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="${ORG}">${big==='R'?'▲ bigger radius  ':big==='L'?'smaller radius  ':''}RIGHT wheel</text>`;
+  o+=`<text x="12" y="${CY+74}" font-family="Inter,sans-serif" font-size="9.5" fill="#6a7b8e">Schematic: taper, shift and wheel width exaggerated — the numbers below are real</text>`;
+  return o;
+}
+
+function topSVG(s){
+  const cx=180, XLt=95, XRt=265, yc=190;
+  const dr=TAU*s, lenR=64+3*dr, lenL=64-3*dr;          // drawn "distance per turn" arrows
+  const yaw=-0.6*s;                                      // degrees; negative = counter-clockwise (turning left)
+  let o='';
+  for(let y=20;y<320;y+=26) o+=`<rect x="64" y="${y}" width="232" height="7" rx="1.5" fill="#cdbb98"/>`;
+  o+=`<rect x="${XLt-3}" y="12" width="6" height="318" fill="#9aa3ad"/><rect x="${XRt-3}" y="12" width="6" height="318" fill="#9aa3ad"/>`;
+  o+=`<text x="${XLt}" y="342" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6a7b8e" font-weight="700">left rail</text><text x="${XRt}" y="342" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#6a7b8e" font-weight="700">right rail</text>`;
+  o+=`<line x1="${cx}" y1="14" x2="${cx}" y2="322" stroke="#7a8a9c" stroke-width="1" stroke-dasharray="5,4"/>`;
+  // wheelset
+  o+=`<g transform="translate(${(cx+0.55*s).toFixed(1)},${yc}) rotate(${yaw.toFixed(2)})">
+        <line x1="-90" y1="0" x2="90" y2="0" stroke="#3a4556" stroke-width="7" stroke-linecap="round"/>
+        <rect x="-99" y="-30" width="28" height="60" rx="4" fill="${BLUE}" opacity=".78"/>
+        <rect x="71" y="-30" width="28" height="60" rx="4" fill="${ORG}" opacity=".78"/>
+        ${arrow(-85,-36,-85,-36-lenL,BLUE,4)}
+        ${arrow(85,-36,85,-36-lenR,ORG,4)}
+      </g>`;
+  // turning indicator
+  const pill=(txt,y,col)=>`<rect x="${cx-128}" y="${y-15}" width="256" height="22" rx="11" fill="#fff" opacity=".92"/><text x="${cx}" y="${y}" text-anchor="middle" font-family="Inter,sans-serif" font-size="12.5" font-weight="800" fill="${col}">${txt}</text>`;
+  if(Math.abs(s)>0.6){
+    const ex=cx+0.55*s*0.15, ctrlx=cx+0.55*s;
+    o+=`<path d="M ${(cx+0.55*s).toFixed(1)} 84 Q ${ctrlx.toFixed(1)} 58 ${ex.toFixed(1)} 44" fill="none" stroke="#0ea47a" stroke-width="4" stroke-dasharray="7,5" stroke-linecap="round"/>`;
+    const ang=Math.atan2(44-58,ex-ctrlx);
+    o+=arrow(ex-12*Math.cos(ang),44-12*Math.sin(ang),ex,44,'#0ea47a',4);
+    o+=pill(s>0?'↶  turns LEFT — back towards the centre':'↷  turns RIGHT — back towards the centre',24,'#0a8a66');
+  } else o+=pill('centred → both wheels equal → runs straight',24,'#0a8a66');
+  o+=`<rect x="${cx-160}" y="${yc+48}" width="320" height="34" rx="12" fill="#fff" opacity=".92"/><text x="${cx}" y="${yc+62}" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" fill="#4d6b8a" font-weight="700">arrow length = distance rolled in one wheel turn</text><text x="${cx}" y="${yc+76}" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#6a7b8e">schematic: sideways shift and wheel width exaggerated</text>`;
+  return o;
+}
+
+function conSay(sPx){
+  const y=sPx/PX_PER_MM, d=conLam*Math.abs(y), rb=(460+d).toFixed(2), rs=(460-d).toFixed(2), dp=(2*Math.PI*2*d);
+  if(Math.abs(y)<0.15) return `The wheelset is <b>centred</b>: both wheels touch the rails at the same radius (460.00 mm). Same radius and same rpm → both wheels roll the same distance → it <b>runs straight</b>. Now drag the slider.`;
+  const side=y>0?'right':'left', other=y>0?'left':'right', turn=y>0?'left':'right';
+  return `The wheelset has drifted <b>${Math.abs(y).toFixed(1)} mm to the ${side}</b>. The ${side} wheel now touches its rail on the wider part of the cone (<b>${rb} mm</b>), the ${other} wheel on the narrower part (<b>${rs} mm</b>). Both turn at the same rpm, so the ${side} wheel rolls <b>${dp.toFixed(1)} mm further per turn</b> → the wheelset swings to the <b>${turn}</b>, back towards the centre. No steering mechanism — just geometry.`;
+}
+function conFront(){
+  const s=parseFloat(document.getElementById('con-s').value);
+  document.getElementById('svg-front').innerHTML=frontSVG(s);
+  document.getElementById('svg-top').innerHTML=topSVG(s);
+  const y=s/PX_PER_MM, d=conLam*y;
+  document.getElementById('st-y').textContent=(y>=0?'+':'')+y.toFixed(1)+' mm';
+  document.getElementById('st-rl').textContent=(460-d).toFixed(2)+' mm';
+  document.getElementById('st-rr').textContent=(460+d).toFixed(2)+' mm';
+  document.getElementById('st-dp').textContent=(2*Math.PI*2*Math.abs(d)).toFixed(1)+' mm';
+  document.getElementById('con-say').innerHTML=conSay(s);
+}
+function conTogglePlay(){
+  conPlay=!conPlay;
+  const b=document.getElementById('con-play'); b.textContent=conPlay?'⏸ Pause':'▶ Play'; b.classList.toggle('on',conPlay);
+  if(conPlay) conLoop();
+}
+function conLoop(){
+  if(!conPlay) return;
+  conT+=0.035;
+  document.getElementById('con-s').value=(14*Math.sin(conT)).toFixed(2);
+  conFront();
+  conRAF=requestAnimationFrame(conLoop);
+}
+function conReset(){ conPlay=false; conT=0; const b=document.getElementById('con-play'); b.textContent='▶ Play'; b.classList.remove('on'); document.getElementById('con-s').value=0; conFront(); }
+function conMode(m){
+  document.getElementById('con-front').style.display=m==='front'?'block':'none';
+  document.getElementById('con-curve').style.display=m==='curve'?'block':'none';
+  document.getElementById('mb-front').classList.toggle('on',m==='front');
+  document.getElementById('mb-curve').classList.toggle('on',m==='curve');
+  if(m==='curve'){ conPlay=false; const b=document.getElementById('con-play'); b.textContent='▶ Play'; b.classList.remove('on'); conCurve(); }
+}
+
+// ── curve view ──
+function curveR(){ const v=+document.getElementById('cv-R').value; return 100*Math.pow(50,v/100); }
+function conTaper(l){
+  conLam=l;
+  const a=document.getElementById('tp-20'), b=document.getElementById('tp-40');
+  [[a,l===0.05],[b,l===0.025]].forEach(([el,on])=>{ el.style.background=on?'var(--navy)':'#fff'; el.style.color=on?'#fff':'var(--textm)'; el.style.borderColor=on?'var(--navy)':'var(--border)'; });
+  conCurve(); conFront();
+}
+function curveSVG(R,yreq){
+  const g=54, Rd=90+560*Math.log(R/100)/Math.log(50);
+  const sweep=Math.min(1.9,260/Rd), am=sweep/2;
+  const P=(a,rho)=>[-Rd+rho*Math.cos(a), -rho*Math.sin(a)];
+  const N=70, rin=Rd-g/2, rout=Rd+g/2;
+  let minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  for(let i=0;i<=N;i++){ const a=sweep*i/N; [rin-10,rout+10].forEach(rr=>{const p=P(a,rr);minx=Math.min(minx,p[0]);maxx=Math.max(maxx,p[0]);miny=Math.min(miny,p[1]);maxy=Math.max(maxy,p[1]);}); }
+  const w=maxx-minx+50, h=maxy-miny+50;
+  const k=Math.min(3.0, 280/h, 520/w), cx=(minx+maxx)/2, cy=(miny+maxy)/2;
+  const play=5, sd=Math.min(yreq,play)/play*7;           // drawn shift toward outer rail (px, pre-scale)
+  const flange=yreq>play;
+  let o=`<g transform="translate(400,170) scale(${k.toFixed(3)}) translate(${(-cx).toFixed(2)},${(-cy).toFixed(2)})">`;
+  // sleepers
+  const step=Math.max(0.02,14/Rd);
+  for(let a=0;a<=sweep;a+=step){ const p=P(a,rin-6),q=P(a,rout+6); o+=`<line x1="${p[0].toFixed(1)}" y1="${p[1].toFixed(1)}" x2="${q[0].toFixed(1)}" y2="${q[1].toFixed(1)}" stroke="#cdbb98" stroke-width="4.5"/>`; }
+  // rails
+  const line=(rr,col)=>{ let d=''; for(let i=0;i<=N;i++){const p=P(sweep*i/N,rr); d+=(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);} return `<path d="${d}" fill="none" stroke="${col}" stroke-width="4" stroke-linecap="round"/>`; };
+  o+=line(rin,'#8fa0b4')+line(rout,'#8fa0b4');
+  // wheelset
+  const ur=[Math.cos(am),-Math.sin(am)], ang=Math.atan2(-Math.cos(am),-Math.sin(am))*180/Math.PI;
+  const pin=P(am,rin), pout=P(am,rout);
+  const wi=[pin[0]+sd*ur[0], pin[1]+sd*ur[1]], wo=[pout[0]+sd*ur[0], pout[1]+sd*ur[1]];
+  o+=`<line x1="${wi[0].toFixed(1)}" y1="${wi[1].toFixed(1)}" x2="${wo[0].toFixed(1)}" y2="${wo[1].toFixed(1)}" stroke="#3a4556" stroke-width="4.5" stroke-linecap="round"/>`;
+  o+=`<rect x="-18" y="-11" width="36" height="22" rx="4" opacity=".85" fill="${BLUE}" transform="translate(${wi[0].toFixed(1)},${wi[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/>`;
+  o+=`<rect x="-18" y="-11" width="36" height="22" rx="4" opacity=".85" fill="${flange?'#d63031':ORG}" transform="translate(${wo[0].toFixed(1)},${wo[1].toFixed(1)}) rotate(${ang.toFixed(1)})"/>`;
+  if(flange){ const f=[pout[0]+(sd-7)*ur[0], pout[1]+(sd-7)*ur[1]]; o+=`<circle cx="${f[0].toFixed(1)}" cy="${f[1].toFixed(1)}" r="11" fill="none" stroke="#d63031" stroke-width="2.6"/>`; }
+  o+=`</g>`;
+  // fixed legend (screen coordinates)
+  o+=`<rect x="14" y="14" width="13" height="13" rx="2" fill="${ORG}"/><text x="33" y="25" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#4a5568">OUTER rail / wheel — longer path</text>`;
+  o+=`<rect x="14" y="36" width="13" height="13" rx="2" fill="${BLUE}"/><text x="33" y="47" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#4a5568">INNER rail / wheel — shorter path</text>`;
+  o+=`<text x="14" y="${326}" font-family="Inter,sans-serif" font-size="10.5" fill="#6a7b8e">Train moves up ↑ · wheelset shift exaggerated · red = flange contact</text>`;
+  if(flange) o+=`<text x="706" y="26" text-anchor="end" font-family="Inter,sans-serif" font-size="13" font-weight="900" fill="#d63031">⚠ FLANGE CONTACT</text>`;
+  else o+=`<text x="706" y="26" text-anchor="end" font-family="Inter,sans-serif" font-size="13" font-weight="900" fill="#0a8a66">✓ steers by conicity alone</text>`;
+  return o;
+}
+function fmtM(m){ return m<1? (m*100).toFixed(0)+' cm' : m.toFixed(2)+' m'; }
+function conCurve(){
+  const R=curveR(), lam=conLam;
+  const yreq=R0*E0/(lam*R)*1000;            // mm
+  const dr=2*R0*E0/R*1000;                   // mm
+  const ds=100*2*E0/R;                       // m per 100 m
+  const Rc=R0*E0/(lam*0.005);                // m
+  document.getElementById('cv-Rv').textContent=Math.round(R).toLocaleString('en-US')+' m';
+  document.getElementById('svg-curve').innerHTML=curveSVG(R,yreq);
+  document.getElementById('cv-ds').textContent=fmtM(ds);
+  document.getElementById('cv-dr').textContent=dr.toFixed(2)+' mm';
+  document.getElementById('cv-y').textContent=yreq.toFixed(1)+' mm';
+  document.getElementById('cv-rc').textContent=Math.round(Rc/10)*10>=1000?(Rc/1000).toFixed(2)+' km':Math.round(Rc)+' m';
+  const bad=yreq>5;
+  document.getElementById('cv-ybox').className='stat '+(bad?'bad':'ok');
+  const v=document.getElementById('cv-verdict');
+  v.className='verdict '+(bad?'bad':'ok');
+  v.innerHTML=bad
+   ? `<b>⚠ Flange contact.</b> A ${Math.round(R).toLocaleString('en-US')} m curve needs the wheelset to shift <b>${yreq.toFixed(1)} mm</b>, but only <b>5 mm</b> of free play exists. The outer flange rides against the rail — wear, heat and that familiar squeal. Engineers respond with <b>gauge widening</b> in tight curves, <b>flange lubrication</b>, <b>speed limits</b>, and bogies that help steer.`
+   : `<b>✓ Conicity alone is enough.</b> A ${Math.round(R).toLocaleString('en-US')} m curve needs only <b>${yreq.toFixed(1)} mm</b> of shift — well inside the 5 mm free play, so the flange stays clear and wear stays low. ${lam===0.025?'With the gentler 1:40 taper this limit sits at about 2.8 km.':'Tighter than about 1.4 km, the flange takes over.'}`;
+}
+
+// ═══════════════ KLINGEL / HUNTING ═══════════════
+let huntGo=true, huntT=0;
+function kVals(){
+  const r0=+document.getElementById('r0').value, e0=+document.getElementById('e0').value, lam=+document.getElementById('lam').value, spd=+document.getElementById('spd').value;
+  const L=2*Math.PI*Math.sqrt(r0*e0/lam), hz=spd/3.6/L;
+  return {r0,e0,lam,spd,L,hz};
+}
+function kPreset(r0,e0,lam,spd){ document.getElementById('r0').value=r0; document.getElementById('e0').value=e0; document.getElementById('lam').value=lam; document.getElementById('spd').value=spd; calcK(); }
+function calcK(){
+  const {r0,e0,lam,spd,L,hz}=kVals();
+  document.getElementById('r0v').textContent=r0.toFixed(2)+' m';
+  document.getElementById('e0v').textContent=e0.toFixed(2)+' m';
+  document.getElementById('lamv').textContent=lam.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')+'  (≈ 1:'+Math.round(1/lam)+')';
+  document.getElementById('spdv').textContent=spd+' km/h';
+  document.getElementById('kform').innerHTML=`L = 2π · √( ${r0.toFixed(2)} × ${e0.toFixed(2)} ÷ ${lam.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')} ) = <b>${L.toFixed(1)} m</b> &nbsp;→&nbsp; f = ${(spd/3.6).toFixed(1)} m/s ÷ ${L.toFixed(1)} m = <b>${hz.toFixed(2)} Hz</b>`;
+  const cls=hz<1.5?'ok':(hz<3?'':'bad');
+  document.getElementById('kres').innerHTML=`
+    <div class="stat"><span class="v">${L.toFixed(1)} m</span><div class="l">Hunting wavelength L (one full left-right-left swing)</div></div>
+    <div class="stat ${cls}"><span class="v">${hz.toFixed(2)} Hz</span><div class="l">Swings per second at ${spd} km/h</div></div>
+    <div class="stat"><span class="v">${(hz*60).toFixed(0)}</span><div class="l">Swings per minute</div></div>
+    <div class="stat"><span class="v">${(L/(spd/3.6)).toFixed(2)} s</span><div class="l">Time for one swing</div></div>`;
+  let msg;
+  if(hz<1.5) msg=`<b>Gentle.</b> At ${hz.toFixed(1)} Hz the sway is slow and dies out easily — this is the comfortable regime (the lecture's example: about 1.7 Hz at 100 km/h).`;
+  else if(hz<3) msg=`<b>Noticeable.</b> ${hz.toFixed(1)} swings a second can be felt as lateral shake. The bogie's yaw dampers are now doing real work.`;
+  else msg=`<b>Danger zone.</b> At ${hz.toFixed(1)} Hz the swing frequency approaches the bogie's own natural frequencies, so the oscillation can <i>grow</i> instead of dying out (the lecture's example: about 4.2 Hz at 250 km/h). Fixes: lower conicity, stiffer or better-damped bogie, re-profiled wheels — or slow down.`;
+  document.getElementById('ksay').innerHTML=msg;
+  drawHunt();
+}
+function drawHunt(){
+  const c=document.getElementById('hunt-canvas'); if(!c||!c.offsetParent) return;
+  const x=c.getContext('2d'), W=c.width, H=c.height, {L,spd}=kVals();
+  const pxm=W/60, Lpx=L*pxm, cy=96, half=42, A=12;
+  x.fillStyle='#eef4fa'; x.fillRect(0,0,W,H);
+  x.fillStyle='#d9c7a5'; for(let sx=4;sx<W;sx+=15) x.fillRect(sx,cy-half-9,5,2*half+18);
+  x.fillStyle='#9aa3ad'; x.fillRect(0,cy-half-3,W,6); x.fillRect(0,cy+half-3,W,6);
+  x.strokeStyle='#8fa0b4'; x.setLineDash([2,5]); x.beginPath(); x.moveTo(0,cy); x.lineTo(W,cy); x.stroke();
+  // path
+  x.setLineDash([]); x.strokeStyle='rgba(14,164,122,.55)'; x.lineWidth=3; x.beginPath();
+  for(let px=0;px<=W;px+=2){ const yy=cy+A*Math.sin(2*Math.PI*px/Lpx); px?x.lineTo(px,yy):x.moveTo(px,yy); } x.stroke();
+  // wheelset
+  const xw=(huntT*(spd/3.6)*0.12*pxm)%W, ph=2*Math.PI*xw/Lpx;
+  const yw=cy+A*Math.sin(ph), slope=A*2*Math.PI/Lpx*Math.cos(ph), ang=Math.atan(slope)*0.35;
+  x.save(); x.translate(xw,yw); x.rotate(ang);
+  x.fillStyle='#3a4556'; x.fillRect(-2.5,-half,5,2*half);
+  x.globalAlpha=.8; x.fillStyle=BLUE; x.fillRect(-14,-half-17,28,34);
+  x.fillStyle=ORG;  x.fillRect(-14,half-17,28,34); x.globalAlpha=1;
+  x.restore();
+  // wavelength bracket
+  x.strokeStyle='#0a8a66'; x.fillStyle='#0a8a66'; x.lineWidth=2;
+  const by=H-52; x.beginPath(); x.moveTo(0,by); x.lineTo(Lpx,by); x.moveTo(0,by-6); x.lineTo(0,by+6); x.moveTo(Lpx,by-6); x.lineTo(Lpx,by+6); x.stroke();
+  x.font='bold 13px JetBrains Mono, monospace'; x.textAlign='center'; x.fillText('L = '+L.toFixed(1)+' m',Math.min(Lpx/2,W-60),by-9);
+  x.font='11px Inter, sans-serif'; x.fillStyle='#6a7b8e'; x.textAlign='left';
+  x.fillText('window = 60 m of straight track · green = path of the wheelset centre',8,H-26); x.fillText('sideways swing exaggerated roughly 50–100× (real: a few mm) · wheels drawn wide so they sit on the rails',8,H-9);
+  x.textAlign='left';
+}
+function huntToggle(){ huntGo=!huntGo; const b=document.getElementById('hunt-play'); b.textContent=huntGo?'⏸ Pause':'▶ Play'; b.classList.toggle('on',huntGo); if(huntGo) requestAnimationFrame(huntLoop); }
+function huntLoop(ts){ if(!huntGo) return; huntT=ts/1000; drawHunt(); requestAnimationFrame(huntLoop); }
+
+// ═══════════════ TRACTION ═══════════════
+function tPreset(n,a,g,m,mu){ document.getElementById('tc-n').value=n; document.getElementById('tc-a').value=a; document.getElementById('tc-g').value=g; document.getElementById('tc-m').value=m; document.getElementById('tc-mu').value=mu; calcT(); }
+function forceSVG(Fmax,Fneed,grade){
+  const th=Math.min(9,grade*0.3), sc=Math.max(Fmax,Fneed,1)*1.05, Lg=Fmax/sc*100, Lr=Fneed/sc*100, ok=Fmax>=Fneed;
+  const rc=ok?'#e67e22':'#d63031';
+  // Train climbs to the RIGHT (uphill). Locomotive at the FRONT (right); wagons trail behind it (left).
+  let o=`<g transform="translate(18,165) rotate(${-th})">
+    <rect x="-30" y="0" width="470" height="12" fill="#b79f78"/><rect x="-30" y="0" width="470" height="3" fill="#8e98a4"/>`;
+  for(let i=0;i<5;i++){ const bx=14+i*50;
+    o+=`<rect x="${bx}" y="-27" width="46" height="24" rx="3" fill="#7f8c8d"/><circle cx="${bx+10}" cy="-3" r="4.5" fill="#222"/><circle cx="${bx+36}" cy="-3" r="4.5" fill="#222"/><rect x="${bx+46}" y="-14" width="4" height="4" fill="#333"/>`; }
+  o+=`<rect x="264" y="-30" width="66" height="27" rx="5" fill="#2a5298"/><rect x="313" y="-23" width="13" height="9" rx="2" fill="#cfe0f7"/>
+      <text x="288" y="-12" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="800" fill="#fff">LOCO</text>
+      <circle cx="280" cy="-3" r="5" fill="#222"/><circle cx="314" cy="-3" r="5" fill="#222"/>`;
+  o+=`<text x="137" y="-33" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" font-weight="700" fill="#5a6b7d">wagons (trailing)</text>`;
+  // tractive force: acts at the locomotive's driven wheels, pointing uphill (forward)
+  o+=arrow(297,-52,297+Lg,-52,'#0ea47a',5);
+  o+=`<text x="${297+Lg}" y="-61" text-anchor="end" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#0a8a66">wheels can deliver ${Fmax.toFixed(0)} kN</text>`;
+  // gravity component: acts on the whole train, pointing back downhill
+  o+=arrow(160,-52,160-Lr,-52,rc,5);
+  o+=`<text x="14" y="-61" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="${ok?'#c0640f':'#d63031'}">slope demands ${Fneed.toFixed(0)} kN</text>`;
+  o+=`</g><text x="14" y="184" font-family="Inter,sans-serif" font-size="10.5" font-weight="700" fill="#4d6b8a">train moves uphill →  ·  red arrow = gravity pulling the whole train back down</text><text x="446" y="198" text-anchor="end" font-family="Inter,sans-serif" font-size="10" fill="#6a7b8e">slope exaggerated</text>`;
+  return o;
+}
+
+function calcT(){
+  const n=+document.getElementById('tc-n').value||4, a=+document.getElementById('tc-a').value||22.5, g=+document.getElementById('tc-g').value||0, m=+document.getElementById('tc-m').value||1000, mu=+document.getElementById('tc-mu').value||0.3;
+  const Fmax=mu*n*a*9.81, Fneed=m*9.81*g/1000, ok=Fmax>=Fneed, ratio=Fneed>0?Fmax/Fneed:99;
+  const gmax=Fmax/(m*9.81)*1000, mmax=g>0?Fmax/(9.81*g/1000):Infinity, naxle=Math.ceil(Fneed/(mu*a*9.81));
+  document.getElementById('force-svg').innerHTML=forceSVG(Fmax,Fneed,g);
+  const top=Math.max(Fmax,Fneed)*1.05;
+  document.getElementById('tc-bars').innerHTML=`
+    <div class="fbar"><div class="lab"><span>Pulling force the wheels can deliver (μ × weight on driven axles)</span><span>${Fmax.toFixed(0)} kN</span></div><div class="track"><div class="fill" style="width:${Fmax/top*100}%;background:#0ea47a"></div></div></div>
+    <div class="fbar"><div class="lab"><span>Force the slope demands (train weight × gradient)</span><span>${Fneed.toFixed(0)} kN</span></div><div class="track"><div class="fill" style="width:${Fneed/top*100}%;background:${ok?'#e67e22':'#d63031'}"></div></div></div>`;
+  document.getElementById('tc-res').innerHTML=`
+    <div class="stat ${ok?'ok':'bad'}"><span class="v">${ok?'CLIMBS':'SLIPS'}</span><div class="l">${ok?'Margin '+(ratio>=99?'∞':ratio.toFixed(2)+'×'):'Short by '+(Fneed-Fmax).toFixed(0)+' kN'}</div></div>
+    <div class="stat"><span class="v">${gmax.toFixed(0)}‰</span><div class="l">Steepest gradient this train could climb on this rail</div></div>
+    <div class="stat"><span class="v">${isFinite(mmax)?Math.round(mmax).toLocaleString('en-US')+' t':'any'}</span><div class="l">Heaviest train this locomotive could lift up ${g}‰</div></div>
+    <div class="stat"><span class="v">${naxle}</span><div class="l">Driven axles needed for this job (${a} t each)</div></div>`;
+  document.getElementById('tc-say').innerHTML= ok
+   ? `<b>✅ It climbs — but check the margin.</b> The wheels can deliver ${Fmax.toFixed(0)} kN and the ${g}‰ slope asks for ${Fneed.toFixed(0)} kN${ratio<1.25?` — only ${((ratio-1)*100).toFixed(0)}% to spare. Add a curve, a damp rail or a headwind and the wheels would slip`:`. A comfortable margin on this rail`}. Try switching the rail to <i>wet</i>.`
+   : `<b>❌ The wheels slip.</b> The slope demands ${Fneed.toFixed(0)} kN but the wheels can only deliver ${Fmax.toFixed(0)} kN. Fixes: more driven axles (you need ${naxle}), a helper locomotive, a lighter train, sand on the rail — or a gentler route. This is exactly why railways are designed with gentle gradients.`;
+}
+
+// ═══════════════ UIC + TURKISH NUMBERS ═══════════════
+const UIC={
+  Bo_Bo:{f:"Bo′Bo′",parts:[{t:'B',c:'#2a5298',l:'2 driven axles'},{t:'o',c:'#e74c3c',l:'each with its own motor'},{t:'′',c:'#8e44ad',l:'in a bogie'},{t:'–',c:'#7f8c8d',l:'next bogie'},{t:'B',c:'#2a5298',l:'2 driven axles'},{t:'o',c:'#e74c3c',l:'each with its own motor'},{t:'′',c:'#8e44ad',l:'in a bogie'}],
+    result:'<b>2 bogies · 4 axles · all 4 driven · 4 separate motors.</b><br>The workhorse of modern electric locomotives. With 22.5 t axles on dry rail: F<sub>max</sub> ≈ 0.30 × 90 t × 9.81 ≈ 265 kN.'},
+  Co_Co:{f:"Co′Co′",parts:[{t:'C',c:'#2a5298',l:'3 driven axles'},{t:'o',c:'#e74c3c',l:'each with its own motor'},{t:'′',c:'#8e44ad',l:'in a bogie'},{t:'–',c:'#7f8c8d',l:'next bogie'},{t:'C',c:'#2a5298',l:'3 driven axles'},{t:'o',c:'#e74c3c',l:'each with its own motor'},{t:'′',c:'#8e44ad',l:'in a bogie'}],
+    result:'<b>2 bogies · 6 axles · all 6 driven · 6 separate motors.</b><br>More driven weight = more adhesion: 0.30 × 135 t × 9.81 ≈ 397 kN on dry rail — about 50% more than Bo′Bo′. The classic choice for heavy freight on steep grades.'},
+  '1Co':{f:"1′Co′Co′1′",parts:[{t:'1',c:'#636e72',l:'1 carrying axle'},{t:'′',c:'#8e44ad',l:'bogie'},{t:'C',c:'#2a5298',l:'3 driven axles'},{t:'o',c:'#e74c3c',l:'own motor each'},{t:'′',c:'#8e44ad',l:'bogie'},{t:'C',c:'#2a5298',l:'3 driven axles'},{t:'o',c:'#e74c3c',l:'own motor each'},{t:'′',c:'#8e44ad',l:'bogie'},{t:'1',c:'#636e72',l:'1 carrying axle'},{t:'′',c:'#8e44ad',l:'bogie'}],
+    result:'<b>8 axles · 6 driven (3 + 3) · 2 carrying (one at each end).</b><br>A historic layout from the early diesel-electric era (UK, 1948). The unpowered end axles help guide the locomotive into curves and spread its weight over more wheels.'},
+  A1A:{f:"A1A′A1A′",parts:[{t:'A',c:'#2a5298',l:'1 driven axle'},{t:'1',c:'#636e72',l:'1 carrying axle (middle)'},{t:'A',c:'#2a5298',l:'1 driven axle'},{t:'′',c:'#8e44ad',l:'bogie'},{t:'A',c:'#2a5298',l:'1 driven axle'},{t:'1',c:'#636e72',l:'1 carrying axle (middle)'},{t:'A',c:'#2a5298',l:'1 driven axle'},{t:'′',c:'#8e44ad',l:'bogie'}],
+    result:'<b>2 bogies · 6 axles · 4 driven + 2 carrying.</b><br>Each three-axle bogie powers only its two outer axles; the middle one just carries weight. A way to spread a heavy locomotive over six axles while using four motors.'}
+};
+function decodeUIC(btn,key){
+  document.querySelectorAll('#uic-out').forEach(()=>{});
+  btn.parentElement.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
+  const u=UIC[key];
+  document.getElementById('uic-out').innerHTML=`
+    <div class="uic-formula">${u.f}</div>
+    <div class="uic-parts">${u.parts.map(p=>`<span class="uic-tag" style="background:${p.c}" title="${p.l}">${p.t}</span>`).join('')}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:.35rem .9rem;justify-content:center;margin-bottom:.8rem;font-size:.74rem;color:#555">${u.parts.map(p=>`<span><b style="color:${p.c}">${p.t}</b> = ${p.l}</span>`).join('')}</div>
+    <div class="uic-result">${u.result}</div>`;
+}
+function trSet(v){ document.getElementById('tr-in').value=v; decodeTR(); }
+function decodeTR(){
+  const v=document.getElementById('tr-in').value, m=v.trim().toUpperCase().match(/^(E|DE|DH)\s*(\d{2})(\d{3})$/), out=document.getElementById('tr-out');
+  if(!m){ out.innerHTML='Type a letter code (E, DE or DH) followed by five digits — for example <b>E 14090</b>.'; return; }
+  const names={E:'Electric traction',DE:'Diesel-electric traction (engine → generator → traction motors)',DH:'Diesel-hydraulic traction (engine → hydraulic transmission → axles)'};
+  const hp=parseInt(m[2],10)*100, unit=parseInt(m[3],10);
+  out.innerHTML=`<b>${m[1]}</b> → ${names[m[1]]}<br><b>${m[2]}</b> → power about <b>${hp.toLocaleString('en-US')} HP</b> (≈ ${Math.round(hp*0.7457).toLocaleString('en-US')} kW)<br><b>${m[3]}</b> → the <b>${unit}${unit%10===1&&unit!==11?'st':unit%10===2&&unit!==12?'nd':unit%10===3&&unit!==13?'rd':'th'}</b> unit built at the factory`;
+}
+
+// init
+conFront(); conCurve(); calcK(); calcT(); decodeUIC(document.querySelector('#uic-out').closest('.card').querySelector('.pbtn'),'Bo_Bo'); decodeTR(); requestAnimationFrame(huntLoop);
+
+// ── TCDD fleet data: fill in from TCDD's annual report to show the fleet chart ──
+// Example format:  const FLEET={year:'2024',source:'TCDD Faaliyet Raporu',items:[{label:'Electric locomotives',n:0},{label:'Diesel locomotives',n:0}]};
+const FLEET={year:'',source:'',items:[]};
+
+// ═══════════════ CHARTS ═══════════════
+let chartsInited=false;
+function initCharts(){
+  if(chartsInited)return; chartsInited=true;
+  const C=Chart, gridc='rgba(0,0,0,.05)';
+  // 1) current for 5 MW at each voltage (computed)
+  const volts=[750,1500,3000,15000,25000], amps=volts.map(v=>5e6/v);
+  new C(document.getElementById('cAmps'),{type:'bar',data:{labels:['750 V DC','1.5 kV DC','3 kV DC','15 kV AC','25 kV AC'],datasets:[{data:amps,backgroundColor:['#636e72','#e8b84b','#e17055','#2a5298','#1e4080'],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+Math.round(c.raw).toLocaleString('en-US')+' A'}}},scales:{y:{type:'logarithmic',min:100,title:{display:true,text:'Current for 5 MW (A, log scale)',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},x:{ticks:{font:{size:10}}}}}});
+  // 2) hunting frequency vs speed for several conicities
+  const spds=[]; for(let v=40;v<=350;v+=10) spds.push(v);
+  const f=(lam)=>spds.map(v=>+(v/3.6/(2*Math.PI*Math.sqrt(R0*E0/lam))).toFixed(2));
+  new C(document.getElementById('cHunt'),{type:'line',data:{labels:spds,datasets:[
+    {label:'λ = 0.025 (1:40)',data:f(0.025),borderColor:'#0ea47a',pointRadius:0,borderWidth:2.5,tension:.1},
+    {label:'λ = 0.05 (1:20)',data:f(0.05),borderColor:'#2a5298',pointRadius:0,borderWidth:2.5,tension:.1},
+    {label:'λ = 0.10 (worn)',data:f(0.10),borderColor:'#e67e22',pointRadius:0,borderWidth:2.5,tension:.1},
+    {label:'λ = 0.20 (badly worn)',data:f(0.20),borderColor:'#d63031',pointRadius:0,borderWidth:2.5,tension:.1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Hunting frequency (Hz)',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},x:{title:{display:true,text:'Speed (km/h)',font:{size:10}},ticks:{font:{size:9},maxTicksLimit:10}}}}});
+  // 3) required lateral shift vs curve radius
+  const Rs=[100,150,200,300,400,600,800,1000,1400,2000,3000,5000];
+  const y=(lam)=>Rs.map(R=>+(R0*E0/(lam*R)*1000).toFixed(1));
+  new C(document.getElementById('cShift'),{type:'line',data:{labels:Rs.map(r=>r+' m'),datasets:[
+    {label:'Shift needed, 1:20',data:y(0.05),borderColor:'#2a5298',pointRadius:3,borderWidth:2.5,tension:.2},
+    {label:'Shift needed, 1:40',data:y(0.025),borderColor:'#0ea47a',pointRadius:3,borderWidth:2.5,tension:.2},
+    {label:'Free play before flange contact (±5 mm)',data:Rs.map(()=>5),borderColor:'#d63031',borderDash:[6,4],pointRadius:0,borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{y:{beginAtZero:true,max:70,title:{display:true,text:'Lateral shift needed (mm)',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},x:{title:{display:true,text:'Curve radius',font:{size:10}},ticks:{font:{size:9}}}}}});
+  // 4) EN 15528 line categories: axle load (bars) and metre load (line)
+  const cats=['A','B1','B2','C2','C3','C4','D2','D3','D4','E4','E5'];
+  const axl=[16,18,18,20,20,20,22.5,22.5,22.5,25,25], mtr=[5.0,5.0,6.4,6.4,7.2,8.0,6.4,7.2,8.0,8.0,8.8];
+  const colr={A:'#7f8c8d',B:'#2d9e6e',C:'#e8b84b',D:'#2a5298',E:'#e17055'};
+  new C(document.getElementById('cAxle'),{type:'bar',data:{labels:cats,datasets:[
+    {label:'Max axle load (t)',data:axl,backgroundColor:cats.map(c=>colr[c[0]]),borderRadius:5,yAxisID:'y',order:2},
+    {label:'Max load per metre (t/m)',type:'line',data:mtr,borderColor:'#1a1f36',backgroundColor:'#1a1f36',borderWidth:2,pointRadius:4,tension:0,yAxisID:'y1',order:1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},
+      scales:{y:{min:10,max:28,title:{display:true,text:'Axle load (t)',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},
+              y1:{position:'right',min:4,max:10,title:{display:true,text:'Load per metre (t/m)',font:{size:10}},ticks:{font:{size:9}},grid:{drawOnChartArea:false}},
+              x:{title:{display:true,text:'EN 15528 line category',font:{size:10}},ticks:{font:{size:10}}}}}});
+  // 5) adhesion vs rail condition (1000 t, 25 permille, Bo'Bo')
+  new C(document.getElementById('cTrac'),{type:'bar',data:{labels:['Dry  μ 0.30','Damp  μ 0.20','Wet  μ 0.15','Very poor  μ 0.10'],datasets:[
+    {label:"Force the wheels can deliver — Bo′Bo′, 4 × 22.5 t",data:[0.30,0.20,0.15,0.10].map(mu=>+(mu*90*9.81).toFixed(0)),backgroundColor:['#0ea47a','#e8b84b','#e17055','#d63031'],borderRadius:6,order:2},
+    {label:'Force a 1,000 t train needs on 25‰',type:'line',data:[245,245,245,245],borderColor:'#1e4080',borderWidth:2.5,borderDash:[6,4],pointRadius:0,order:1}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},scales:{y:{beginAtZero:true,title:{display:true,text:'Force (kN)',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},x:{ticks:{font:{size:10}}}}}});
+  if(FLEET.items.length){
+    document.getElementById('fleet-card').style.display='block';
+    document.getElementById('fleet-title').textContent='TCDD fleet composition'+(FLEET.year?' ('+FLEET.year+')':'');
+    document.getElementById('fleet-sub').textContent=FLEET.source?('Source: '+FLEET.source):'';
+    new C(document.getElementById('cFleet'),{type:'bar',data:{labels:FLEET.items.map(x=>x.label),datasets:[{data:FLEET.items.map(x=>x.n),backgroundColor:'#2a5298',borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'Number of vehicles',font:{size:10}},ticks:{font:{size:9}},grid:{color:gridc}},x:{ticks:{font:{size:10}}}}}});
+  }
+}
+
+// ── QUIZ ──
+const Qs=[
+ {q:"Two wheels, one rigid axle, one corner. The outer wheel has to travel further than the inner one — yet both turn at exactly the same rpm. How does the train get round?",
+  opts:["The inner wheel slips on the rail to let the outer wheel catch up","The flange pushes against the outer rail and forces the vehicle round","The tread is conical: off-centre, the outer wheel touches the rail at a larger radius, so the same rpm covers more ground","A small motor on the axle speeds up the outer wheel"],
+  ans:2,exp:"Wheel treads are cones (taper 1:20). When the wheelset drifts toward the outer rail, the outer wheel rolls on a larger radius and the inner on a smaller one. Same rpm × larger radius = longer path — so the wheelset follows the curve with no steering mechanism at all. The flange is only the safety net."},
+ {q:"A wheelset has drifted to the RIGHT of the track centre. What happens next?",
+  opts:["The right wheel rolls on the larger radius, runs further per turn, and the wheelset turns LEFT — back towards the centre","The right wheel rolls on the larger radius and the wheelset turns RIGHT — further from the centre","The left wheel rolls on the larger radius and the wheelset turns left","Nothing — both wheels stay on the same radius"],
+  ans:0,exp:"Drifting right moves the right wheel's contact onto the wider part of its cone. That wheel covers more distance every turn, so the right end of the axle gets ahead and the wheelset swings left — towards the centre. That is self-centring. It is also the start of hunting: it arrives at the centre still pointing sideways and overshoots."},
+ {q:"A wheelset on a 1:20 tread (λ = 0.05) shifts 6 mm sideways. About how much bigger is the radius of the wheel on the wider side than the other wheel?",
+  opts:["0.06 mm","0.3 mm","0.6 mm","6 mm"],
+  ans:2,exp:"Each wheel's radius changes by λ × y = 0.05 × 6 mm = 0.3 mm, in opposite directions — so the difference is 2λy = 0.6 mm. Tiny! But over one turn of a 920 mm wheel that is 2π × 0.6 ≈ 3.8 mm of extra distance — and that is plenty to steer."},
+ {q:"In the lecture's illustrative model (r₀ = 0.46 m, e₀ = 0.75 m, λ = 0.05, about ±5 mm of free play), conicity alone can steer a curve only if its radius is larger than about…",
+  opts:["100 m","400 m","1.4 km","10 km"],
+  ans:2,exp:"The shift needed is y = r₀·e₀ / (λ·R). Setting y = 5 mm gives R ≈ 0.345 ÷ (0.05 × 0.005) ≈ 1,400 m. In tighter curves the flange meets the rail — hence gauge widening, flange lubrication, speed limits and steering bogies. (With a 1:40 taper the limit doubles to about 2.8 km.)"},
+ {q:"Why is 'unsprung mass' the villain of the track?",
+  opts:["It makes passengers feel every bump","The wheelsets and axle-hung motors follow every rail irregularity with nothing to cushion them, so the dynamic force on the track grows with speed and with that mass","It limits the train to about 120 km/h","It has no effect on the track, only on energy consumption"],
+  ans:1,exp:"Everything below the primary suspension — wheelsets, axleboxes and any axle-hung motors — is unsprung. It hits every irregularity directly, and the force it generates grows with speed. More unsprung mass means faster deterioration of rail, sleepers and ballast. That is why modern bogies mount the motors on the frame or the carbody, and why each line has a maximum axle load."},
+ {q:"In UIC notation, what does 'Bo′Bo′' mean?",
+  opts:["4 unpowered bogies with 2 axles each","2 bogies, each with 2 axles, each axle driven by its own motor","2 bogies with 4 axles sharing two motors","1 bogie with 4 driven axles and 1 with 4 carrying axles"],
+  ans:1,exp:"B = 2 driven axles per bogie · o = each axle has its own motor · ′ = the axles sit in a bogie · and there are two bogies. So 4 axles, all driven, 4 motors. Co′Co′ would be 6 driven axles; 1′Co′Co′1′ adds a carrying axle at each end."},
+ {q:"The same 5 MW of power is fed to a train at 25 kV or at 750 V. Roughly what current flows?",
+  opts:["The same at both — voltage doesn't matter","About 200 A at 25 kV and 6,700 A at 750 V","About 6,700 A at 25 kV and 200 A at 750 V","About 1,000 A at both"],
+  ans:1,exp:"Power = voltage × current, so I = P ÷ V: 5,000,000 ÷ 25,000 = 200 A, but 5,000,000 ÷ 750 ≈ 6,700 A. Higher voltage means much less current — thinner wires, fewer substations, lower losses. That is why high-speed lines use 25 kV, and it is a big reason metros — with short distances and low power per kilometre — can live with 750 V."},
+ {q:"A Bo′Bo′ locomotive has four driven axles of 22.5 t each. On dry rail (μ ≈ 0.30), roughly how hard can it pull before the wheels slip?",
+  opts:["About 90 kN","About 135 kN","About 265 kN","About 900 kN"],
+  ans:2,exp:"F_max = μ × m_driven × g = 0.30 × 90,000 kg × 9.81 ≈ 265 kN. A 1,000 t train on a 25‰ slope needs about 245 kN, so it just fits on dry rail. On wet rail (μ ≈ 0.15) the limit halves to about 132 kN — and even a 15‰ grade (≈ 147 kN) is too much."},
+ {q:"The bogie does three jobs. Which of these is NOT one of them?",
+  opts:["Suspension — isolating the carbody from track irregularities","Guidance — keeping the wheelsets aligned with the rails","Regenerative braking — turning kinetic energy back into electricity","Curving — rotating under a straight carbody"],
+  ans:2,exp:"The bogie's three jobs are suspension, guidance and curving. Regenerative braking is done by the traction motors and their control electronics — the bogie may carry them, but braking energy recovery is not a structural function of the bogie."},
+ {q:"You see a Turkish locomotive numbered 'DE 24005'. What does it tell you?",
+  opts:["Diesel-electric · about 2,400 HP · the 5th unit built","Double-electric: runs on two voltages","Diesel-electric · 24,000 kW · built in 2005","Diesel-hydraulic · 2,400 passengers"],
+  ans:0,exp:"In the older TCDD scheme the letters give the traction type (E electric, DE diesel-electric, DH diesel-hydraulic), the first two digits give the power in hundreds of HP (24 → about 2,400 HP), and the last three digits are the factory serial number (005 → the 5th unit)."},
+ {q:"Why does the very feature that lets a wheelset steer in curves make it sway on a straight track?",
+  opts:["Because rails are never perfectly parallel","Because a self-centring wheelset overshoots the centreline and over-corrects again and again — and above a critical speed the swing grows instead of dying out","Because the bogie frame is too rigid","Because ballast lets the track move sideways"],
+  ans:1,exp:"Conicity steers the wheelset back to the centre — but it arrives still pointing sideways and overshoots. The result is hunting, with wavelength L = 2π√(r₀e₀/λ) ≈ 16.5 m. At 100 km/h that is about 1.7 swings a second; at 250 km/h about 4.2. Higher λ (steeper taper, or worn wheels) means a shorter wavelength and a lower critical speed — that is the trade-off."},
+ {q:"How does the Marmaray train pick up its electricity under the Bosphorus?",
+  opts:["From a third rail at 750 V DC, like many metros","By a wireless system buried under the tunnel","From a 25 kV AC overhead wire — the same system as the main line","From onboard diesel generators"],
+  ans:2,exp:"Marmaray uses the same 25 kV AC overhead wire as the main line, all the way through the immersed tunnel. Look for the pantograph on the roof next time you ride."},
+ {q:"The wheel's tread and flange have different jobs. Which description is right?",
+  opts:["Tread guides the wheel sideways; flange is the rolling surface","Tread is the rolling surface that carries the vertical load and gives adhesion; flange is the inner rim that stops the wheel leaving the rail","Tread connects the wheel to the axle; flange is the brake surface","Tread and flange are the same thing"],
+  ans:1,exp:"The tread carries the vertical load and provides adhesion. The flange (29 mm high, 32.5 mm thick 10 mm below the tread) is the inner guiding rim: it prevents derailment and gives lateral guidance when the wheelset drifts too far — which, on gentle curves, it never does."}
+];
+
+let cQ=0,sc=0,answered=false,quizGo=false;
+function initQuiz(){cQ=0;sc=0;answered=false;renderQ();}
+function renderQ(){
+ const q=Qs[cQ];
+ document.getElementById('qn').textContent=cQ+1;
+ document.getElementById('qbar').style.width=((cQ+1)/Qs.length*100)+'%';
+ document.getElementById('qq').textContent=q.q;
+ const o=document.getElementById('qopts');o.innerHTML='';
+ q.opts.forEach((t,i)=>{const d=document.createElement('div');d.className='qopt';d.innerHTML=`<div class="qoptl">${'ABCD'[i]}</div><div>${t}</div>`;d.onclick=()=>{if(!answered)pick(i,d);};o.appendChild(d);});
+ document.getElementById('qfb').className='qfb';
+ document.getElementById('qnxt').disabled=true;
+ document.getElementById('qnxt').textContent=cQ<Qs.length-1?'Next →':'Finish ✓';
+ answered=false;
+}
+function pick(i,el){
+ answered=true;const q=Qs[cQ];
+ document.querySelectorAll('.qopt').forEach(o=>o.classList.add('disabled'));
+ if(i===q.ans){el.classList.add('correct');sc++;document.getElementById('qfb').className='qfb ok show';document.getElementById('qfb').innerHTML='✅ Correct! '+q.exp;}
+ else{el.classList.add('wrong');document.querySelectorAll('.qopt')[q.ans].classList.add('correct');document.getElementById('qfb').className='qfb bad show';document.getElementById('qfb').innerHTML='❌ Not quite. '+q.exp;}
+ document.getElementById('qscore').textContent=sc;
+ document.getElementById('qnxt').disabled=false;
+}
+function qNext(){
+ cQ++;
+ if(cQ>=Qs.length){
+ const p=Math.round(sc/Qs.length*100);
+ const m=p>=90?'🎉 Outstanding — you clearly understood the vehicle dynamics!':p>=70?'👍 Good — review what you missed before the next topic builds on it.':p>=50?'📖 Worth revisiting the notes and trying the interactive tools again.':'🔄 Start with the conicity animator, then try the quiz again.';
+ document.getElementById('qq').textContent=`Quiz complete! You scored ${sc}/${Qs.length} (${p}%).`;
+ document.getElementById('qopts').innerHTML=`<div style="padding:1.4rem;text-align:center;background:#f0f5ff;border-radius:10px;font-size:.95rem;color:var(--navy)">${m}</div>`;
+ document.getElementById('qfb').className='qfb';
+ document.getElementById('qbar').style.width='100%';
+ document.getElementById('qnxt').textContent='🔄 Restart';document.getElementById('qnxt').disabled=false;
+ document.getElementById('qnxt').onclick=()=>{cQ=0;sc=0;document.getElementById('qscore').textContent=0;document.getElementById('qnxt').onclick=qNext;initQuiz();};
+ return;
+ }renderQ();
+}
+</script>
 </body>
 </html>

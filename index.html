@@ -189,7 +189,7 @@ footer a{color:var(--accent);text-decoration:none}
       <li><a href="#announcements">Announcements</a></li>
       <li><a href="#schedule">Schedule</a></li>
       <li><a href="#files">Files</a></li>
-      <li><a href="week02/" class="nav-pill">🟢 Week 2 Live</a></li>
+      <li><a href="week03/" class="nav-pill">🟢 Week 3 Live</a></li>
     </ul>
   </div>
 </nav>
@@ -238,8 +238,26 @@ footer a{color:var(--accent);text-decoration:none}
 
   <!-- ADD YOUR ANNOUNCEMENTS BELOW THIS LINE -->
 
-  <!-- EMPTY STATE — shown when there are no announcements above -->
-  <div class="ann-empty">No announcements at the moment. Check back or follow Ninova.</div>
+  <div class="ann-item">
+    <div class="ann-dot urgent"></div>
+    <div class="ann-body">
+      <div class="ann-title">🗺️ Project Sheets — Station &amp; Destination Points · Tuesday 20 October</div>
+      <div class="ann-text">On Tuesday 20 October, your project sheets showing your station and destination points on different contour maps — each created uniquely — will be delivered in class. Please attend the lecture. This is the starting point for your Railway Plan &amp; Profile project (30% of your final grade, due Week 8).</div>
+      <div class="ann-meta"><span class="ann-tag urgent">Important</span><span>20 Oct 2026</span></div>
+    </div>
+  </div>
+
+  <div class="ann-item">
+    <div class="ann-dot warn"></div>
+    <div class="ann-body">
+      <div class="ann-title">⏸️ Website Updates Suspended Until Further Notice</div>
+      <div class="ann-text">Website content updates will be suspended until my return. Existing week content (Weeks 1–3) remains fully available. The course continues as scheduled — please follow Ninova for any announcements during this period.</div>
+      <div class="ann-meta"><span class="ann-tag warn">Notice</span></div>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE — hidden since we have real announcements -->
+  <div class="ann-empty" style="display:none">No announcements at the moment.</div>
 
   <!-- ANNOUNCEMENT TEMPLATES (copy, uncomment, and fill in):
 
@@ -342,7 +360,7 @@ footer a{color:var(--accent);text-decoration:none}
   <div class="sched">
     <a class="wk done" href="week01/"><div class="wn">Week 1</div><div class="wd">29 Sep</div><div class="wt">Introduction &amp; Geometric Standards</div><span class="ws">✓</span></a>
     <a class="wk done" href="week02/"><div class="wn">Week 2</div><div class="wd">6 Oct</div><div class="wt">Superstructure Elements &amp; Materials</div><span class="ws">✓</span></a>
-    <div class="wk empty"><div class="wn">Week 3</div><div class="wd">13 Oct</div><div class="wt">Railway Vehicles</div><span class="ws">🔒</span></div>
+    <a class="wk done" href="week03/"><div class="wn">Week 3</div><div class="wd">13 Oct</div><div class="wt">Railway Vehicles</div><span class="ws">✓</span></a>
     <div class="wk empty"><div class="wn">Week 4</div><div class="wd">20 Oct</div><div class="wt">Track Location Survey I</div><span class="ws">🔒</span></div>
     <div class="wk empty"><div class="wn">Week 5</div><div class="wd">27 Oct</div><div class="wt">Track Location Survey II</div><span class="ws">🔒</span></div>
     <div class="wk empty"><div class="wn">Week 6</div><div class="wd">3 Nov</div><div class="wt">Track Location Survey III</div><span class="ws">🔒</span></div>
@@ -366,19 +384,19 @@ footer a{color:var(--accent);text-decoration:none}
 <!-- LATEST WEEK -->
 <section id="week1">
   <div class="sec-hd"><div class="sec-icon">📖</div><h2 class="sec-title">Latest Content</h2></div>
-  <div class="wk-hdr" style="cursor:pointer" onclick="location.href='week02/'">
+  <div class="wk-hdr" style="cursor:pointer" onclick="location.href='week03/'">
     <div class="wk-hdr-label">Week 2 · 6 October 2026 · 🟢 NOW LIVE</div>
     <h2>Introduction to Railway Engineering<br>&amp; Railway Geometric Standards</h2>
     <p>Why railways? 200 years of history. The geometry that makes fast, safe rail travel possible. Interactive charts, gauge explorer, gradient converter, and an 8-question quiz.</p>
     <div class="wk-chips">
-      <span class="wk-chip">🎮 Interactive Cross-Section</span>
-      <span class="wk-chip">📊 TCDD Data</span>
-      <span class="wk-chip">🧮 Load Calculator</span>
-      <span class="wk-chip">✏️ 5 Exercises</span>
+      <span class="wk-chip">🎮 Anatomy Explorer</span>
+      <span class="wk-chip">🌀 Conicity Animator</span>
+      <span class="wk-chip">🧮 Traction Calculator</span>
+      <span class="wk-chip">📊 Fleet Data</span>
       <span class="wk-chip">🧩 10-Question Quiz</span>
     </div>
     <div style="margin-top:1.4rem">
-      <a href="week02/" style="display:inline-block;background:var(--accent);color:var(--navy);font-weight:800;font-size:.9rem;padding:.6rem 1.5rem;border-radius:8px;text-decoration:none">Open Week 2 →</a>
+      <a href="week03/" style="display:inline-block;background:var(--accent);color:var(--navy);font-weight:800;font-size:.9rem;padding:.6rem 1.5rem;border-radius:8px;text-decoration:none">Open Week 3 →</a>
     </div>
   </div>
 </section>
